@@ -6,3 +6,10 @@ export interface CompanionCardProps {
 	duration: number;
 	color: string;
 }
+
+export interface CompanionListProps {
+	title: string;
+	companions?: Companion[];
+	className?: string;
+}
+

@@ -8,7 +8,7 @@ export const navItems: NavItem[] = [
 	},
 	{
 		label: 'Companions',
-		href: routes.companionPath,
+		href: routes.companionsPath,
 	},
 	{
 		label: 'My Journey',
