@@ -16,6 +16,10 @@ import bookmarkIcon from "../../public/icons/bookmark.svg";
 import economicsIcon from "../../public/icons/economics.svg";
 import bookmarkFilledIcon from "../../public/icons/bookmark-filled.svg";
 
+import ctaImage from "../../public/images/cta.svg";
+import logoImage from "../../public/images/logo.svg";
+import limitImage from "../../public/images/limit.svg";
+
 export const icons = {
 	cap: capIcon,
 	plus: plusIcon,
@@ -36,6 +40,12 @@ export const icons = {
 	bookmarkFilled: bookmarkFilledIcon,
 } as const;
 
+export const images = {
+	cta: ctaImage,
+	limit: limitImage,
+	logo: logoImage,
+} as const;
+
 export const subjectIcons = {
 	coding: codingIcon,
 	economics: economicsIcon,
@@ -46,4 +56,5 @@ export const subjectIcons = {
 } as const;
 
 export type IconName = keyof typeof icons;
+export type ImageName = keyof typeof images;
 export type SubjectIconName = keyof typeof subjectIcons;
