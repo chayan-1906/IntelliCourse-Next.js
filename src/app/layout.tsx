@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 function RootLayout({children}: Readonly<{ children: React.ReactNode; }>) {
 	return (
 		<ClerkProvider appearance={{variables: {colorPrimary: '#FE5933'}}}>
-			<html lang={'en'}>
+			<html lang={'en'} suppressHydrationWarning>
 			<body className={`${bricolage.variable} antialiased`}>
 			<Navbar/>
 			{children}
