@@ -24,6 +24,7 @@ export const voices = {
 export const recentSessions = [
 	{
 		id: '1',
+		$id: '1',
 		subject: 'science',
 		name: 'Neura the Brainy Explorer',
 		topic: 'Neural Network of the Brain',
@@ -32,6 +33,7 @@ export const recentSessions = [
 	},
 	{
 		id: '2',
+		$id: '2',
 		subject: 'maths',
 		name: 'Countsy the Number Wizard',
 		topic: 'Derivatives & Integrals',
@@ -40,6 +42,7 @@ export const recentSessions = [
 	},
 	{
 		id: '3',
+		$id: '3',
 		subject: 'language',
 		name: 'Verba the Vocabulary Builder',
 		topic: 'English Literature',
@@ -48,6 +51,7 @@ export const recentSessions = [
 	},
 	{
 		id: '4',
+		$id: '4',
 		subject: 'coding',
 		name: 'Codey the Logic Hacker',
 		topic: 'Intro to If-Else Statements',
@@ -56,6 +60,7 @@ export const recentSessions = [
 	},
 	{
 		id: '5',
+		$id: '5',
 		subject: 'history',
 		name: 'Memo, the Memory Keeper',
 		topic: 'World Wars: Causes & Consequences',
@@ -64,6 +69,7 @@ export const recentSessions = [
 	},
 	{
 		id: '6',
+		$id: '6',
 		subject: 'economics',
 		name: 'The Market Maestro',
 		topic: 'The Basics of Supply & Demand',
