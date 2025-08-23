@@ -18,7 +18,7 @@ enum Subject {
 }
 
 type Companion = Models.DocumentList<Models.Document> & {
-	$id: string;
+	id: string;
 	name: string;
 	subject: Subject;
 	topic: string;
