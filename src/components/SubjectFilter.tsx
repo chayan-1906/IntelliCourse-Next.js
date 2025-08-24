@@ -1,17 +1,17 @@
 'use client';
 
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {subjects} from "@/constants";
 import {useEffect, useState} from "react";
 import {useRouter, useSearchParams} from "next/navigation";
 import {formUrlQuery, removeKeysFromUrlQuery} from "@jsmastery/utils";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 
 function SubjectFilter() {
 	const router = useRouter();
 	const searchParams = useSearchParams();
 	const query = searchParams.get('subject') || '';
 
-	const [subject, setSubject] = useState(query);
+	const [subject, setSubject] = useState('');
 
 	useEffect(() => {
 		let newUrl = '';
@@ -20,16 +20,15 @@ function SubjectFilter() {
 				params: searchParams.toString(),
 				keysToRemove: ['subject'],
 			});
-		} else {
+		} else if (subject) {
 			newUrl = formUrlQuery({
 				params: searchParams.toString(),
 				key: 'subject',
 				value: subject,
 			});
 		}
-
 		router.push(newUrl, {scroll: false});
-	}, [router, searchParams, subject]);
+	}, [subject]);
 
 	return (
 		<Select onValueChange={setSubject} value={subject}>

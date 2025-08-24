@@ -3,7 +3,7 @@
 import {auth} from "@clerk/nextjs/server";
 import {createSupabaseClient} from "@/lib/supabase";
 
-const createCompanion = async (formData: CreateCompanion) => {
+const createCompanion = async (formData: CreateCompanion): Promise<Companion> => {
 	const {userId: author} = await auth();
 	const supabase = createSupabaseClient();
 
@@ -19,7 +19,7 @@ const createCompanion = async (formData: CreateCompanion) => {
 	return data[0] as Companion;
 }
 
-const getAllCompanions = async ({limit = 10, page = 1, subject, topic}: GetAllCompanions) => {
+const getAllCompanions = async ({limit = 10, page = 1, subject, topic}: GetAllCompanions): Promise<Companion[]> => {
 	const supabase = createSupabaseClient();
 
 	let query = supabase
@@ -46,4 +46,18 @@ const getAllCompanions = async ({limit = 10, page = 1, subject, topic}: GetAllCo
 	return companions;
 }
 
-export {createCompanion, getAllCompanions};
+const getCompanion = async (id: string): Promise<Companion> => {
+	const supabase = createSupabaseClient();
+	const {data, error} = await supabase
+		.from('companions')
+		.select()
+		.eq('id', id);
+
+	if (error) {
+		return console.error('error in getCompanions');
+	}
+
+	return data[0];
+}
+
+export {createCompanion, getAllCompanions, getCompanion};

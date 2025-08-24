@@ -1,5 +1,5 @@
 export interface CompanionCardProps {
-	sessionId: string;
+	id: string;
 	name: string;
 	topic: string;
 	subject: string;
@@ -13,3 +13,6 @@ export interface CompanionListProps {
 	className?: string;
 }
 
+export interface CompanionSessionPageProps {
+	params: Promise<{ id: string }>;
+}
