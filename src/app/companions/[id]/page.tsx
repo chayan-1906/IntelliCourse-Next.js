@@ -6,6 +6,7 @@ import {getSubjectColor} from "@/lib/utils";
 import {CompanionSessionPageProps} from "@/types/companion";
 import {getCompanion} from "@/lib/actions/companions.actions";
 import {SubjectIconName, subjectIcons} from "@/constants/icons";
+import {CompanionComponent} from "@/components/CompanionComponent";
 
 async function CompanionSessionPage({params}: CompanionSessionPageProps) {
 	const {id} = await params || {};
@@ -39,6 +40,7 @@ async function CompanionSessionPage({params}: CompanionSessionPageProps) {
 				</div>
 				<div className={'max-md:hidden text-2xl'}>{duration} minute(s)</div>
 			</article>
+			<CompanionComponent {...companion} companionId={id} userName={user.firstName} userImage={user.imageUrl}/>
 		</main>
 	);
 }

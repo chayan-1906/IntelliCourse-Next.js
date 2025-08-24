@@ -81,3 +81,8 @@ interface CompanionComponentProps {
 	voice: string;
 	style: string;
 }
+
+declare module "*.svg" {
+	const content: string;
+	export default content;
+}
