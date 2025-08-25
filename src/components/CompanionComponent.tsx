@@ -4,11 +4,11 @@ import Image from "next/image";
 import {vapi} from "@/lib/vapi.sdk";
 import {useEffect, useRef, useState} from "react";
 import Lottie, {LottieRefCurrentProps} from "lottie-react";
-import {cn, configureAssistant, getSubjectColor} from "@/lib/utils";
-import soundWaves from '@/constants/soundwaves.json';
-import {SubjectIconName, subjectIcons} from "@/constants/icons";
 import micOn from '../../public/icons/mic-on.svg';
 import micOff from '../../public/icons/mic-off.svg';
+import soundWaves from '@/constants/soundwaves.json';
+import {SubjectIconName, subjectIcons} from "@/constants/icons";
+import {cn, configureAssistant, getSubjectColor} from "@/lib/utils";
 
 enum CallStatus {
 	INACTIVE = 'INACTIVE',
@@ -25,21 +25,24 @@ function CompanionComponent({companionId, subject, topic, name, userName, userIm
 	const lottieRef = useRef<LottieRefCurrentProps>(null);
 
 	const toggleMicrophone = () => {
-		const isMuted = vapi.isMuted();
-		vapi.setMuted(!isMuted);
-		setIsMuted(!isMuted);
+		if (callStatus === CallStatus.ACTIVE) {
+			const currentMutedState = vapi.isMuted();
+			vapi.setMuted(!currentMutedState);
+			setIsMuted(!currentMutedState);
+		} else {
+			setIsMuted(!isMuted);
+		}
 	}
 
 	const handleCall = async () => {
 		setCallStatus(CallStatus.CONNECTING);
 		const assistantOverrides = {
 			variableValues: {subject, topic, style},
-			clientMessages: ['transscript'],
+			clientMessages: ['transcript'],
 			serverMessages: [],
 		};
 
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-expect-error
+		// @ts-expect-error - VAPI start method has incorrect type definitions
 		await vapi.start(configureAssistant(voice, style), assistantOverrides);
 	}
 
@@ -49,7 +52,12 @@ function CompanionComponent({companionId, subject, topic, name, userName, userIm
 	}
 
 	useEffect(() => {
-		const onCallStart = () => setCallStatus(CallStatus.ACTIVE);
+		const onCallStart = () => {
+			setCallStatus(CallStatus.ACTIVE);
+			if (isMuted) {
+				vapi.setMuted(true);
+			}
+		}
 
 		const onCallEnd = () => setCallStatus(CallStatus.FINISHED);
 
@@ -77,7 +85,7 @@ function CompanionComponent({companionId, subject, topic, name, userName, userIm
 			vapi.off('speech-start', onSpeechStart);
 			vapi.off('speech-end', onSpeechEnd);
 		}
-	}, []);
+	}, [isMuted]);
 
 	/** lottie */
 	useEffect(() => {
