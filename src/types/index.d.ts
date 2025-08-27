@@ -6,15 +6,15 @@
 // };
 
 enum Subject {
-	maths = "maths",
-	language = "language",
-	science = "science",
-	history = "history",
-	coding = "coding",
-	geography = "geography",
-	economics = "economics",
-	finance = "finance",
-	business = "business",
+	maths = 'maths',
+	language = 'language',
+	science = 'science',
+	history = 'history',
+	coding = 'coding',
+	geography = 'geography',
+	economics = 'economics',
+	finance = 'finance',
+	business = 'business',
 }
 
 type Companion = Models.DocumentList<Models.Document> & {
@@ -67,7 +67,7 @@ interface Avatar {
 
 
 interface SavedMessage {
-	role: "user" | "system" | "assistant";
+	role: 'user' | 'system' | 'assistant';
 	content: string;
 }
 
@@ -82,7 +82,7 @@ interface CompanionComponentProps {
 	style: string;
 }
 
-declare module "*.svg" {
+declare module '*.svg' {
 	const content: string;
 	export default content;
 }

@@ -21,6 +21,7 @@ function CompanionComponent({companionId, subject, topic, name, userName, userIm
 	const [callStatus, setCallStatus] = useState<CallStatus>(CallStatus.INACTIVE);
 	const [isSpeaking, setIsSpeaking] = useState(false);
 	const [isMuted, setIsMuted] = useState(false);
+	const [messages, setMessages] = useState<SavedMessage[]>([]);
 
 	const lottieRef = useRef<LottieRefCurrentProps>(null);
 
@@ -61,7 +62,14 @@ function CompanionComponent({companionId, subject, topic, name, userName, userIm
 
 		const onCallEnd = () => setCallStatus(CallStatus.FINISHED);
 
-		const onMessage = () => {
+		const onMessage = (message: Message) => {
+			if ((message.type === 'transcript' && message.transcriptType === 'final')) {
+				const savedMessage: SavedMessage = {
+					role: message.role,
+					content: message.transcript,
+				};
+				setMessages((prev: SavedMessage[]) => [savedMessage, ...prev]);
+			}
 		}
 
 		const onError = (error: Error) => console.log('Error', error);
@@ -101,7 +109,7 @@ function CompanionComponent({companionId, subject, topic, name, userName, userIm
 	return (
 		<section className={'flex flex-col h-[70vh]'}>
 			<section className={'flex max-sm:flex-col gap-8'}>
-				<div className={'companion-section'}>
+				<div className={'companion-section pb-4'}>
 					<div className={'companion-avatar'} style={{backgroundColor: getSubjectColor(subject)}}>
 						<div className={cn('absolute transition-opacity duration-1000',
 							callStatus === CallStatus.FINISHED || callStatus === CallStatus.INACTIVE ? 'opacity-1001' : 'opacity-0',
@@ -122,7 +130,7 @@ function CompanionComponent({companionId, subject, topic, name, userName, userIm
 						<Image src={userImage} alt={userName} width={130} height={130} className={'rounded-lg'}/>
 						<p className={'font-bold text-2xl'}>{userName}</p>
 					</div>
-					<button className={'btn-mic'} onClick={toggleMicrophone}>
+					<button className={'btn-mic'} disabled={callStatus !== CallStatus.ACTIVE} onClick={toggleMicrophone}>
 						<Image src={isMuted ? micOff : micOn} alt={'mic'} width={36} height={36}/>
 						<p className={'max-sm:hidden'}>{isMuted ? 'Turn on microphone' : 'Turn off microphone'}</p>
 					</button>
@@ -136,10 +144,20 @@ function CompanionComponent({companionId, subject, topic, name, userName, userIm
 
 			{/** transcript */}
 			<section className={'transcript'}>
-				<div className={'transcript-message no-scrollbar'}>MESSAGES</div>
-				<div className={'transcript-fade'}>
-
+				<div className={'transcript-message no-scrollbar'}>
+					{messages.map((message: SavedMessage, index: number) => {
+						if (message.role === 'assistant') {
+							return (
+								<p key={index} className={'max-sm:text-sm'}>{name.split(' ')[0].replace('/[.,]/g, ', '')}: {message.content}</p>
+							);
+						} else {
+							return (
+								<p key={index} className={'max-sm:text-sm text-primary'}>{userName}: {message.content}</p>
+							);
+						}
+					})}
 				</div>
+				<div className={'transcript-fade'}/>
 			</section>
 		</section>
 	);

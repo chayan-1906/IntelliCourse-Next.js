@@ -26,8 +26,8 @@ async function CompanionSessionPage({params}: CompanionSessionPageProps) {
 	return (
 		<main>
 			<article className={'flex max-md:flex-col justify-between rounded-border p-6'}>
-				<div className={'flex items-center gap-2'}>
-					<div className={'flex max-md:hidden items-center justify-center rounded-lg size-72'} style={{backgroundColor: getSubjectColor(subject)}}>
+				<div className={'flex items-center gap-4'}>
+					<div className={'flex max-md:hidden items-center justify-center rounded-lg size-[72px]'} style={{backgroundColor: getSubjectColor(subject)}}>
 						<Image src={subjectIcons[subject as SubjectIconName]} alt={subject} width={35} height={35}/>
 					</div>
 					<div className={'flex flex-col gap-2'}>
