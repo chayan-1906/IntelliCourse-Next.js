@@ -87,3 +87,6 @@ storybook-static
 
 # Local development
 .vscode/settings.json
+
+# Sentry Config File
+.env.sentry-build-plugin
