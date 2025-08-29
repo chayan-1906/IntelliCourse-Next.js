@@ -35,17 +35,17 @@ function CompanionList({title, companions, className}: CompanionListProps) {
 					</TableRow>
 				</TableHeader>
 				<TableBody>
-					{companions?.map(({$id, name, subject, duration, topic, bookmarked}) => (
+					{companions?.map(({id, name, subject, duration, topic, bookmarked}) => (
 						<TableRow
-							key={$id}
+							key={id}
 							className={'hover:bg-gray-100 cursor-pointer'}
-							onClick={(e) => handleRowClick($id, e)}
+							onClick={(e) => handleRowClick(id, e)}
 							onAuxClick={(e) => {
 								if (e.button === 1) {
-									window.open(routes.companionDetailsPath($id), '_blank');
+									window.open(routes.companionDetailsPath(id), '_blank');
 								}
 							}}
-							data-href={routes.companionDetailsPath($id)}
+							data-href={routes.companionDetailsPath(id)}
 						>
 							{/** subject logo, name, topic */}
 							<TableCell className={'font-medium'}>

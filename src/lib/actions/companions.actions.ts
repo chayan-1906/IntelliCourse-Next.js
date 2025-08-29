@@ -60,4 +60,43 @@ const getCompanion = async (id: string): Promise<Companion> => {
 	return data[0];
 }
 
-export {createCompanion, getAllCompanions, getCompanion};
+const addToSessionHistory = async (companionId: string): Promise<Companion> => {
+	const {userId} = await auth();
+	const supabase = createSupabaseClient();
+	const {data, error} = await supabase
+		.from('session_history')
+		.insert({companion_id: companionId, user_id: userId});
+
+	if (error) throw new Error(error.message);
+
+	return data;
+}
+
+const getRecentSessions = async (limit = 10): Promise<Companion[]> => {
+	const supabase = createSupabaseClient();
+	const {data, error} = await supabase
+		.from('session_history')
+		.select(`companions:companion_id (*)`)
+		.order('created_at', {ascending: false})
+		.limit(limit);
+
+	if (error) throw new Error(error.message);
+
+	return data?.map(({companions}) => companions);
+}
+
+const getUserSessions = async (userId: string, limit = 10): Promise<Companion[]> => {
+	const supabase = createSupabaseClient();
+	const {data, error} = await supabase
+		.from('session_history')
+		.select(`companions:companion_id (*)`)
+		.eq('user_id', userId)
+		.order('created_at', {ascending: false})
+		.limit(limit);
+
+	if (error) throw new Error(error.message);
+
+	return data?.map(({companions}) => companions);
+}
+
+export {createCompanion, getAllCompanions, getCompanion, addToSessionHistory, getRecentSessions, getUserSessions};

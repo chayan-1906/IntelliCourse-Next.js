@@ -9,6 +9,7 @@ import micOff from '../../public/icons/mic-off.svg';
 import soundWaves from '@/constants/soundwaves.json';
 import {SubjectIconName, subjectIcons} from "@/constants/icons";
 import {cn, configureAssistant, getSubjectColor} from "@/lib/utils";
+import {addToSessionHistory} from "@/lib/actions/companions.actions";
 
 enum CallStatus {
 	INACTIVE = 'INACTIVE',
@@ -60,7 +61,10 @@ function CompanionComponent({companionId, subject, topic, name, userName, userIm
 			}
 		}
 
-		const onCallEnd = () => setCallStatus(CallStatus.FINISHED);
+		const onCallEnd = async () => {
+			setCallStatus(CallStatus.FINISHED);
+			await addToSessionHistory(companionId);
+		}
 
 		const onMessage = (message: Message) => {
 			if ((message.type === 'transcript' && message.transcriptType === 'final')) {
