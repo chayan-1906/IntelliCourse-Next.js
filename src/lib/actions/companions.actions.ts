@@ -99,4 +99,16 @@ const getUserSessions = async (userId: string, limit = 10): Promise<Companion[]>
 	return data?.map(({companions}) => companions);
 }
 
-export {createCompanion, getAllCompanions, getCompanion, addToSessionHistory, getRecentSessions, getUserSessions};
+const getUserCompanions = async (userId: string): Promise<Companion[]> => {
+	const supabase = createSupabaseClient();
+	const {data, error} = await supabase
+		.from('companions')
+		.select()
+		.eq('author', userId);
+
+	if (error) throw new Error(error.message);
+
+	return data;
+}
+
+export {createCompanion, getAllCompanions, getCompanion, addToSessionHistory, getRecentSessions, getUserSessions, getUserCompanions};

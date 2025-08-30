@@ -7,7 +7,7 @@ import {routes} from "@/lib/routes";
 import {cn, getSubjectColor} from "@/lib/utils";
 import {CompanionListProps} from "@/types/companion";
 import {icons, subjectIcons} from "@/constants/icons";
-import {Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow} from "@/components/ui/table";
+import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 
 function CompanionList({title, companions, className}: CompanionListProps) {
 	const router = useRouter();
@@ -24,7 +24,7 @@ function CompanionList({title, companions, className}: CompanionListProps) {
 
 	return (
 		<article className={cn('companion-list', className)}>
-			<h2 className={'font-bold text-3xl'}>Recent Sessions</h2>
+			<h2 className={'font-bold text-3xl'}>{title}</h2>
 
 			<Table>
 				<TableHeader>
@@ -80,12 +80,6 @@ function CompanionList({title, companions, className}: CompanionListProps) {
 						</TableRow>
 					))}
 				</TableBody>
-				<TableFooter>
-					<TableRow>
-						<TableCell colSpan={3}>Total</TableCell>
-						<TableCell className={'text-right'}>$2,500.00</TableCell>
-					</TableRow>
-				</TableFooter>
 			</Table>
 		</article>
 	);
