@@ -6,6 +6,7 @@ const routes = {
 	// companionSessionPath: (id: string) => `/companions/${id}`,
 	newCompanionPath: `/companions/new`,
 	myJourneyPath: '/my-journey',
+	subscriptionPath: '/subscription',
 };
 
 export {routes};
