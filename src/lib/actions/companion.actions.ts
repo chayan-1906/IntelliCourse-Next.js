@@ -153,39 +153,37 @@ const newCompanionPermissions = async () => {
 	return companionCount < limit;
 }
 
-const addBookmark = async (companionId: string, path: string) => {
+const toggleBookmark = async (companionId: string, isBookmarked: boolean, path: string) => {
 	const {userId} = await auth();
 	if (!userId) return;
 	const supabase = createSupabaseClient();
-	const {data, error} = await supabase.from('bookmarks').insert({
-		companion_id: companionId,
-		user_id: userId,
-	});
 
-	if (error) {
-		throw new Error(error.message);
+	if (isBookmarked) {
+		const {data, error} = await supabase
+			.from('bookmarks')
+			.delete()
+			.eq('companion_id', companionId)
+			.eq('user_id', userId);
+
+		if (error) {
+			throw new Error(error.message);
+		}
+
+		revalidatePath(path);
+		return data;
+	} else {
+		const {data, error} = await supabase.from('bookmarks').insert({
+			companion_id: companionId,
+			user_id: userId,
+		});
+
+		if (error) {
+			throw new Error(error.message);
+		}
+
+		revalidatePath(path);
+		return data;
 	}
-
-	revalidatePath(path);
-	return data;
-}
-
-const removeBookmark = async (companionId: string, path: string) => {
-	const {userId} = await auth();
-	if (!userId) return;
-	const supabase = createSupabaseClient();
-	const {data, error} = await supabase
-		.from('bookmarks')
-		.delete()
-		.eq('companion_id', companionId)
-		.eq('user_id', userId);
-
-	if (error) {
-		throw new Error(error.message);
-	}
-
-	revalidatePath(path);
-	return data;
 }
 
 const getBookmarkedCompanions = async (userId: string) => {
@@ -211,7 +209,6 @@ export {
 	getUserSessions,
 	getUserCompanions,
 	newCompanionPermissions,
-	addBookmark,
-	removeBookmark,
+	toggleBookmark,
 	getBookmarkedCompanions,
 };

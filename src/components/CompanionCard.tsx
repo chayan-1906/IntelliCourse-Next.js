@@ -6,18 +6,12 @@ import {usePathname} from "next/navigation";
 import {routes} from "@/lib/routes";
 import {icons} from "@/constants/icons";
 import {CompanionCardProps} from '@/types/companion';
-import {addBookmark, removeBookmark} from "@/lib/actions/companion.actions";
+import {toggleBookmark} from "@/lib/actions/companion.actions";
 
 function CompanionCard({id, name, topic, subject, duration, color, isBookmarked}: CompanionCardProps) {
 	const pathname = usePathname();
 
-	const handleBookmark = async () => {
-		if (isBookmarked) {
-			await removeBookmark(id, pathname);
-		} else {
-			await addBookmark(id, pathname);
-		}
-	}
+	const handleBookmark = async () => await toggleBookmark(id, isBookmarked, pathname);
 
 	return (
 		<article className={'companion-card'} style={{backgroundColor: color}}>
