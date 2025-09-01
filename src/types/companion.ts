@@ -5,6 +5,7 @@ export interface CompanionCardProps {
 	subject: string;
 	duration: number;
 	color: string;
+	isBookmarked: boolean;
 }
 
 export interface CompanionListProps {

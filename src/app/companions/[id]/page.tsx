@@ -4,7 +4,7 @@ import {currentUser} from "@clerk/nextjs/server";
 import {routes} from "@/lib/routes";
 import {getSubjectColor} from "@/lib/utils";
 import {CompanionSessionPageProps} from "@/types/companion";
-import {getCompanion} from "@/lib/actions/companions.actions";
+import {getCompanion} from "@/lib/actions/companion.actions";
 import {SubjectIconName, subjectIcons} from "@/constants/icons";
 import {CompanionComponent} from "@/components/CompanionComponent";
 

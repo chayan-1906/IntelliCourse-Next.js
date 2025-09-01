@@ -2,14 +2,17 @@ import {getSubjectColor} from "@/lib/utils";
 import {SearchInput} from "@/components/SearchInput";
 import CompanionCard from "@/components/CompanionCard";
 import {SubjectFilter} from "@/components/SubjectFilter";
-import {getAllCompanions} from "@/lib/actions/companions.actions";
+import {getAllCompanions} from "@/lib/actions/companion.actions";
+import {currentUser} from "@clerk/nextjs/server";
 
 async function CompanionsLibraryPage({searchParams}: SearchParams) {
 	const filters = await searchParams || {};
 	const subject = filters.subject ? filters.subject : '';
 	const topic = filters.topic ? filters.topic : '';
 
-	const companions = await getAllCompanions({subject, topic});
+	const user = await currentUser();
+
+	const companions = await getAllCompanions({subject, topic, userId: user?.id});
 	console.log('companions:', companions);
 
 	return (

@@ -4,8 +4,8 @@ import {currentUser} from "@clerk/nextjs/server";
 import {routes} from "@/lib/routes";
 import {icons} from "@/constants/icons";
 import CompanionList from "@/components/CompanionList";
-import {getUserCompanions, getUserSessions} from "@/lib/actions/companions.actions";
 import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "@/components/ui/accordion";
+import {getBookmarkedCompanions, getUserCompanions, getUserSessions} from "@/lib/actions/companion.actions";
 
 async function MyJourneyPage() {
 	const user = await currentUser();
@@ -14,8 +14,12 @@ async function MyJourneyPage() {
 		redirect(routes.signInPath);
 	}
 
-	const sessionHistory: Companion[] = await getUserSessions(user.id);
-	const companions: Companion[] = await getUserCompanions(user.id);
+	const [sessionHistory, companions, bookmarkedCompanions] = await Promise.all([
+		getUserSessions(user.id),
+		getUserCompanions(user.id),
+		getBookmarkedCompanions(user.id),
+	]);
+
 	console.log('companions:', companions);
 
 	return (
@@ -48,6 +52,12 @@ async function MyJourneyPage() {
 			</section>
 
 			<Accordion type={'multiple'}>
+				<AccordionItem value={'bookmarks'}>
+					<AccordionTrigger className={'text-2xl font-bold'}>Bookmarked Companions {`(${bookmarkedCompanions.length})`}</AccordionTrigger>
+					<AccordionContent>
+						<CompanionList title={'Bookmarked Companions'} companions={bookmarkedCompanions}/>
+					</AccordionContent>
+				</AccordionItem>
 				<AccordionItem value={'recent'}>
 					<AccordionTrigger className={'text-2xl font-bold'}>Recent Sessions</AccordionTrigger>
 					<AccordionContent>

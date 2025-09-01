@@ -5,7 +5,7 @@ import {auth} from "@clerk/nextjs/server";
 import {routes} from "@/lib/routes";
 import {images} from "@/constants/icons";
 import {CompanionForm} from "@/components/CompanionForm";
-import {newCompanionPermissions} from "@/lib/actions/companions.actions";
+import {newCompanionPermissions} from "@/lib/actions/companion.actions";
 
 async function NewCompanion() {
 	const {userId} = await auth();

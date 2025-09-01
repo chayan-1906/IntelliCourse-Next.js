@@ -11,7 +11,7 @@ import {Button} from "@/components/ui/button";
 import {Textarea} from "@/components/ui/textarea";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
-import {createCompanion} from "@/lib/actions/companions.actions";
+import {createCompanion} from "@/lib/actions/companion.actions";
 
 const formSchema = z.object({
 	name: z.string().min(1, {message: 'Companion is required'}),

@@ -9,7 +9,7 @@ import micOff from '../../public/icons/mic-off.svg';
 import soundWaves from '@/constants/soundwaves.json';
 import {SubjectIconName, subjectIcons} from "@/constants/icons";
 import {cn, configureAssistant, getSubjectColor} from "@/lib/utils";
-import {addToSessionHistory} from "@/lib/actions/companions.actions";
+import {addToSessionHistory} from "@/lib/actions/companion.actions";
 
 enum CallStatus {
 	INACTIVE = 'INACTIVE',
