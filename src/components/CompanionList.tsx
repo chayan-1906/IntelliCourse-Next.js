@@ -35,7 +35,7 @@ function CompanionList({title, companions, className}: CompanionListProps) {
 					</TableRow>
 				</TableHeader>
 				<TableBody>
-					{companions?.map(({id, name, subject, duration, topic, bookmarked}) => (
+					{companions?.map(({id, name, subject, duration, topic}: Companion) => (
 						<TableRow
 							key={id}
 							className={'hover:bg-gray-100 cursor-pointer'}
@@ -69,7 +69,7 @@ function CompanionList({title, companions, className}: CompanionListProps) {
 							</TableCell>
 
 							<TableCell>
-								<div className={'flex items-center gap-2 w-full'}>
+								<div className={'flex justify-end gap-2 w-full'}>
 									<p className={'text-2xl'}>
 										{duration}
 										<span className={'max-md:hidden'}> minutes</span>

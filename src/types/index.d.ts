@@ -87,3 +87,16 @@ declare module '*.svg' {
 	const content: string;
 	export default content;
 }
+
+interface AnimatedMyJourneyPageProps {
+	user: {
+		id: string;
+		imageUrl: string;
+		firstName: string | null;
+		lastName: string | null;
+		emailAddress: string | undefined;
+	};
+	sessionHistory: Companion[];
+	companions: Companion[];
+	bookmarkedCompanions: Companion[];
+}
