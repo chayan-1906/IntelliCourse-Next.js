@@ -37,9 +37,9 @@ function SearchInput() {
 	}, [searchQuery, router, searchParams, pathname]);
 
 	return (
-		<div className={'relative flex items-center gap-2 px-2 py-1 h-fit border border-black rounded-lg'}>
+		<div className={'relative flex items-center gap-2 pl-4 pr-2 py-1 h-fit border border-black rounded-lg'}>
 			<Image src={search} alt={'search'} width={15} height={15}/>
-			<input placeholder={'Search Companions...'} className={'outline-none'} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}/>
+			<input placeholder={'Search companions...'} className={'outline-none pr-2'} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}/>
 		</div>
 	);
 }

@@ -22,8 +22,8 @@ function CompanionCard({id, name, topic, subject, duration, color, isBookmarked}
 				</button>
 			</div>
 
-			<h2 className={'text-2xl font-bold'}>{name}</h2>
-			<p className={'text-sm'}>{topic}</p>
+			<h2 className={'text-2xl font-bold text-gray-800'}>{name}</h2>
+			<p className={'text-sm text-gray-600'}>{topic}</p>
 
 			<div className={'flex items-center gap-2'}>
 				<Image src={icons.clock} alt={'duration'} width={13.5} height={13.5}/>

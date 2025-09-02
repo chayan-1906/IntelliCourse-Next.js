@@ -33,14 +33,21 @@ Transform IntelliCourse from a JavaScript Mastery tutorial clone into a unique, 
 
 ## Phase 1: Visual Transformation (Week 1-2)
 
+### Branch:
+
+- feature/design-system - New colors, typography, CSS variables
+- feature/glassmorphism-ui - Card redesign, shadows, effects
+- feature/lottie-animations - Loading states, success animations
+
 ### New Design System
-**Modern Educational Color Palette**
+
+**Modern Educational Color Palette** ✅
 - Primary: Deep Ocean Blue (#0B2F5C)
 - Secondary: Vibrant Coral (#FF6B6B)
 - Accent: Golden Yellow (#FFD93D)
 - Neutral: Soft Gray (#F8F9FA) with dark charcoal (#2C3E50)
 
-**Typography Upgrade**
+**Typography Upgrade** ✅
 - Primary Font: Inter (headings)
 - Body Font: Source Sans Pro
 - All available via Google Fonts (free)
@@ -133,7 +140,13 @@ const heatmapData = sessionHistory.map(session => ({
 
 ---
 
-## Phase 2: Enhanced User Experience (Week 3-4)
+## Phase 2: Enhanced User Experience/Dashboard & Analytics (Week 3-4)
+
+### Branch:
+
+- feature/learning-dashboard - Stats, progress rings
+- feature/activity-heatmap - GitHub-style calendar
+- feature/enhanced-search - Real-time search, filters
 
 ### Smart Dashboard
 **Personal Learning Stats**
@@ -167,7 +180,13 @@ const heatmapData = sessionHistory.map(session => ({
 
 ---
 
-## Phase 3: Personalization Features (Week 5-6)
+## Phase 3: Personalization/Session Enhancements Features (Week 5-6)
+
+### Branch:
+
+- feature/session-notes - Add notes during/after sessions
+- feature/session-ratings - 1-5 star rating system
+- feature/user-preferences - Customizable settings
 
 ### User Preferences
 **Customizable Dashboard**
@@ -196,6 +215,12 @@ const heatmapData = sessionHistory.map(session => ({
 ---
 
 ## Phase 4: Advanced UI Features (Week 7-8)
+
+### Branch:
+
+- feature/micro-interactions - Button animations, hover effects
+- feature/mobile-optimization - Touch-friendly, responsive
+- feature/dark-mode - Theme switching
 
 ### Modern Interactions
 **Microinteractions**
@@ -265,6 +290,69 @@ const heatmapData = sessionHistory.map(session => ({
 - Bookmark folders/categories
 - Export learning progress
 - Dark/light mode toggle
+
+---
+
+## Database Schema Changes
+
+### Required Supabase Table Updates
+
+**1. Session Notes Table**
+
+```sql
+CREATE TABLE session_notes (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id TEXT NOT NULL,
+  companion_id UUID REFERENCES companions(id),
+  session_date TIMESTAMP,
+  notes TEXT,
+  created_at TIMESTAMP DEFAULT NOW()
+);
+```
+
+**2. Session Ratings Table**
+
+```sql
+CREATE TABLE session_ratings (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id TEXT NOT NULL,
+  companion_id UUID REFERENCES companions(id),
+  session_date TIMESTAMP,
+  rating INTEGER CHECK (rating >= 1 AND rating <= 5),
+  created_at TIMESTAMP DEFAULT NOW()
+);
+```
+
+**3. User Preferences Table**
+
+```sql
+CREATE TABLE user_preferences (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id TEXT UNIQUE NOT NULL,
+  preferred_session_duration INTEGER DEFAULT 30,
+  favorite_subjects TEXT[], 
+  dashboard_layout JSONB,
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW()
+);
+```
+
+**4. Existing Table Updates**
+
+```sql
+-- Add duration tracking to existing session_history table
+ALTER TABLE session_history 
+ADD COLUMN duration_minutes INTEGER DEFAULT 0,
+ADD COLUMN completed_at TIMESTAMP;
+```
+
+### Database Impact Summary
+
+- **3 new simple tables** for enhanced features
+- **2 column additions** to existing session_history
+- **All standard PostgreSQL** (Supabase compatible)
+- **Heatmap data** uses existing session_history + duration_minutes
+- **All changes are optional** - can implement UI first, database later
 
 ---
 
@@ -365,3 +453,4 @@ const heatmapData = sessionHistory.map(session => ({
 ---
 
 This simplified plan focuses on achievable enhancements that create maximum visual and functional impact while staying within technical and budget constraints. The result will be a professional, unique project that showcases solid development skills without overwhelming complexity.
+
