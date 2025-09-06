@@ -7,6 +7,7 @@ import {routes} from "@/lib/routes";
 import {cn, getSubjectColor} from "@/lib/utils";
 import {CompanionListProps} from "@/types/companion";
 import {icons, subjectIcons} from "@/constants/icons";
+import {EmptyStateAnimation} from "@/components/EmptyStateAnimation";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 
 function CompanionList({title, companions, className}: CompanionListProps) {
@@ -22,6 +23,24 @@ function CompanionList({title, companions, className}: CompanionListProps) {
 		}
 	}
 
+	if (!companions || companions.length === 0) {
+		return (
+			<article className={cn('companion-list', className)}>
+				<h2 className={'font-bold text-3xl'}>{title}</h2>
+				<EmptyStateAnimation
+					title={'No companions found'}
+					description={
+						title.toLowerCase().includes('bookmarked')
+							? 'You haven\'t bookmarked any companions yet. Bookmark your favorites to find them here!'
+							: title.toLowerCase().includes('recent')
+								? 'No recent sessions found. Start a lesson to see your progress here!'
+								: 'No companions available. Create your first AI companion to get started!'
+					}
+				/>
+			</article>
+		);
+	}
+
 	return (
 		<article className={cn('companion-list', className)}>
 			<h2 className={'font-bold text-3xl'}>{title}</h2>
@@ -35,10 +54,9 @@ function CompanionList({title, companions, className}: CompanionListProps) {
 					</TableRow>
 				</TableHeader>
 				<TableBody>
-					{companions?.map(({id, name, subject, duration, topic}: Companion) => (
+					{companions?.map(({id, name, subject, duration, topic}: Companion, index: number) => (
 						<TableRow
-							key={id}
-							className={'hover:bg-gray-100 cursor-pointer'}
+							key={index} className={'bg-yellow-200hover:bg-gray-100 cursor-pointer flex-1'}
 							onClick={(e) => handleRowClick(id, e)}
 							onAuxClick={(e) => {
 								if (e.button === 1) {
@@ -48,7 +66,7 @@ function CompanionList({title, companions, className}: CompanionListProps) {
 							data-href={routes.companionDetailsPath(id)}
 						>
 							{/** subject logo, name, topic */}
-							<TableCell className={'font-medium'}>
+							<TableCell className={'font-medium flex-2/5 bg-pink-500'}>
 								<div className={'flex items-center gap-4'}>
 									<div className={'flex items-center justify-center rounded-lg size-[72px] max-md:hidden'} style={{backgroundColor: getSubjectColor(subject)}}>
 										<Image src={subjectIcons[subject as keyof typeof subjectIcons]} alt={subject} width={35} height={35}/>

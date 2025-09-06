@@ -1,3 +1,5 @@
+import React from "react";
+
 export interface CompanionCardProps {
 	id: string;
 	name: string;
@@ -16,4 +18,54 @@ export interface CompanionListProps {
 
 export interface CompanionSessionPageProps {
 	params: Promise<{ id: string }>;
+}
+
+// Animation interfaces
+export interface LottieAnimationProps {
+	animationData?: object;
+	animationPath?: string;
+	loop?: boolean;
+	autoplay?: boolean;
+	className?: string;
+	width?: number;
+	height?: number;
+	onComplete?: () => void;
+	style?: React.CSSProperties;
+}
+
+export interface EmptyStateAnimationProps {
+	title?: string;
+	description?: string;
+	className?: string;
+}
+
+export interface LoadingAnimationProps {
+	message?: string;
+	size?: 'sm' | 'md' | 'lg';
+	className?: string;
+}
+
+export interface SuccessAnimationProps {
+	message?: string;
+	autoHide?: boolean;
+	duration?: number;
+	onComplete?: () => void;
+	className?: string;
+}
+
+export interface AnimationModalProps {
+	isOpen: boolean;
+	type: 'loading' | 'success' | 'error';
+	title?: string;
+	message?: string;
+	onClose?: () => void;
+	autoClose?: boolean;
+	duration?: number;
+}
+
+export interface AnimationModalState {
+	isOpen: boolean;
+	type: 'loading' | 'success' | 'error';
+	title?: string;
+	message?: string;
 }
