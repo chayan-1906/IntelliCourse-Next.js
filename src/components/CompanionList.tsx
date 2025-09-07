@@ -28,7 +28,7 @@ function CompanionList({title, companions, className}: CompanionListProps) {
 			<article className={cn('companion-list', className)}>
 				<h2 className={'font-bold text-3xl'}>{title}</h2>
 				<EmptyStateAnimation
-					title={'No companions found'}
+					title={'No recent sessions found'}
 					description={
 						title.toLowerCase().includes('bookmarked')
 							? 'You haven\'t bookmarked any companions yet. Bookmark your favorites to find them here!'
@@ -103,4 +103,4 @@ function CompanionList({title, companions, className}: CompanionListProps) {
 	);
 }
 
-export default CompanionList;
+export {CompanionList};

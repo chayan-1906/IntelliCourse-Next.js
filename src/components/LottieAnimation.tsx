@@ -1,11 +1,13 @@
 'use client';
 
-import {useRef} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import Lottie, {LottieRefCurrentProps} from 'lottie-react';
 import {LottieAnimationProps} from '@/types/companion';
 
-function LottieAnimation({animationData, animationPath, loop = true, autoplay = true, className = '', width, height, onComplete, style}: LottieAnimationProps) {
+function LottieAnimation({animationPath, loop = true, autoplay = true, className, width, height, onComplete, style}: LottieAnimationProps) {
 	const lottieRef = useRef<LottieRefCurrentProps | null>(null);
+	const [loadedAnimation, setLoadedAnimation] = useState(null);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const handleComplete = () => {
 		if (onComplete) {
@@ -13,15 +15,23 @@ function LottieAnimation({animationData, animationPath, loop = true, autoplay = 
 		}
 	}
 
-	// TODO: Fix with actual lottie
-	// For now, we'll use a placeholder until we add actual animation files
-	// This prevents the component from crashing if no animation is provided
-	const defaultAnimation = animationData || (animationPath ? undefined : null);
+	useEffect(() => {
+		if (animationPath) {
+			setIsLoading(true);
+			fetch(animationPath)
+				.then(response => response.json())
+				.then(data => {
+					setLoadedAnimation(data);
+					setIsLoading(false);
+				})
+				.catch(() => {
+					console.warn(`Failed to load Lottie animation: ${animationPath}`);
+					setIsLoading(false);
+				});
+		}
+	}, [animationPath]);
 
-	if (animationPath && !animationData) {
-		// TODO: Fix with actual lottie
-		// For external JSON files, we'd need to fetch them
-		// For now, return a placeholder
+	if (isLoading) {
 		return (
 			<div className={`flex items-center justify-center ${className}`} style={{width: width || '200px', height: height || '200px', ...style}}>
 				<div className={'animate-pulse bg-gray-200 rounded-lg w-full h-full'}/>
@@ -29,7 +39,7 @@ function LottieAnimation({animationData, animationPath, loop = true, autoplay = 
 		);
 	}
 
-	if (!defaultAnimation) {
+	if (!loadedAnimation) {
 		return (
 			<div className={`flex items-center justify-center ${className}`} style={{width: width || '200px', height: height || '200px', ...style}}>
 				<div className={'animate-pulse bg-gray-200 rounded-lg w-full h-full'}/>
@@ -40,7 +50,7 @@ function LottieAnimation({animationData, animationPath, loop = true, autoplay = 
 	return (
 		<Lottie
 			lottieRef={lottieRef}
-			animationData={defaultAnimation}
+			animationData={loadedAnimation}
 			loop={loop}
 			autoPlay={autoplay}
 			className={className}

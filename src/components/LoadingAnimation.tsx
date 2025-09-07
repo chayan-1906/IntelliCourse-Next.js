@@ -1,31 +1,16 @@
 'use client';
 
 import {motion} from 'framer-motion';
+import {LottieAnimation} from './LottieAnimation';
+import {animations} from "@/constants/animations";
 import {LoadingAnimationProps} from '@/types/companion';
 
 function LoadingAnimation({message = 'Loading...', size = 'md', className = ''}: LoadingAnimationProps) {
-	const sizeClasses = {
-		sm: 'size-16',
-		md: 'size-24',
-		lg: 'size-32',
+	const sizeMap = {
+		sm: 64,
+		md: 96,
+		lg: 128,
 	};
-
-	// Animated loading spinner as placeholder
-	const LoadingSpinner = () => (
-		<div className={`relative ${sizeClasses[size]} mx-auto mb-4`}>
-			<motion.div className={'absolute inset-0 border-4 border-gray-200 rounded-full'} initial={{opacity: 0}} animate={{opacity: 1}} transition={{duration: 0.3}}/>
-			<motion.div
-				className={'absolute inset-0 border-4 border-transparent border-t-blue-500 border-r-purple-500 rounded-full'}
-				animate={{rotate: 360}}
-				transition={{duration: 1, repeat: Infinity, ease: 'linear'}}
-			/>
-			<motion.div
-				className={'absolute inset-2 border-2 border-transparent border-b-blue-400 border-l-purple-400 rounded-full'}
-				animate={{rotate: -360}}
-				transition={{duration: 1.5, repeat: Infinity, ease: 'linear'}}
-			/>
-		</div>
-	);
 
 	const FloatingDots = () => (
 		<div className={'flex space-x-2 justify-center mb-4'}>
@@ -41,7 +26,16 @@ function LoadingAnimation({message = 'Loading...', size = 'md', className = ''}:
 
 	return (
 		<motion.div className={`flex flex-col items-center justify-center py-8 ${className}`} initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}} transition={{duration: 0.3}}>
-			<LoadingSpinner/>
+			<div className={'mb-4'}>
+				<LottieAnimation
+					animationPath={animations.neuralNetwork}
+					width={sizeMap[size]}
+					height={sizeMap[size]}
+					loop={true}
+					autoplay={true}
+					className={'mx-auto'}
+				/>
+			</div>
 			<FloatingDots/>
 
 			<motion.p className={'text-gray-600 text-center'} initial={{opacity: 0}} animate={{opacity: 1}} transition={{duration: 0.5, delay: 0.2}}>

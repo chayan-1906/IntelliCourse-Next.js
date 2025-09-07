@@ -2,8 +2,8 @@ import React from 'react'
 import {currentUser} from "@clerk/nextjs/server";
 import {CTA} from "@/components/CTA";
 import {getSubjectColor} from "@/lib/utils";
-import CompanionList from "@/components/CompanionList";
 import CompanionCard from "@/components/CompanionCard";
+import {CompanionList} from "@/components/CompanionList";
 import {getAllCompanions, getRecentSessions} from "@/lib/actions/companion.actions";
 
 const Page = async () => {

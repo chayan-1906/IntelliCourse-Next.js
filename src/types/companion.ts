@@ -22,7 +22,6 @@ export interface CompanionSessionPageProps {
 
 // Animation interfaces
 export interface LottieAnimationProps {
-	animationData?: object;
 	animationPath?: string;
 	loop?: boolean;
 	autoplay?: boolean;
