@@ -240,7 +240,7 @@ body {
 	}
 
 	.companion-list {
-		@apply rounded-b-4xl rounded-t-sm px-8 pt-8 pb-12 mb-4 mx-6 max-lg:w-full relative overflow-hidden;
+		@apply rounded-b-4xl rounded-t-sm px-8 pt-8 pb-12 mb-4 max-lg:w-full relative overflow-hidden;
 		backdrop-filter: blur(12px);
 		background: rgba(255, 255, 255, 0.08);
 		border: 1px solid rgba(255, 255, 255, 0.18);

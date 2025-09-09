@@ -4,7 +4,7 @@ import Image from "next/image";
 import {motion, Variants} from "framer-motion";
 import {cn} from "@/lib/utils";
 import {icons} from "@/constants/icons";
-import CompanionList from "@/components/CompanionList";
+import {CompanionList} from "@/components/CompanionList";
 import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "@/components/ui/accordion";
 
 function AnimatedMyJourneyPage({user, sessionHistory, companions, bookmarkedCompanions}: AnimatedMyJourneyPageProps) {
@@ -110,7 +110,7 @@ function AnimatedMyJourneyPage({user, sessionHistory, companions, bookmarkedComp
 							</AccordionTrigger>
 							<AccordionContent className={cn('pb-4')}>
 								<motion.div initial={{opacity: 0}} animate={{opacity: 1}} transition={{duration: 0.4, delay: 0.1}}>
-									<CompanionList title={'Bookmarked Companions'} companions={bookmarkedCompanions} className={'border-border border'}/>
+									<CompanionList title={'Bookmarked Companions'} companions={bookmarkedCompanions} className={'border-border border mx-6'}/>
 								</motion.div>
 							</AccordionContent>
 						</AccordionItem>
@@ -131,7 +131,7 @@ function AnimatedMyJourneyPage({user, sessionHistory, companions, bookmarkedComp
 							</AccordionTrigger>
 							<AccordionContent className={cn('pb-4')}>
 								<motion.div initial={{opacity: 0}} animate={{opacity: 1}} transition={{duration: 0.4, delay: 0.1}}>
-									<CompanionList title={'Recent Sessions'} companions={sessionHistory} className={'border-border border'}/>
+									<CompanionList title={'Recent Sessions'} companions={sessionHistory} className={'border-border border mx-6'}/>
 								</motion.div>
 							</AccordionContent>
 						</AccordionItem>
@@ -152,7 +152,7 @@ function AnimatedMyJourneyPage({user, sessionHistory, companions, bookmarkedComp
 							</AccordionTrigger>
 							<AccordionContent className={cn('pb-4')}>
 								<motion.div initial={{opacity: 0}} animate={{opacity: 1}} transition={{duration: 0.4, delay: 0.1}}>
-									<CompanionList title={'My Companions'} companions={companions} className={'border-border border'}/>
+									<CompanionList title={'My Companions'} companions={companions} className={'border-border border mx-6'}/>
 								</motion.div>
 							</AccordionContent>
 						</AccordionItem>

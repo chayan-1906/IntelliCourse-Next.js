@@ -45,60 +45,64 @@ function CompanionList({title, companions, className}: CompanionListProps) {
 		<article className={cn('companion-list', className)}>
 			<h2 className={'font-bold text-3xl'}>{title}</h2>
 
-			<Table>
-				<TableHeader>
-					<TableRow>
-						<TableHead className={'w-2/3 text-lg'}>Lessons</TableHead>
-						<TableHead className={'text-lg'}>Subject</TableHead>
-						<TableHead className={'text-lg text-right'}>Duration</TableHead>
-					</TableRow>
-				</TableHeader>
-				<TableBody>
-					{companions?.map(({id, name, subject, duration, topic}: Companion, index: number) => (
-						<TableRow
-							key={index} className={'bg-yellow-200hover:bg-gray-100 cursor-pointer flex-1'}
-							onClick={(e) => handleRowClick(id, e)}
-							onAuxClick={(e) => {
-								if (e.button === 1) {
-									window.open(routes.companionDetailsPath(id), '_blank');
-								}
-							}}
-							data-href={routes.companionDetailsPath(id)}
-						>
-							{/** subject logo, name, topic */}
-							<TableCell className={'font-medium flex-2/5 bg-pink-500'}>
-								<div className={'flex items-center gap-4'}>
-									<div className={'flex items-center justify-center rounded-lg size-[72px] max-md:hidden'} style={{backgroundColor: getSubjectColor(subject)}}>
-										<Image src={subjectIcons[subject as keyof typeof subjectIcons]} alt={subject} width={35} height={35}/>
-									</div>
-									<div className={'flex flex-col'}>
-										<p className={'font-bold text-2xl'}>{name}</p>
-										<p className={'text-lg'}>{topic}</p>
-									</div>
-								</div>
-							</TableCell>
-
-							{/** subject & subject logo for <md devices */}
-							<TableCell>
-								<div className={'subject-badge w-fit max-md:hidden'}>{subject}</div>
-								<div className={'flex md:hidden items-center justify-center rounded-lg w-fit p-2'} style={{backgroundColor: getSubjectColor(subject)}}>
-									<Image src={subjectIcons[subject as keyof typeof subjectIcons]} alt={subject} width={18} height={18}/>
-								</div>
-							</TableCell>
-
-							<TableCell>
-								<div className={'flex justify-end gap-2 w-full'}>
-									<p className={'text-2xl'}>
-										{duration}
-										<span className={'max-md:hidden'}> minutes</span>
-									</p>
-									<Image src={icons.clock} alt={'clock'} width={14} height={14} className={'md:hidden'}/>
-								</div>
-							</TableCell>
+			<div className={'w-full'}>
+				<Table>
+					<TableHeader>
+						<TableRow>
+							<TableHead className={'min-w-0 text-lg'}>Lessons</TableHead>
+							<TableHead className={'text-lg whitespace-nowrap'}>Subject</TableHead>
+							<TableHead className={'text-lg text-right whitespace-nowrap'}>Duration</TableHead>
 						</TableRow>
-					))}
-				</TableBody>
-			</Table>
+					</TableHeader>
+					<TableBody>
+						{companions?.map(({id, name, subject, duration, topic}: Companion, index: number) => (
+							<TableRow
+								key={index} className={'bg-yellow-200hover:bg-gray-100 cursor-pointer flex-1'}
+								onClick={(e) => handleRowClick(id, e)}
+								onAuxClick={(e) => {
+									if (e.button === 1) {
+										window.open(routes.companionDetailsPath(id), '_blank');
+									}
+								}}
+								data-href={routes.companionDetailsPath(id)}
+							>
+								{/** subject logo, name, topic */}
+								<TableCell className={'font-medium whitespace-normal'}>
+									<div className={'flex items-center gap-4'}>
+										<div className={'flex items-center justify-center rounded-lg size-[72px] max-md:hidden flex-shrink-0'} style={{backgroundColor: getSubjectColor(subject)}}>
+											<Image src={subjectIcons[subject as keyof typeof subjectIcons]} alt={subject} width={35} height={35}/>
+										</div>
+										<div className={'flex flex-col flex-1'}>
+											<p className={'font-bold text-2xl break-words'}>{name}</p>
+											<p className={'text-lg break-words'}>
+												{topic.split(' ').length > 15 ? topic.split(' ').slice(0, 15).join(' ') + '...' : topic}
+											</p>
+										</div>
+									</div>
+								</TableCell>
+
+								{/** subject & subject logo for <md devices */}
+								<TableCell>
+									<div className={'subject-badge w-fit max-md:hidden'}>{subject}</div>
+									<div className={'flex md:hidden items-center justify-center rounded-lg w-fit p-2'} style={{backgroundColor: getSubjectColor(subject)}}>
+										<Image src={subjectIcons[subject as keyof typeof subjectIcons]} alt={subject} width={18} height={18}/>
+									</div>
+								</TableCell>
+
+								<TableCell>
+									<div className={'flex justify-end gap-2 w-full'}>
+										<p className={'text-2xl'}>
+											{duration}
+											<span className={'max-md:hidden'}> minutes</span>
+										</p>
+										<Image src={icons.clock} alt={'clock'} width={14} height={14} className={'md:hidden'}/>
+									</div>
+								</TableCell>
+							</TableRow>
+						))}
+					</TableBody>
+				</Table>
+			</div>
 		</article>
 	);
 }
