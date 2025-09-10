@@ -102,7 +102,7 @@ import loadingAnimation from '@/animations/loading.json';
 - One-click start session ❌
 - Visual indicators for completion status ❌
 
-### Learning Activity Heatmaps
+### Learning Activity Heatmaps (GitHub-style calendar)
 **GitHub-Style Activity Calendar**
 - Shows daily learning activity over the past year
 - Color intensity represents session duration/count
@@ -166,7 +166,6 @@ const heatmapData = sessionHistory.map(session => ({
 **Visual Progress Tracking**
 - Circular progress rings for subjects
 - Simple bar charts for weekly activity
-- **Learning Activity Heatmaps** (GitHub-style calendar)
 - Achievement badges for milestones
 
 ### Improved Navigation
