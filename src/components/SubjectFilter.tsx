@@ -11,11 +11,12 @@ function SubjectFilter() {
 	const searchParams = useSearchParams();
 	const query = searchParams.get('subject') || '';
 
-	const [subject, setSubject] = useState('');
+	const [subject, setSubject] = useState(query);
 
 	useEffect(() => {
 		let newUrl = '';
-		if (subject === 'all') {
+		console.log({subject});
+		if (subject.toLowerCase() === 'all') {
 			newUrl = removeKeysFromUrlQuery({
 				params: searchParams.toString(),
 				keysToRemove: ['subject'],
@@ -28,7 +29,7 @@ function SubjectFilter() {
 			});
 		}
 		router.push(newUrl, {scroll: false});
-	}, [subject]);
+	}, [router, searchParams, subject]);
 
 	return (
 		<Select onValueChange={setSubject} value={subject}>

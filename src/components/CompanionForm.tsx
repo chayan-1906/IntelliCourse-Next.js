@@ -2,16 +2,18 @@
 
 import {z} from "zod";
 import {useForm} from "react-hook-form";
-import {redirect} from "next/navigation";
+import {useRouter} from "next/navigation";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {routes} from "@/lib/routes";
 import {subjects} from "@/constants";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import {Textarea} from "@/components/ui/textarea";
+import {AnimationModal} from "@/components/AnimationModal";
+import {useAnimationModal} from "@/hooks/useAnimationModal";
+import {createCompanion} from "@/lib/actions/companion.actions";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
-import {createCompanion} from "@/lib/actions/companion.actions";
 
 const formSchema = z.object({
 	name: z.string().min(1, {message: 'Companion is required'}),
@@ -23,6 +25,8 @@ const formSchema = z.object({
 });
 
 function CompanionForm() {
+	const router = useRouter();
+	const {modalState, showLoading, showSuccess, close} = useAnimationModal();
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -37,12 +41,16 @@ function CompanionForm() {
 
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
 		console.log(values);
+		showLoading('Creating your companion...');
+
 		const companion = await createCompanion(values);
 		if (companion) {
-			redirect(routes.companionDetailsPath(companion.id));
+			showSuccess('Companion created successfully!', 'Your AI companion is ready to help you learn!');
+			setTimeout(() => router.push(routes.companionDetailsPath(companion.id)), 2000);
 		} else {
 			console.error('Failed to create a companion');
-			redirect(routes.homePath);
+			close();
+			router.push(routes.homePath);
 		}
 	}
 
@@ -165,6 +173,15 @@ function CompanionForm() {
 				/>
 				<Button type={'submit'} className={'w-full cursor-pointer'}>Build Your Companion</Button>
 			</form>
+
+			<AnimationModal
+				isOpen={modalState.isOpen}
+				type={modalState.type}
+				title={modalState.title}
+				message={modalState.message}
+				onClose={close}
+				autoClose={modalState.type === 'success'}
+			/>
 		</Form>
 	);
 }

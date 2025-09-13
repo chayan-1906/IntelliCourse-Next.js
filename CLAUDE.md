@@ -1,0 +1,2 @@
+- Always maintain consistency with the existing
+- Use the bulk edit feature when you frequently modify a single file

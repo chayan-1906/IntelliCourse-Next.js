@@ -7,6 +7,8 @@ import Lottie, {LottieRefCurrentProps} from "lottie-react";
 import micOn from '../../public/icons/mic-on.svg';
 import micOff from '../../public/icons/mic-off.svg';
 import soundWaves from '@/constants/soundwaves.json';
+import {AnimationModal} from "@/components/AnimationModal";
+import {useAnimationModal} from "@/hooks/useAnimationModal";
 import {SubjectIconName, subjectIcons} from "@/constants/icons";
 import {cn, configureAssistant, getSubjectColor} from "@/lib/utils";
 import {addToSessionHistory} from "@/lib/actions/companion.actions";
@@ -25,6 +27,7 @@ function CompanionComponent({companionId, subject, topic, name, userName, userIm
 	const [messages, setMessages] = useState<SavedMessage[]>([]);
 
 	const lottieRef = useRef<LottieRefCurrentProps>(null);
+	const {modalState, showLoading, showSuccess, close} = useAnimationModal();
 
 	const toggleMicrophone = () => {
 		if (callStatus === CallStatus.ACTIVE) {
@@ -38,24 +41,35 @@ function CompanionComponent({companionId, subject, topic, name, userName, userIm
 
 	const handleCall = async () => {
 		setCallStatus(CallStatus.CONNECTING);
+		showLoading('Connecting to your AI companion...');
+
 		const assistantOverrides = {
 			variableValues: {subject, topic, style},
 			clientMessages: ['transcript'],
 			serverMessages: [],
 		};
 
-		// @ts-expect-error - VAPI start method has incorrect type definitions
-		await vapi.start(configureAssistant(voice, style), assistantOverrides);
+		try {
+			// @ts-expect-error - VAPI start method has incorrect type definitions
+			await vapi.start(configureAssistant(voice, style), assistantOverrides);
+		} catch (error) {
+			console.error('Failed to start call:', error);
+			setCallStatus(CallStatus.INACTIVE);
+			close();
+		}
 	}
 
 	const handleDisconnect = async () => {
 		setCallStatus(CallStatus.FINISHED);
 		vapi.stop();
+
+		setTimeout(() => showSuccess('Lesson Completed!', 'Great job! Your learning session has been saved to your progress'), 500);
 	}
 
 	useEffect(() => {
 		const onCallStart = () => {
 			setCallStatus(CallStatus.ACTIVE);
+			close(); // Close loading animation
 			if (isMuted) {
 				vapi.setMuted(true);
 			}
@@ -97,7 +111,7 @@ function CompanionComponent({companionId, subject, topic, name, userName, userIm
 			vapi.off('speech-start', onSpeechStart);
 			vapi.off('speech-end', onSpeechEnd);
 		}
-	}, [isMuted]);
+	}, [close, companionId, isMuted]);
 
 	/** lottie */
 	useEffect(() => {
@@ -163,6 +177,15 @@ function CompanionComponent({companionId, subject, topic, name, userName, userIm
 				</div>
 				<div className={'transcript-fade'}/>
 			</section>
+
+			{/* Animation Modal */}
+			<AnimationModal
+				isOpen={modalState.isOpen}
+				type={modalState.type}
+				title={modalState.title}
+				message={modalState.message}
+				onClose={close}
+			/>
 		</section>
 	);
 }
