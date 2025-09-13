@@ -5,6 +5,11 @@
 //   accountId: string;
 // };
 
+declare module '*.svg' {
+	const content: string;
+	export default content;
+}
+
 enum Subject {
 	maths = 'maths',
 	language = 'language',
@@ -43,29 +48,9 @@ interface GetAllCompanions {
 	userId?: string;
 }
 
-interface BuildClient {
-	key?: string;
-	sessionToken?: string;
-}
-
-interface CreateUser {
-	email: string;
-	name: string;
-	image?: string;
-	accountId: string;
-}
-
 interface SearchParams {
 	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
-
-interface Avatar {
-	userName: string;
-	width: number;
-	height: number;
-	className?: string;
-}
-
 
 interface SavedMessage {
 	role: 'user' | 'system' | 'assistant';
@@ -83,11 +68,6 @@ interface CompanionComponentProps {
 	style: string;
 }
 
-declare module '*.svg' {
-	const content: string;
-	export default content;
-}
-
 interface AnimatedMyJourneyPageProps {
 	user: {
 		id: string;
@@ -99,4 +79,30 @@ interface AnimatedMyJourneyPageProps {
 	sessionHistory: Companion[];
 	companions: Companion[];
 	bookmarkedCompanions: Companion[];
+}
+
+interface HeatmapValue {
+	date: string;
+	count: number;
+}
+
+interface ReactCalendarHeatmapValue {
+	date: string;
+	count?: number;
+}
+
+interface ActivityHeatmapData {
+	values: HeatmapValue[];
+	startDate: Date;
+	endDate: Date;
+}
+
+interface HeatmapSessionData {
+	created_at: string;
+	duration_minutes: number;
+}
+
+interface ActivityHeatmapProps {
+	userId: string;
+	className?: string;
 }

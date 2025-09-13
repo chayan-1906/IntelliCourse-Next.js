@@ -205,6 +205,53 @@ const getBookmarkedCompanions = async (userId: string): Promise<Companion[]> => 
 	}));
 }
 
+const getHeatmapData = async (userId: string): Promise<HeatmapValue[]> => {
+	const supabase = createSupabaseClient();
+
+	const oneYearAgo: Date = new Date();
+	oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+
+	const {data, error} = await supabase
+		.from('session_history')
+		.select('created_at, duration_minutes')
+		.eq('user_id', userId)
+		.gte('created_at', oneYearAgo.toISOString())
+		.order('created_at', {ascending: true});
+
+	if (error) throw new Error(error.message);
+
+	const heatmapData: { [key: string]: number } = {};
+
+	data?.forEach((session: HeatmapSessionData) => {
+		const date: string = new Date(session.created_at).toISOString().split('T')[0];
+		heatmapData[date] = (heatmapData[date] || 0) + (session.duration_minutes || 0);
+	});
+
+	return Object.entries(heatmapData).map(([date, count]) => ({
+		date,
+		count,
+	}));
+}
+
+const updateSessionDuration = async (companionId: string, durationMinutes: number): Promise<void> => {
+	const {userId} = await auth();
+	if (!userId) return;
+
+	const supabase = createSupabaseClient();
+	const {error} = await supabase
+		.from('session_history')
+		.update({
+			duration_minutes: durationMinutes,
+			completed_at: new Date().toISOString(),
+		})
+		.eq('companion_id', companionId)
+		.eq('user_id', userId)
+		.order('created_at', {ascending: false})
+		.limit(1);
+
+	if (error) throw new Error(error.message);
+}
+
 export {
 	createCompanion,
 	getAllCompanions,
@@ -216,4 +263,6 @@ export {
 	newCompanionPermissions,
 	toggleBookmark,
 	getBookmarkedCompanions,
+	getHeatmapData,
+	updateSessionDuration,
 };

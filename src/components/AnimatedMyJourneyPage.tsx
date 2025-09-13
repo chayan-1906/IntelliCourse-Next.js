@@ -5,6 +5,7 @@ import {motion, Variants} from "framer-motion";
 import {cn} from "@/lib/utils";
 import {icons} from "@/constants/icons";
 import {CompanionList} from "@/components/CompanionList";
+import {ActivityHeatmap} from "@/components/ActivityHeatmap";
 import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "@/components/ui/accordion";
 
 function AnimatedMyJourneyPage({user, sessionHistory, companions, bookmarkedCompanions}: AnimatedMyJourneyPageProps) {
@@ -51,11 +52,7 @@ function AnimatedMyJourneyPage({user, sessionHistory, companions, bookmarkedComp
 			{/* Profile Section */}
 			<motion.section className={'flex sm:flex- items-center justify-between gap-4'} variants={itemVariants}>
 				<div className={'flex gap-4 items-center'}>
-					<motion.div
-						initial={{opacity: 0, scale: 0}}
-						animate={{opacity: 1, scale: 1}}
-						transition={{duration: 0.5, delay: 0.2, type: 'spring', stiffness: 100}}
-					>
+					<motion.div initial={{opacity: 0, scale: 0}} animate={{opacity: 1, scale: 1}} transition={{duration: 0.5, delay: 0.2, type: 'spring', stiffness: 100}}>
 						<Image src={user.imageUrl} alt={user.firstName || 'profile-picture'} width={110} height={110} className={'rounded-full'}/>
 					</motion.div>
 					<motion.div className={'flex flex-col gap-2'} initial={{opacity: 0, x: -20}} animate={{opacity: 1, x: 0}} transition={{duration: 0.5, delay: 0.3}}>
@@ -66,42 +63,37 @@ function AnimatedMyJourneyPage({user, sessionHistory, companions, bookmarkedComp
 
 				{/* Stats Cards */}
 				<motion.div className={'flex gap-4'} initial={{opacity: 0, x: 20}} animate={{opacity: 1, x: 0}} transition={{duration: 0.5, delay: 0.4}}>
-					<motion.div
-						className={'flex flex-col h-fit border border-black rounded-lg p-3 gap-2'}
-						variants={statsVariants}
-						whileHover={{scale: 1.05, boxShadow: '0 8px 25px rgba(0, 0, 0, 0.15)', transition: {duration: 0.2}}}
-					>
+					<motion.div className={'flex flex-col h-fit border border-black rounded-lg p-3 gap-2'} variants={statsVariants}
+					            whileHover={{scale: 1.05, boxShadow: '0 8px 25px rgba(0, 0, 0, 0.15)', transition: {duration: 0.2}}}>
 						<div className={'flex gap-2 items-center'}>
 							<motion.div initial={{rotate: 0}} animate={{rotate: 360}} transition={{duration: 0.6, delay: 0.6}}>
 								<Image src={icons.check} alt={'checkmark'} width={22} height={22}/>
 							</motion.div>
-							<motion.p className={'text-2xl font-bold'} initial={{opacity: 0}} animate={{opacity: 1}} transition={{duration: 0.4, delay: 0.7}}>
-								{sessionHistory.length}
-							</motion.p>
+							<motion.p className={'text-2xl font-bold'} initial={{opacity: 0}} animate={{opacity: 1}} transition={{duration: 0.4, delay: 0.7}}>{sessionHistory.length}</motion.p>
 						</div>
 						<div>Lessons completed</div>
 					</motion.div>
 
-					<motion.div
-						className={'flex flex-col h-fit border border-black rounded-lg p-3 gap-2'}
-						variants={statsVariants}
-						whileHover={{scale: 1.05, boxShadow: '0 8px 25px rgba(0, 0, 0, 0.15)', transition: {duration: 0.2}}}
-					>
+					<motion.div className={'flex flex-col h-fit border border-black rounded-lg p-3 gap-2'} variants={statsVariants}
+					            whileHover={{scale: 1.05, boxShadow: '0 8px 25px rgba(0, 0, 0, 0.15)', transition: {duration: 0.2}}}>
 						<div className={'flex gap-2 items-center'}>
 							<motion.div initial={{rotate: 0}} animate={{rotate: 360}} transition={{duration: 0.6, delay: 0.8}}>
 								<Image src={icons.cap} alt={'cap'} width={22} height={22}/>
 							</motion.div>
-							<motion.p className={'text-2xl font-bold'} initial={{opacity: 0}} animate={{opacity: 1}} transition={{duration: 0.4, delay: 0.9}}>
-								{companions.length}
-							</motion.p>
+							<motion.p className={'text-2xl font-bold'} initial={{opacity: 0}} animate={{opacity: 1}} transition={{duration: 0.4, delay: 0.9}}>{companions.length}</motion.p>
 						</div>
 						<div>Companions created</div>
 					</motion.div>
 				</motion.div>
 			</motion.section>
 
+			{/* Activity Heatmap Section */}
+			<motion.section variants={itemVariants} className={'mx-6'} initial={{opacity: 0, y: 30}} animate={{opacity: 1, y: 0}} transition={{duration: 0.6, delay: 0.5}}>
+				<ActivityHeatmap userId={user.id}/>
+			</motion.section>
+
 			{/* Accordion Section */}
-			<motion.div variants={accordionVariants} transition={{delay: 0.5}}>
+			<motion.div variants={accordionVariants} transition={{delay: 0.6}}>
 				<Accordion type={'multiple'}>
 					<motion.div initial={{opacity: 0, y: 30}} animate={{opacity: 1, y: 0}} transition={{duration: 0.5, delay: 0.6}}>
 						<AccordionItem value={'bookmarks'} className={'border-0'}>
@@ -116,13 +108,7 @@ function AnimatedMyJourneyPage({user, sessionHistory, companions, bookmarkedComp
 						</AccordionItem>
 					</motion.div>
 
-					<motion.div
-						className={cn('h-[1px] bg-border mx-6 my-4')}
-						initial={{scaleX: 0}}
-						animate={{scaleX: 1}}
-						transition={{duration: 0.6, delay: 0.7}}
-						style={{originX: 0}}
-					/>
+					<motion.div className={cn('h-[1px] bg-border mx-6 my-4')} initial={{scaleX: 0}} animate={{scaleX: 1}} transition={{duration: 0.6, delay: 0.7}} style={{originX: 0}}/>
 
 					<motion.div initial={{opacity: 0, y: 30}} animate={{opacity: 1, y: 0}} transition={{duration: 0.5, delay: 0.8}}>
 						<AccordionItem value={'recent'} className={'border-0'}>
@@ -137,13 +123,7 @@ function AnimatedMyJourneyPage({user, sessionHistory, companions, bookmarkedComp
 						</AccordionItem>
 					</motion.div>
 
-					<motion.div
-						className={cn('h-[1px] bg-border mx-6 my-4')}
-						initial={{scaleX: 0}}
-						animate={{scaleX: 1}}
-						transition={{duration: 0.6, delay: 0.9}}
-						style={{originX: 0}}
-					/>
+					<motion.div className={cn('h-[1px] bg-border mx-6 my-4')} initial={{scaleX: 0}} animate={{scaleX: 1}} transition={{duration: 0.6, delay: 0.9}} style={{originX: 0}}/>
 
 					<motion.div initial={{opacity: 0, y: 30}} animate={{opacity: 1, y: 0}} transition={{duration: 0.5, delay: 1.0}}>
 						<AccordionItem value={'companions'} className={'border-0'}>
