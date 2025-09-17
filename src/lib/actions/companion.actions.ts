@@ -97,6 +97,7 @@ const getRecentSessions = async (limit = 10): Promise<Companion[]> => {
 
 	if (error) throw new Error(error.message);
 
+	console.log(data);
 	return data?.map(({companions}) => companions);
 }
 
