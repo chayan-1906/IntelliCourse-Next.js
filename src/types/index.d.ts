@@ -101,9 +101,14 @@ interface ActivityHeatmapProps {
 	className?: string;
 }
 
-interface SessionWithCompanion {
-	id: string;
-	created_at: string;
-	duration_minutes: number;
-	companion: Companion;
+interface StreakCounterProps {
+	userId: string;
+	className?: string;
+}
+
+interface StreakData {
+	currentStreak: number;
+	longestStreak: number;
+	lastActivityDate: string | null;
+	isActiveToday: boolean;
 }

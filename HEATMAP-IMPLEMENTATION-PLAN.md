@@ -199,7 +199,7 @@ interface ActivityHeatmapProps {
 - ✅ Session timer display during learning sessions
 - ✅ Automatic duration calculation
 - ✅ Manual session completion
-- ⏸️ Pause/resume functionality (Future Enhancement)
+- ❌ Pause/resume functionality
 
 ## Technical Implementation Details
 
@@ -221,7 +221,7 @@ interface ActivityHeatmapProps {
 
 ### Advanced Features 🔄
 
-- Streak counter with visual indicators
+- Streak counter with visual indicators ✅
     - What it is: Display consecutive days of learning activity
     - Visual: Badge or counter showing "7-day streak" with flame/fire icons
     - Logic: Calculate longest current streak and display prominently

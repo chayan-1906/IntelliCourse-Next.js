@@ -290,6 +290,71 @@ const updateSessionDuration = async (companionId: string, durationMinutes: numbe
 	if (error) throw new Error(error.message);
 }
 
+const getUserStreakData = async (userId: string): Promise<StreakData> => {
+	const supabase = createSupabaseClient();
+
+	const {data, error} = await supabase
+		.from('session_history')
+		.select('created_at, duration_minutes')
+		.eq('user_id', userId)
+		.gt('duration_minutes', 0)
+		.order('created_at', {ascending: true});
+
+	if (error) throw new Error(error.message);
+
+	if (!data || data.length === 0) {
+		return {currentStreak: 0, longestStreak: 0, lastActivityDate: null, isActiveToday: false};
+	}
+
+	const uniqueDates = Array.from(
+		new Set(data.map((session) => new Date(session.created_at).toISOString().split('T')[0]))
+	).sort();
+
+	if (uniqueDates.length === 0) {
+		return {currentStreak: 0, longestStreak: 0, lastActivityDate: null, isActiveToday: false};
+	}
+
+	const today = new Date().toISOString().split('T')[0];
+
+	const isActiveToday = uniqueDates.includes(today);
+	const lastActivityDate = uniqueDates[uniqueDates.length - 1];
+
+	let currentStreak = 0;
+
+	for (let i = uniqueDates.length - 1; i >= 0; i--) {
+		const currentDate = uniqueDates[i];
+		const expectedDate = new Date();
+		expectedDate.setDate(expectedDate.getDate() - currentStreak);
+		const expectedDateStr = expectedDate.toISOString().split('T')[0];
+
+		if (currentDate === expectedDateStr) {
+			currentStreak++;
+		} else {
+			break;
+		}
+	}
+
+	let longestStreak = 0;
+	let tempStreak = 1;
+
+	for (let i = 1; i < uniqueDates.length; i++) {
+		const prevDate = new Date(uniqueDates[i - 1]);
+		const currentDate = new Date(uniqueDates[i]);
+		const diffTime = currentDate.getTime() - prevDate.getTime();
+		const diffDays = diffTime / (1000 * 60 * 60 * 24);
+
+		if (diffDays === 1) {
+			tempStreak++;
+		} else {
+			longestStreak = Math.max(longestStreak, tempStreak);
+			tempStreak = 1;
+		}
+	}
+	longestStreak = Math.max(longestStreak, tempStreak);
+
+	return {currentStreak, longestStreak, lastActivityDate, isActiveToday};
+}
+
 export {
 	createCompanion,
 	getAllCompanions,
@@ -303,4 +368,5 @@ export {
 	getBookmarkedCompanions,
 	getHeatmapData,
 	updateSessionDuration,
+	getUserStreakData,
 };

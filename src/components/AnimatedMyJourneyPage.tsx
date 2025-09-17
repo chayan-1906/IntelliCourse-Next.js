@@ -4,6 +4,7 @@ import Image from "next/image";
 import {motion, Variants} from "framer-motion";
 import {cn} from "@/lib/utils";
 import {icons} from "@/constants/icons";
+import {StreakCounter} from "@/components/StreakCounter";
 import {CompanionList} from "@/components/CompanionList";
 import {ActivityHeatmap} from "@/components/ActivityHeatmap";
 import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "@/components/ui/accordion";
@@ -13,11 +14,8 @@ function AnimatedMyJourneyPage({user, sessionHistory, companions, bookmarkedComp
 		hidden: {opacity: 0},
 		visible: {
 			opacity: 1,
-			transition: {
-				duration: 0.3,
-				staggerChildren: 0.1
-			}
-		}
+			transition: {duration: 0.3, staggerChildren: 0.1},
+		},
 	};
 
 	const itemVariants: Variants = {
@@ -87,8 +85,13 @@ function AnimatedMyJourneyPage({user, sessionHistory, companions, bookmarkedComp
 				</motion.div>
 			</motion.section>
 
+			{/* Streak Counter Section */}
+			<motion.section variants={itemVariants} className={'mx-6 mb-8'} initial={{opacity: 0, y: 30}} animate={{opacity: 1, y: 0}} transition={{duration: 0.6, delay: 0.5}}>
+				<StreakCounter userId={user.id}/>
+			</motion.section>
+
 			{/* Activity Heatmap Section */}
-			<motion.section variants={itemVariants} className={'mx-6'} initial={{opacity: 0, y: 30}} animate={{opacity: 1, y: 0}} transition={{duration: 0.6, delay: 0.5}}>
+			<motion.section variants={itemVariants} className={'mx-6'} initial={{opacity: 0, y: 30}} animate={{opacity: 1, y: 0}} transition={{duration: 0.6, delay: 0.6}}>
 				<ActivityHeatmap userId={user.id}/>
 			</motion.section>
 
