@@ -75,6 +75,7 @@ const getCompanion = async (id: string): Promise<Companion> => {
 }
 
 const addToSessionHistory = async (companionId: string): Promise<Companion> => {
+	console.log('addToSessionHistory:', companionId);
 	const {userId} = await auth();
 	if (!userId) return;
 	const supabase = createSupabaseClient();
@@ -91,28 +92,63 @@ const getRecentSessions = async (limit = 10): Promise<Companion[]> => {
 	const supabase = createSupabaseClient();
 	const {data, error} = await supabase
 		.from('session_history')
-		.select(`companions:companion_id (*)`)
+		.select(`
+			id,
+			created_at,
+			duration_minutes,
+			companions:companion_id (
+				id,
+				name,
+				subject,
+				topic,
+				voice,
+				style,
+				duration
+			)
+		`)
 		.order('created_at', {ascending: false})
 		.limit(limit);
 
 	if (error) throw new Error(error.message);
 
-	console.log(data);
-	return data?.map(({companions}) => companions);
+	return data?.map((session: Companion) => ({
+		...session.companions,
+		duration: session.duration_minutes || 0,
+		sessionId: session.id,
+		sessionDate: session.created_at,
+	})) || [];
 }
 
 const getUserSessions = async (userId: string, limit = 10): Promise<Companion[]> => {
 	const supabase = createSupabaseClient();
 	const {data, error} = await supabase
 		.from('session_history')
-		.select(`companions:companion_id (*)`)
+		.select(`
+			id,
+			created_at,
+			duration_minutes,
+			companions:companion_id (
+				id,
+				name,
+				subject,
+				topic,
+				voice,
+				style,
+				duration
+			)
+		`)
 		.eq('user_id', userId)
 		.order('created_at', {ascending: false})
 		.limit(limit);
 
 	if (error) throw new Error(error.message);
 
-	return data?.map(({companions}) => companions);
+	return data?.map((session: Companion) => ({
+		...session.companions,
+		duration: session.duration_minutes || 0,
+		sessionId: session.id,
+		sessionDate: session.created_at,
+	})) || [];
 }
 
 const getUserCompanions = async (userId: string): Promise<Companion[]> => {
@@ -235,6 +271,7 @@ const getHeatmapData = async (userId: string): Promise<HeatmapValue[]> => {
 }
 
 const updateSessionDuration = async (companionId: string, durationMinutes: number): Promise<void> => {
+	console.log('updateSessionDuration:', {companionId, durationMinutes});
 	const {userId} = await auth();
 	if (!userId) return;
 

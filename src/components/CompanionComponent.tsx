@@ -50,16 +50,22 @@ function CompanionComponent({companionId, subject, topic, name, userName, userIm
 	}
 
 	const stopTimer = async () => {
+		console.log('stopTimer');
 		if (timerInterval) {
 			clearInterval(timerInterval);
 			setTimerInterval(null);
 		}
 
 		if (sessionStartTime) {
+			console.log('sessionStartTime', sessionStartTime);
 			const endTime = new Date();
-			const durationMinutes = Math.round((endTime.getTime() - sessionStartTime.getTime()) / (1000 * 60));
+			const durationSeconds = Math.round((endTime.getTime() - sessionStartTime.getTime()) / 1000);
+			console.log('durationSeconds:', durationSeconds);
+			const durationMinutes = Math.max(1, Math.round(durationSeconds / 60));
+			console.log('durationMinutes:', durationMinutes);
 
 			try {
+				await addToSessionHistory(companionId);
 				await updateSessionDuration(companionId, durationMinutes);
 			} catch (error) {
 				console.error('Failed to update session duration:', error);
@@ -110,6 +116,7 @@ function CompanionComponent({companionId, subject, topic, name, userName, userIm
 
 	useEffect(() => {
 		const onCallStart = () => {
+			console.log('onCallStart');
 			setCallStatus(CallStatus.ACTIVE);
 			startTimer();
 			closeModal();
@@ -119,9 +126,9 @@ function CompanionComponent({companionId, subject, topic, name, userName, userIm
 		}
 
 		const onCallEnd = async () => {
+			console.log('onCallEnd');
 			setCallStatus(CallStatus.FINISHED);
 			await stopTimer();
-			await addToSessionHistory(companionId);
 		}
 
 		const onMessage = (message: Message) => {

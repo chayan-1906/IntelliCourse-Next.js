@@ -91,12 +91,6 @@ interface ReactCalendarHeatmapValue {
 	count?: number;
 }
 
-interface ActivityHeatmapData {
-	values: HeatmapValue[];
-	startDate: Date;
-	endDate: Date;
-}
-
 interface HeatmapSessionData {
 	created_at: string;
 	duration_minutes: number;
@@ -105,4 +99,11 @@ interface HeatmapSessionData {
 interface ActivityHeatmapProps {
 	userId: string;
 	className?: string;
+}
+
+interface SessionWithCompanion {
+	id: string;
+	created_at: string;
+	duration_minutes: number;
+	companion: Companion;
 }
