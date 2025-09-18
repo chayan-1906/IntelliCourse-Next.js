@@ -1,7 +1,7 @@
 import {redirect} from "next/navigation";
 import {currentUser} from "@clerk/nextjs/server";
 import {routes} from "@/lib/routes";
-import {AnimatedMyJourneyPage} from "@/components/AnimatedMyJourneyPage";
+import {AnimatedMyJourney} from "@/components/AnimatedMyJourney";
 import {getBookmarkedCompanions, getUserCompanions, getUserSessions} from "@/lib/actions/companion.actions";
 
 async function MyJourneyPage() {
@@ -28,7 +28,7 @@ async function MyJourneyPage() {
 	};
 
 	return (
-		<AnimatedMyJourneyPage
+		<AnimatedMyJourney
 			user={userData}
 			sessionHistory={sessionHistory}
 			companions={companions}

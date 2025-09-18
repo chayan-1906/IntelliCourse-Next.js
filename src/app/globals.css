@@ -372,6 +372,56 @@ body {
 	}
 }
 
+.weekly-bar-chart {
+	@apply w-full;
+}
+
+.weekly-bar-chart .bar {
+	@apply transition-all duration-200 hover:opacity-80 cursor-pointer;
+}
+
+.monthly-calendar-grid {
+	@apply w-full;
+}
+
+.monthly-calendar-grid .month-card {
+	@apply transition-all duration-200 hover:scale-105 cursor-pointer;
+}
+
+.monthly-calendar-grid .daily-cell {
+	@apply transition-colors duration-150;
+}
+
+.monthly-calendar-grid .daily-cell:hover {
+	@apply scale-110 border-gray-400;
+}
+
+.view-toggle button {
+	@apply transition-all duration-200;
+}
+
+.view-toggle button:hover {
+	@apply bg-gray-50;
+}
+
+.view-toggle button.active {
+	@apply shadow-sm;
+}
+
+@media (max-width: 768px) {
+	.monthly-calendar-grid {
+		@apply grid-cols-2 gap-2;
+	}
+
+	.weekly-bar-chart {
+		@apply text-xs;
+	}
+
+	.activity-heatmap-container .flex {
+		@apply flex-col items-start gap-2;
+	}
+}
+
 @layer utilities {
 	.no-scrollbar::-webkit-scrollbar {
 		display: none;

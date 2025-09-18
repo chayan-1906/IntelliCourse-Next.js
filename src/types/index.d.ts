@@ -113,14 +113,6 @@ interface StreakData {
 	isActiveToday: boolean;
 }
 
-interface HeatmapExportOptions {
-	format: 'png' | 'svg';
-	filename?: string;
-	width?: number;
-	height?: number;
-	quality?: number;
-}
-
 interface HeatmapExportConfig {
 	title: string;
 	subtitle: string;
@@ -128,4 +120,36 @@ interface HeatmapExportConfig {
 	showStats?: boolean;
 	backgroundColor: string;
 	textColor: string;
+}
+
+type ViewMode = 'yearly' | 'monthly' | 'weekly';
+
+interface WeeklyData {
+	weekStart: string;
+	weekEnd: string;
+	totalMinutes: number;
+	dayCount: number;
+}
+
+interface MonthlyData {
+	month: string;
+	year: number;
+	totalMinutes: number;
+	dayCount: number;
+	dailyData: HeatmapValue[];
+}
+
+interface ViewToggleProps {
+	currentView: ViewMode;
+	onViewChange: (view: ViewMode) => void;
+}
+
+interface WeeklyBarChartProps {
+	data: WeeklyData[];
+	className?: string;
+}
+
+interface MonthlyCalendarGridProps {
+	data: MonthlyData[];
+	className?: string;
 }

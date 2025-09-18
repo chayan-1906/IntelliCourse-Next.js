@@ -5,11 +5,17 @@ import {DownloadIcon} from 'lucide-react';
 import {useEffect, useRef, useState} from 'react';
 import CalendarHeatmap from 'react-calendar-heatmap';
 import 'react-calendar-heatmap/dist/styles.css';
-import {getHeatmapData} from '@/lib/actions/companion.actions';
+import {ViewToggle} from '@/components/ViewToggle';
+import {WeeklyBarChart} from '@/components/WeeklyBarChart';
+import {MonthlyCalendarGrid} from '@/components/MonthlyCalendarGrid';
 import {cn, exportHeatmapAsPNG, generateHeatmapSVG} from '@/lib/utils';
+import {getHeatmapData, getMonthlyData, getWeeklyData} from '@/lib/actions/companion.actions';
 
 function ActivityHeatmap({userId, className}: ActivityHeatmapProps) {
+	const [currentView, setCurrentView] = useState<ViewMode>('yearly');
 	const [heatmapData, setHeatmapData] = useState<HeatmapValue[]>([]);
+	const [weeklyData, setWeeklyData] = useState<WeeklyData[]>([]);
+	const [monthlyData, setMonthlyData] = useState<MonthlyData[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 	const [isExporting, setIsExporting] = useState(false);
@@ -58,20 +64,26 @@ function ActivityHeatmap({userId, className}: ActivityHeatmapProps) {
 	}
 
 	useEffect(() => {
-		const fetchHeatmapData = async () => {
+		const fetchData = async () => {
 			try {
 				setLoading(true);
-				const data = await getHeatmapData(userId);
-				setHeatmapData(data);
-			} catch (err) {
-				setError(err instanceof Error ? err.message : 'Failed to load activity data');
+				const [yearlyData, weeksData, monthsData] = await Promise.all([
+					getHeatmapData(userId),
+					getWeeklyData(userId),
+					getMonthlyData(userId),
+				]);
+				setHeatmapData(yearlyData);
+				setWeeklyData(weeksData);
+				setMonthlyData(monthsData);
+			} catch (error: unknown) {
+				setError(error instanceof Error ? error.message : 'Failed to load activity data');
 			} finally {
 				setLoading(false);
 			}
 		}
 
 		if (userId) {
-			fetchHeatmapData();
+			fetchData();
 		}
 	}, [userId]);
 
@@ -85,7 +97,7 @@ function ActivityHeatmap({userId, className}: ActivityHeatmapProps) {
 			<div className={cn('activity-heatmap-container', className)}>
 				<div className={'mb-4'}>
 					<h3 className={'text-lg font-semibold text-gray-900'}>Learning Activity</h3>
-					<p className={'text-sm text-gray-600'}>Your learning streak over the past year</p>
+					<p className={'text-sm text-gray-600'}>Your learning activity visualization</p>
 				</div>
 				<div className={'flex items-center justify-center h-32 bg-gray-50 rounded-lg animate-pulse'}>
 					<div className={'text-gray-500'}>Loading activity data...</div>
@@ -99,7 +111,7 @@ function ActivityHeatmap({userId, className}: ActivityHeatmapProps) {
 			<div className={cn('activity-heatmap-container', className)}>
 				<div className={'mb-4'}>
 					<h3 className={'text-lg font-semibold text-gray-900'}>Learning Activity</h3>
-					<p className={'text-sm text-gray-600'}>Your learning streak over the past year</p>
+					<p className={'text-sm text-gray-600'}>Your learning activity visualization</p>
 				</div>
 				<div className={'flex items-center justify-center h-32 bg-red-50 rounded-lg border border-red-200'}>
 					<div className={'text-red-600 text-sm'}>{error}</div>
@@ -108,9 +120,62 @@ function ActivityHeatmap({userId, className}: ActivityHeatmapProps) {
 		);
 	}
 
-	const totalSessions = heatmapData.length;
-	const totalMinutes = heatmapData.reduce((sum, day) => sum + day.count, 0);
+	const getCurrentData = () => {
+		switch (currentView) {
+			case 'weekly':
+				return {
+					totalMinutes: weeklyData.reduce((sum: number, week: WeeklyData) => sum + week.totalMinutes, 0),
+					totalSessions: weeklyData.reduce((sum: number, week: WeeklyData) => sum + week.dayCount, 0),
+				};
+			case 'monthly':
+				return {
+					totalMinutes: monthlyData.reduce((sum: number, month: MonthlyData) => sum + month.totalMinutes, 0),
+					totalSessions: monthlyData.reduce((sum: number, month: MonthlyData) => sum + month.dayCount, 0),
+				};
+			default:
+				return {
+					totalMinutes: heatmapData.reduce((sum: number, day: HeatmapValue) => sum + day.count, 0),
+					totalSessions: heatmapData.length,
+				};
+		}
+	}
+
+	const {totalMinutes, totalSessions} = getCurrentData();
 	const totalHours = Math.floor(totalMinutes / 60);
+
+	const getViewTitle = () => {
+		switch (currentView) {
+			case 'weekly':
+				return 'Weekly Activity (Last 12 Weeks)';
+			case 'monthly':
+				return 'Monthly Activity (Last 12 Months)';
+			default:
+				return 'Learning Activity';
+		}
+	}
+
+	const renderCurrentView = () => {
+		switch (currentView) {
+			case 'weekly':
+				return <WeeklyBarChart data={weeklyData}/>;
+			case 'monthly':
+				return <MonthlyCalendarGrid data={monthlyData}/>;
+			default:
+				return (
+					<div className={'heatmap-wrapper bg-white p-4 rounded-lg border border-gray-200'}>
+						<CalendarHeatmap
+							startDate={startDate}
+							endDate={endDate}
+							values={heatmapData}
+							classForValue={getClassForValue}
+							tooltipDataAttrs={getTooltipDataAttrs}
+							showWeekdayLabels={true}
+							showMonthLabels={true}
+						/>
+					</div>
+				);
+		}
+	}
 
 	const handleExportPNG = async () => {
 		try {
@@ -160,51 +225,48 @@ function ActivityHeatmap({userId, className}: ActivityHeatmapProps) {
 	}
 
 	return (
-		<div className={cn('activity-heatmap-container', className)} ref={heatmapRef}>
-			<div className={'mb-4 flex items-start justify-between'}>
-				<div>
-					<h3 className={'text-lg font-semibold text-gray-900'}>Learning Activity</h3>
-					<p className={'text-sm text-gray-600'}>
-						{totalHours > 0 ? `${totalHours} hours` : `${totalMinutes} minutes`} of learning across {totalSessions} active days
-					</p>
-				</div>
-				<div className={'flex items-center gap-2'}>
-					<button title={'Export as PNG'} disabled={isExporting} onClick={handleExportPNG}
-					        className={'inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed text-gray-700 rounded-md transition-colors'}>
-						<DownloadIcon className={'size-3'}/>
-						{isExporting ? 'Exporting...' : 'PNG'}
-					</button>
-					<button title={'Export as SVG'} disabled={isExporting} onClick={handleExportSVG}
-					        className={'inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed text-gray-700 rounded-md transition-colors'}>
-						<DownloadIcon className={'size-3'}/>
-						{isExporting ? 'Exporting...' : 'SVG'}
-					</button>
+		<div ref={heatmapRef} className={cn('activity-heatmap-container', className)}>
+			<div className={'mb-4'}>
+				<div className={'flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between'}>
+					<div className={'flex flex-col w-full'}>
+						<h3 className={'text-lg font-semibold text-gray-900'}>{getViewTitle()}</h3>
+						<p className={'text-sm text-gray-600'}>
+							{totalHours > 0 ? `${totalHours} hours` : `${totalMinutes} minutes`} of learning across {totalSessions} active days
+						</p>
+					</div>
+					<div className={'inline-flex gap-3 w-full justify-between sm:justify-end sm:items-center'}>
+						<ViewToggle currentView={currentView} onViewChange={setCurrentView}/>
+						<div className={'inline-flex items-center gap-2'}>
+							<button title={'Export as PNG'} disabled={isExporting} onClick={handleExportPNG}
+							        className={'inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium bg-gray-100 hover:bg-gray-200 border border-gray-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-gray-700 rounded-md transition-colors'}>
+								<DownloadIcon className={'size-3'}/>
+								<p>{isExporting ? 'Exporting...' : 'PNG'}</p>
+							</button>
+							<button title={'Export as SVG'} disabled={isExporting} onClick={handleExportSVG}
+							        className={'inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium bg-gray-100 hover:bg-gray-200 border border-gray-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-gray-700 rounded-md transition-colors'}>
+								<DownloadIcon className={'size-3'}/>
+								<p>{isExporting ? 'Exporting...' : 'SVG'}</p>
+							</button>
+						</div>
+					</div>
 				</div>
 			</div>
 
-			<div className={'heatmap-wrapper bg-white p-4 rounded-lg border border-gray-200'}>
-				<CalendarHeatmap
-					startDate={startDate}
-					endDate={endDate}
-					values={heatmapData}
-					classForValue={getClassForValue}
-					tooltipDataAttrs={getTooltipDataAttrs}
-					showWeekdayLabels={true}
-					showMonthLabels={true}
-				/>
-			</div>
+			{renderCurrentView()}
 
-			<div className={'mt-3 flex items-center justify-between text-xs text-gray-500'}>
-				<span>Less</span>
-				<div className={'flex items-center space-x-1'}>
-					<div className={'size-3 bg-gray-200 rounded-sm'}></div>
-					<div className={'size-3 bg-green-200 rounded-sm'}></div>
-					<div className={'size-3 bg-green-400 rounded-sm'}></div>
-					<div className={'size-3 bg-green-600 rounded-sm'}></div>
-					<div className={'size-3 bg-green-800 rounded-sm'}></div>
+			{currentView === 'yearly' && (
+				<div className={'mt-4 inline-flex w-full items-center justify-center gap-2 text-xs text-gray-500'}>
+					<span>Less</span>
+					<div className={'inline-flex items-center gap-2'}>
+						<div className={'size-3 bg-gray-200 rounded-sm'}/>
+						<div className={'size-3 bg-green-200 rounded-sm'}/>
+						<div className={'size-3 bg-green-400 rounded-sm'}/>
+						<div className={'size-3 bg-green-600 rounded-sm'}/>
+						<div className={'size-3 bg-green-800 rounded-sm'}/>
+					</div>
+					<span>More</span>
 				</div>
-				<span>More</span>
-			</div>
+			)}
 
 			<Tooltip id={'heatmap-tooltip'}/>
 		</div>

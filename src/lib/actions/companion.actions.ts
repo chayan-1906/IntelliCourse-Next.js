@@ -270,6 +270,108 @@ const getHeatmapData = async (userId: string): Promise<HeatmapValue[]> => {
 	}));
 }
 
+const getWeeklyData = async (userId: string): Promise<WeeklyData[]> => {
+	const supabase = createSupabaseClient();
+
+	const twelveWeeksAgo: Date = new Date();
+	twelveWeeksAgo.setDate(twelveWeeksAgo.getDate() - (12 * 7));
+
+	const {data, error} = await supabase
+		.from('session_history')
+		.select('created_at, duration_minutes')
+		.eq('user_id', userId)
+		.gte('created_at', twelveWeeksAgo.toISOString())
+		.order('created_at', {ascending: true});
+
+	if (error) throw new Error(error.message);
+
+	const weeklyData: { [key: string]: { totalMinutes: number; dayCount: Set<string> } } = {};
+
+	data?.forEach((session: HeatmapSessionData) => {
+		const date = new Date(session.created_at);
+		const weekStart = new Date(date);
+		const day = weekStart.getDay();
+		weekStart.setDate(weekStart.getDate() - day);
+		const weekStartStr = weekStart.toISOString().split('T')[0];
+
+		const weekEnd = new Date(weekStart);
+		weekEnd.setDate(weekEnd.getDate() + 6);
+		const weekEndStr = weekEnd.toISOString().split('T')[0];
+
+		const weekKey = `${weekStartStr}_${weekEndStr}`;
+		const dayKey = session.created_at.split('T')[0];
+
+		if (!weeklyData[weekKey]) {
+			weeklyData[weekKey] = {
+				totalMinutes: 0,
+				dayCount: new Set(),
+			};
+		}
+
+		weeklyData[weekKey].totalMinutes += session.duration_minutes || 0;
+		weeklyData[weekKey].dayCount.add(dayKey);
+	});
+
+	return Object.entries(weeklyData).map(([weekKey, data]) => {
+		const [weekStart, weekEnd] = weekKey.split('_');
+		return {weekStart, weekEnd, totalMinutes: data.totalMinutes, dayCount: data.dayCount.size};
+	}).slice(-12);
+}
+
+const getMonthlyData = async (userId: string): Promise<MonthlyData[]> => {
+	const supabase = createSupabaseClient();
+
+	const twelveMonthsAgo: Date = new Date();
+	twelveMonthsAgo.setMonth(twelveMonthsAgo.getMonth() - 12);
+
+	const {data, error} = await supabase
+		.from('session_history')
+		.select('created_at, duration_minutes')
+		.eq('user_id', userId)
+		.gte('created_at', twelveMonthsAgo.toISOString())
+		.order('created_at', {ascending: true});
+
+	if (error) throw new Error(error.message);
+
+	const monthlyData: { [key: string]: { totalMinutes: number; dayCount: Set<string>; dailyData: { [key: string]: number } } } = {};
+
+	data?.forEach((session: HeatmapSessionData) => {
+		const date = new Date(session.created_at);
+		const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+		const dayKey = session.created_at.split('T')[0];
+
+		if (!monthlyData[monthKey]) {
+			monthlyData[monthKey] = {
+				totalMinutes: 0,
+				dayCount: new Set(),
+				dailyData: {},
+			};
+		}
+
+		monthlyData[monthKey].totalMinutes += session.duration_minutes || 0;
+		monthlyData[monthKey].dayCount.add(dayKey);
+		monthlyData[monthKey].dailyData[dayKey] = (monthlyData[monthKey].dailyData[dayKey] || 0) + (session.duration_minutes || 0);
+	});
+
+	return Object.entries(monthlyData).map(([monthKey, data]) => {
+		const [yearStr, monthStr] = monthKey.split('-');
+		const year = parseInt(yearStr);
+		const month = parseInt(monthStr);
+		const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+		return {
+			month: monthNames[month - 1],
+			year,
+			totalMinutes: data.totalMinutes,
+			dayCount: data.dayCount.size,
+			dailyData: Object.entries(data.dailyData).map(([date, count]) => ({
+				date,
+				count,
+			})),
+		};
+	}).slice(-12);
+}
+
 const updateSessionDuration = async (companionId: string, durationMinutes: number): Promise<void> => {
 	console.log('updateSessionDuration:', {companionId, durationMinutes});
 	const {userId} = await auth();
@@ -367,6 +469,8 @@ export {
 	toggleBookmark,
 	getBookmarkedCompanions,
 	getHeatmapData,
+	getWeeklyData,
+	getMonthlyData,
 	updateSessionDuration,
 	getUserStreakData,
 };

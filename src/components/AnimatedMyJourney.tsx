@@ -9,7 +9,7 @@ import {CompanionList} from "@/components/CompanionList";
 import {ActivityHeatmap} from "@/components/ActivityHeatmap";
 import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "@/components/ui/accordion";
 
-function AnimatedMyJourneyPage({user, sessionHistory, companions, bookmarkedCompanions}: AnimatedMyJourneyPageProps) {
+function AnimatedMyJourney({user, sessionHistory, companions, bookmarkedCompanions}: AnimatedMyJourneyPageProps) {
 	const containerVariants: Variants = {
 		hidden: {opacity: 0},
 		visible: {
@@ -49,12 +49,12 @@ function AnimatedMyJourneyPage({user, sessionHistory, companions, bookmarkedComp
 		<motion.main className={'min-lg:w-3/4'} variants={containerVariants} initial={'hidden'} animate={'visible'}>
 			{/* Profile Section */}
 			<motion.section className={'flex sm:flex- items-center justify-between gap-4'} variants={itemVariants}>
-				<div className={'flex gap-4 items-center'}>
+				<div className={'flex gap-4 items-center flex-wrap'}>
 					<motion.div initial={{opacity: 0, scale: 0}} animate={{opacity: 1, scale: 1}} transition={{duration: 0.5, delay: 0.2, type: 'spring', stiffness: 100}}>
-						<Image src={user.imageUrl} alt={user.firstName || 'profile-picture'} width={110} height={110} className={'rounded-full'}/>
+						<Image src={user.imageUrl} alt={user.firstName || 'profile-picture'} width={110} height={110} className={'rounded-full flex-shrink-0 size-16 sm:size-20 md:size-28'}/>
 					</motion.div>
-					<motion.div className={'flex flex-col gap-2'} initial={{opacity: 0, x: -20}} animate={{opacity: 1, x: 0}} transition={{duration: 0.5, delay: 0.3}}>
-						<h1>{user.firstName} {user.lastName}</h1>
+					<motion.div className={'flex flex-col gap-1'} initial={{opacity: 0, x: -20}} animate={{opacity: 1, x: 0}} transition={{duration: 0.5, delay: 0.3}}>
+						<h1 className={'text-lg sm:text-2xl'}>{user.firstName} {user.lastName}</h1>
 						<p className={'text-sm text-muted-foreground'}>{user.emailAddress}</p>
 					</motion.div>
 				</div>
@@ -69,7 +69,7 @@ function AnimatedMyJourneyPage({user, sessionHistory, companions, bookmarkedComp
 							</motion.div>
 							<motion.p className={'text-2xl font-bold'} initial={{opacity: 0}} animate={{opacity: 1}} transition={{duration: 0.4, delay: 0.7}}>{sessionHistory.length}</motion.p>
 						</div>
-						<div>Lessons completed</div>
+						<div className={'text-center'}>Lessons completed</div>
 					</motion.div>
 
 					<motion.div className={'flex flex-col h-fit border border-black rounded-lg p-3 gap-2'} variants={statsVariants}
@@ -80,7 +80,7 @@ function AnimatedMyJourneyPage({user, sessionHistory, companions, bookmarkedComp
 							</motion.div>
 							<motion.p className={'text-2xl font-bold'} initial={{opacity: 0}} animate={{opacity: 1}} transition={{duration: 0.4, delay: 0.9}}>{companions.length}</motion.p>
 						</div>
-						<div>Companions created</div>
+						<div className={'text-center'}>Companions created</div>
 					</motion.div>
 				</motion.div>
 			</motion.section>
@@ -146,4 +146,4 @@ function AnimatedMyJourneyPage({user, sessionHistory, companions, bookmarkedComp
 	);
 }
 
-export {AnimatedMyJourneyPage};
+export {AnimatedMyJourney};

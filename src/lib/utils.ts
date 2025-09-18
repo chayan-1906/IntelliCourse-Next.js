@@ -12,6 +12,14 @@ export const getSubjectColor = (subject: string) => {
 	return subjectsColors[subject as keyof typeof subjectsColors];
 }
 
+export const getCellBackgroundColor = (minutes: number) => {
+	if (minutes === 0) return 'bg-gray-200';
+	if (minutes < 60) return 'bg-green-200';
+	if (minutes < 180) return 'bg-green-400';
+	if (minutes < 360) return 'bg-green-600';
+	return 'bg-green-800';
+}
+
 export const configureAssistant = (voice: string, style: string) => {
 	const voiceId = voices[voice as keyof typeof voices][style as keyof (typeof voices)[keyof typeof voices]] || 'sarah';
 
@@ -111,23 +119,27 @@ export const generateHeatmapSVG = (heatmapData: HeatmapValue[], config: HeatmapE
 		}
 	}
 
-	const legend = config.showLegend ? `
-		<g transform="translate(50, 170)">
-			<text x="0" y="15" font-size="10" fill="${config.textColor}">Less</text>
-			<rect x="30" y="5" width="11" height="11" fill="#ebedf0" rx="2"/>
-			<rect x="43" y="5" width="11" height="11" fill="#9be9a8" rx="2"/>
-			<rect x="56" y="5" width="11" height="11" fill="#40c463" rx="2"/>
-			<rect x="69" y="5" width="11" height="11" fill="#30a14e" rx="2"/>
-			<rect x="82" y="5" width="11" height="11" fill="#216e39" rx="2"/>
-			<text x="100" y="15" font-size="10" fill="${config.textColor}">More</text>
-		</g>
-	` : '';
+	const legend = config.showLegend ? (
+		`
+			<g transform="translate(50, 170)">
+				<text x="0" y="15" font-size="10" fill="${config.textColor}">Less</text>
+				<rect x="30" y="5" width="11" height="11" fill="#ebedf0" rx="2"/>
+				<rect x="43" y="5" width="11" height="11" fill="#9be9a8" rx="2"/>
+				<rect x="56" y="5" width="11" height="11" fill="#40c463" rx="2"/>
+				<rect x="69" y="5" width="11" height="11" fill="#30a14e" rx="2"/>
+				<rect x="82" y="5" width="11" height="11" fill="#216e39" rx="2"/>
+				<text x="100" y="15" font-size="10" fill="${config.textColor}">More</text>
+			</g>
+		`
+	) : '';
 
-	return `<svg width="750" height="200" xmlns="http://www.w3.org/2000/svg">
-		<rect width="100%" height="100%" fill="${config.backgroundColor}"/>
-		<text x="50" y="30" font-size="16" font-weight="bold" fill="${config.textColor}">${config.title}</text>
-		<text x="50" y="50" font-size="12" fill="${config.textColor}">${config.subtitle}</text>
-		<g transform="translate(50, 70)">${cells}</g>
-		${legend}
-	</svg>`;
+	return (
+		`<svg width="750" height="200" xmlns="http://www.w3.org/2000/svg">
+			<rect width="100%" height="100%" fill="${config.backgroundColor}"/>
+			<text x="50" y="30" font-size="16" font-weight="bold" fill="${config.textColor}">${config.title}</text>
+			<text x="50" y="50" font-size="12" fill="${config.textColor}">${config.subtitle}</text>
+			<g transform="translate(50, 70)">${cells}</g>
+			${legend}
+		</svg>`
+	);
 }
