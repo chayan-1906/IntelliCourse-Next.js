@@ -46,7 +46,7 @@ function MonthlyCalendarGrid({data, className}: MonthlyCalendarGridProps) {
 
 		for (let i = 0; i < firstDay; i++) {
 			days.push(
-				<div key={`empty-${i}`} className={'size-4'}/>
+				<div key={`empty-${i}`} className={'size-5'}/>
 			);
 		}
 
@@ -56,7 +56,7 @@ function MonthlyCalendarGrid({data, className}: MonthlyCalendarGridProps) {
 
 			days.push(
 				<div key={day} data-tooltip-id={'monthly-grid-tooltip'}
-				     className={cn('w-4 h-4 rounded-sm border border-gray-100 hover:border-gray-300 transition-colors', getCellBackgroundColor(minutes))}
+				     className={cn('size-5 rounded border border-gray-200 hover:border-gray-400 transition-colors cursor-pointer', getCellBackgroundColor(minutes))}
 				     data-tooltip-content={`${new Date(dateStr).toLocaleDateString('en-US', {
 					     month: 'short',
 					     day: 'numeric',
@@ -71,21 +71,19 @@ function MonthlyCalendarGrid({data, className}: MonthlyCalendarGridProps) {
 
 	return (
 		<div className={cn('monthly-calendar-grid bg-white p-4 rounded-lg border border-gray-200', className)}>
-			<div className={'grid grid-cols-4 gap-4'}>
-				{data.map((month, index) => (
-					<div key={index} className={'flex flex-col items-center'}>
-						<div data-tooltip-id={'monthly-summary-tooltip'} data-tooltip-content={getTooltipContent(month)}
-						     className={cn('size-20 rounded-lg mb-2 flex items-center justify-center text-white font-semibold text-sm transition-all duration-200 hover:opacity-80 cursor-pointer', getCellBackgroundColor(month.totalMinutes))}>
-							{month.month}
+			<div className={'grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6'}>
+				{data.map((monthlyData: MonthlyData, index: number) => (
+					<div key={index} className={'flex flex-col justify-between'}>
+						<div className={'flex flex-col w-full items-center bg-gray-50 rounded-lg gap-2'}>
+							<div data-tooltip-id={'monthly-summary-tooltip'} data-tooltip-content={getTooltipContent(monthlyData)}
+							     className={cn('w-full py-2 rounded-lg text-white font-semibold text-sm sm:text-base text-center transition-all duration-200 hover:opacity-80 cursor-pointer', getCellBackgroundColor(monthlyData.totalMinutes))}>
+								{monthlyData.month}
+							</div>
+							<div className={'grid grid-cols-7 gap-1 bg-white rounded-lg p-3 w-full border border-gray-200'}>{renderMonthCalendar(monthlyData)}</div>
 						</div>
-						<div className={'grid grid-cols-7 gap-px bg-gray-100 rounded p-1'}>{renderMonthCalendar(month)}</div>
-						<div className={'text-xs text-gray-500 mt-1'}>{month.year}</div>
+						<div className={'w-full mt-1 text-sm text-gray-600 text-center font-semibold'}>{monthlyData.year}</div>
 					</div>
 				))}
-			</div>
-			<div className={'mt-4 flex items-center justify-between text-xs text-gray-500'}>
-				<span>12 months ago</span>
-				<span>This month</span>
 			</div>
 			<Tooltip id={'monthly-summary-tooltip'}/>
 			<Tooltip id={'monthly-grid-tooltip'}/>

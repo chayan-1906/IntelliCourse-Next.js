@@ -14,13 +14,6 @@ function WeeklyBarChart({data, className}: WeeklyBarChartProps) {
 		);
 	}
 
-	const maxMinutes = Math.max(...data.map(week => week.totalMinutes));
-
-	const getBarHeight = (minutes: number) => {
-		if (maxMinutes === 0) return 0;
-		return Math.max((minutes / maxMinutes) * 100, 2);
-	}
-
 	const formatDateRange = (weekStart: string, weekEnd: string) => {
 		const start = new Date(weekStart);
 		const end = new Date(weekEnd);
@@ -45,23 +38,24 @@ function WeeklyBarChart({data, className}: WeeklyBarChartProps) {
 
 	return (
 		<div className={cn('weekly-bar-chart bg-white p-4 rounded-lg border border-gray-200', className)}>
-			<div className={'flex items-end justify-between h-32 gap-2'}>
-				{data.map((week, index) => (
-					<div key={index} className={'flex-1 flex flex-col items-center h-full'}>
-						<div className={'flex-1 flex items-end w-full'}>
-							<div data-tooltip-id={'weekly-chart-tooltip'} data-tooltip-content={getTooltipContent(week)}
-							     className={cn('w-full rounded-t-sm transition-all duration-200 hover:opacity-80', getCellBackgroundColor(week.totalMinutes))}
-							     style={{height: `${getBarHeight(week.totalMinutes)}%`}}/>
+			<div className={'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 sm:gap-6'}>
+				{data.map((week: WeeklyData, index: number) => (
+					<div key={index} className={'flex flex-col items-center p-3 bg-gray-50 rounded-lg'}>
+						<div data-tooltip-id={'weekly-chart-tooltip'} data-tooltip-content={getTooltipContent(week)}
+						     className={cn('w-full py-3 rounded-lg text-white font-semibold text-xs sm:text-sm text-center transition-all duration-200 hover:opacity-80 cursor-pointer', getCellBackgroundColor(week.totalMinutes))}>
+							Week {index + 1}
 						</div>
-						<div className={'text-xs text-gray-500 mt-5 transform -rotate-45 origin-center w-16 text-center'}>
-							{new Date(week.weekStart).toLocaleDateString('en-US', {month: 'short', day: 'numeric'})}
+						<div className={'mt-2 w-full text-xs text-gray-600 text-center font-semibold'}>{formatDateRange(week.weekStart, week.weekEnd)}</div>
+						<div className={'inline-flex w-full items-center justify-center gap-2 text-xs text-gray-500'}>
+							<div className={'text-center'}>
+								{Math.floor(week.totalMinutes / 60) > 0 ? `${Math.floor(week.totalMinutes / 60)}h ` : ''}
+								{week.totalMinutes % 60 > 0 ? `${week.totalMinutes % 60}m` : ''}
+								{week.totalMinutes === 0 ? 'No activity' : ''}
+							</div>
+							<div className={'text-center'}>{week.dayCount} {week.dayCount === 1 ? 'day' : 'days'}</div>
 						</div>
 					</div>
 				))}
-			</div>
-			<div className={'mt-4 flex items-center justify-between text-xs text-gray-500'}>
-				<span>12 weeks ago</span>
-				<span>This week</span>
 			</div>
 			<Tooltip id={'weekly-chart-tooltip'}/>
 		</div>
