@@ -236,7 +236,7 @@ function ActivityHeatmap({userId, className}: ActivityHeatmapProps) {
 					</div>
 					<div className={'inline-flex gap-3 w-full justify-between sm:justify-end sm:items-center'}>
 						<ViewToggle currentView={currentView} onViewChange={setCurrentView}/>
-						<div className={'inline-flex items-center gap-2'}>
+						<div className={cn('inline-flex items-center gap-2', currentView !== 'yearly' && 'invisible')}>
 							<button title={'Export as PNG'} disabled={isExporting} onClick={handleExportPNG}
 							        className={'inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium bg-gray-100 hover:bg-gray-200 border border-gray-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed text-gray-700 rounded-md transition-colors'}>
 								<DownloadIcon className={'size-3'}/>

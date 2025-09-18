@@ -221,23 +221,23 @@ interface ActivityHeatmapProps {
 
 ### Advanced Features 🔄
 
-- Streak counter with visual indicators ✅
+- ✅ Streak counter with visual indicators
     - What it is: Display consecutive days of learning activity
     - Visual: Badge or counter showing "7-day streak" with flame/fire icons
     - Logic: Calculate longest current streak and display prominently
     - Motivation: Gamification to encourage daily learning habits
-- Monthly/weekly view toggles 🔄
+- ✅ Monthly/weekly view toggles
     - Views:
         - Weekly: Show last 12 weeks as bars
         - Monthly: Show last 12 months as calendar grid
         - Yearly: Current GitHub-style view
         - UI: Toggle buttons above heatmap
-- Export heatmap as image ✅
+- ✅ Export heatmap as image
     - What it is: Download heatmap as PNG/SVG for sharing
     - Use cases: Social media sharing, portfolio inclusion, progress reports
     - Implementation: Canvas rendering or SVG export
     - Button: "Export" or "Share" button near heatmap
-- Subject-specific heatmaps
+- ❌ Subject-specific heatmaps
     - What it is: Filter heatmap by learning subject (Math, Science, etc.)
     - UI: Dropdown or tabs to select subject
     - Colors: Different color schemes per subject
