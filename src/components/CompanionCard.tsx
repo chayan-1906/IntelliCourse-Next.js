@@ -18,15 +18,8 @@ function CompanionCard({id, name, topic, subject, duration, color, isBookmarked}
 	}
 
 	return (
-		<motion.article
-			className={'companion-card group cursor-pointer'}
-			style={{backgroundColor: color}}
-			initial={{opacity: 0, y: 20}}
-			animate={{opacity: 1, y: 0}}
-			transition={{duration: 0.5, ease: 'easeOut'}}
-			whileHover={{scale: 1.03, y: -6, transition: {duration: 0.3, ease: 'easeOut'}}}
-			whileTap={{scale: 0.97}}
-		>
+		<motion.article className={'companion-card group cursor-pointer'} style={{backgroundColor: color}} initial={{opacity: 0, y: 20}} animate={{opacity: 1, y: 0}}
+		                transition={{duration: 0.5, ease: 'easeOut'}} whileHover={{scale: 1.03, y: -6, transition: {duration: 0.3, ease: 'easeOut'}}} whileTap={{scale: 0.97}}>
 			{/* Header with subject and bookmark */}
 			<motion.div className={'flex justify-between items-center'} initial={{opacity: 0}} animate={{opacity: 1}} transition={{delay: 0.1, duration: 0.3}}>
 				<motion.div className={'subject-badge'} whileHover={{scale: 1.05}} transition={{duration: 0.2}}>

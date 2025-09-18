@@ -71,19 +71,19 @@ box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 ### Lottie Animations (Specific Usage) ✅
 **Where to Use Lottie:**
 1. **Empty States**: When no companions found ✅
-   - Animation: "Empty folder" or "Searching" animation
-   - Source: LottieFiles.com (free)
+    - Animation: "Empty folder" or "Searching" animation
+    - Source: LottieFiles.com (free)
 
 2. **Loading States**: During companion creation ✅
-   - Animation: "Loading dots" or "Progress circle"
-   - Duration: 2-3 seconds max
+    - Animation: "Loading dots" or "Progress circle"
+    - Duration: 2-3 seconds max
 
 3. **Success States**: After creating companion ✅
-   - Animation: "Checkmark celebration" 
-   - Duration: 1-2 seconds
+    - Animation: "Checkmark celebration"
+    - Duration: 1-2 seconds
 
 4. **404 Page**: Page not found ✅
-   - Animation: "Confused character" or "Lost in space"
+    - Animation: "Confused character" or "Lost in space"
 
 **Implementation:** ✅
 ```jsx
@@ -102,42 +102,37 @@ import loadingAnimation from '@/animations/loading.json';
 - One-click start session ❌
 - Visual indicators for completion status ❌
 
-### Learning Activity Heatmaps (GitHub-style calendar)
-**GitHub-Style Activity Calendar**
-- Shows daily learning activity over the past year
-- Color intensity represents session duration/count
-- Hover shows exact date and activity details
-- Helps users visualize learning consistency
+### Learning Activity Heatmaps (GitHub-style calendar) ✅
+**GitHub-Style Activity Calendar** ✅
+- ✅ Shows daily learning activity over the past year
+- ✅ Color intensity represents session duration/count
+- ✅ Hover shows exact date and activity details
+- ✅ Helps users visualize learning consistency
+- ✅ Integrated into "My Journey" page
+- ✅ Uses react-tooltip for enhanced tooltips
 
-**Implementation:**
+**Implementation:** ✅
 ```jsx
 import CalendarHeatmap from 'react-calendar-heatmap';
 import 'react-calendar-heatmap/dist/styles.css';
+import {Tooltip} from 'react-tooltip';
 
 // Data format: { date: '2024-01-15', count: 3 }
-const heatmapData = sessionHistory.map(session => ({
-  date: session.date,
-  count: session.duration_minutes
-}));
+const heatmapData = await getHeatmapData(userId);
 
 <CalendarHeatmap
-  startDate={new Date('2024-01-01')}
-  endDate={new Date('2024-12-31')}
-  values={heatmapData}
-  classForValue={(value) => {
-    if (!value || value.count === 0) return 'color-empty';
-    if (value.count < 30) return 'color-scale-1';
-    if (value.count < 60) return 'color-scale-2';
-    if (value.count < 120) return 'color-scale-3';
-    return 'color-scale-4';
-  }}
-  tooltipDataAttrs={(value) => ({
-    'data-tip': `${value.date}: ${value.count} minutes`
-  })}
+	startDate={startDate}
+	endDate={endDate}
+	values={heatmapData}
+	classForValue={getClassForValue}
+	tooltipDataAttrs={getTooltipDataAttrs}
+	showWeekdayLabels={true}
+	showMonthLabels={true}
 />
+<Tooltip id={'heatmap-tooltip'}/>
 ```
 
-**Custom Styling:**
+**Custom Styling:** ✅
 ```css
 .react-calendar-heatmap .color-empty { fill: #ebedf0; }
 .react-calendar-heatmap .color-scale-1 { fill: #9be9a8; }
@@ -227,7 +222,7 @@ const heatmapData = sessionHistory.map(session => ({
 - Button press animations
 - Form validation feedback
 - Success/error state animations
-- Page transition effects
+- Page transition effects ❌
 
 **Advanced Components**
 - Skeleton loading screens
@@ -337,11 +332,11 @@ CREATE TABLE user_preferences (
 );
 ```
 
-**4. Existing Table Updates**
+**4. Existing Table Updates** ✅
 
 ```sql
--- Add duration tracking to existing session_history table
-ALTER TABLE session_history 
+-- Add duration tracking to existing session_history table ✅
+ALTER TABLE session_history
 ADD COLUMN duration_minutes INTEGER DEFAULT 0,
 ADD COLUMN completed_at TIMESTAMP;
 ```
@@ -370,7 +365,7 @@ ADD COLUMN completed_at TIMESTAMP;
 - **Framer Motion**: Animations and transitions ✅
 - **Lottie React**: Micro-animations ✅
 - **Recharts**: Simple charts and graphs
-- **React Calendar Heatmap**: GitHub-style learning activity heatmaps
+- **React Calendar Heatmap**: GitHub-style learning activity heatmaps ✅
 - **React Hook Form**: Better form handling
 - **Zustand**: Simple state management
 - **React Query**: Server state management
@@ -435,9 +430,12 @@ ADD COLUMN completed_at TIMESTAMP;
 2. Glassmorphism card design ✅
 3. Lottie animations for key interactions ✅
 4. Enhanced companion cards ❌
-5. Advanced animation effects
-6. Personal dashboard with stats
-7. **Learning Activity Heatmaps** (GitHub-style calendar)
+5. Advanced animation effects 🔄
+    1. Parallax Scrolling ❌
+    2. Stagger Animations ❌
+    3. Page transition animations ❌
+6. **Learning Activity Heatmaps** (GitHub-style calendar) ✅
+7. Personal dashboard with stats
 
 ### Should-Have (Strong Additions)
 1. Advanced search and filtering

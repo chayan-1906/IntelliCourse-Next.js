@@ -11,7 +11,7 @@ import {AnimationModal} from "@/components/AnimationModal";
 import {useAnimationModal} from "@/hooks/useAnimationModal";
 import {SubjectIconName, subjectIcons} from "@/constants/icons";
 import {cn, configureAssistant, getSubjectColor} from "@/lib/utils";
-import {addToSessionHistory} from "@/lib/actions/companion.actions";
+import {addToSessionHistory, updateSessionDuration} from "@/lib/actions/companion.actions";
 
 enum CallStatus {
 	INACTIVE = 'INACTIVE',
@@ -26,8 +26,55 @@ function CompanionComponent({companionId, subject, topic, name, userName, userIm
 	const [isMuted, setIsMuted] = useState(false);
 	const [messages, setMessages] = useState<SavedMessage[]>([]);
 
+	const [sessionStartTime, setSessionStartTime] = useState<Date | null>(null);
+	const [sessionDuration, setSessionDuration] = useState<number>(0);
+	const [timerInterval, setTimerInterval] = useState<NodeJS.Timeout | null>(null);
+
 	const lottieRef = useRef<LottieRefCurrentProps>(null);
-	const {modalState, showLoading, showSuccess, close} = useAnimationModal();
+	const {modalState, showLoading, showSuccess, close: closeModal} = useAnimationModal();
+
+	const formatTime = (seconds: number): string => {
+		const minutes = Math.floor(seconds / 60);
+		const remainingSeconds = seconds % 60;
+		return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+	}
+
+	const startTimer = () => {
+		const startTime = new Date();
+		setSessionStartTime(startTime);
+		setSessionDuration(0);
+
+		const interval = setInterval(() => setSessionDuration((prevDuration) => prevDuration + 1), 1000);
+
+		setTimerInterval(interval);
+	}
+
+	const stopTimer = async () => {
+		console.log('stopTimer');
+		if (timerInterval) {
+			clearInterval(timerInterval);
+			setTimerInterval(null);
+		}
+
+		if (sessionStartTime) {
+			console.log('sessionStartTime', sessionStartTime);
+			const endTime = new Date();
+			const durationSeconds = Math.round((endTime.getTime() - sessionStartTime.getTime()) / 1000);
+			console.log('durationSeconds:', durationSeconds);
+			const durationMinutes = Math.max(1, Math.round(durationSeconds / 60));
+			console.log('durationMinutes:', durationMinutes);
+
+			try {
+				await addToSessionHistory(companionId);
+				await updateSessionDuration(companionId, durationMinutes);
+			} catch (error) {
+				console.error('Failed to update session duration:', error);
+			}
+		}
+
+		setSessionStartTime(null);
+		setSessionDuration(0);
+	}
 
 	const toggleMicrophone = () => {
 		if (callStatus === CallStatus.ACTIVE) {
@@ -55,12 +102,13 @@ function CompanionComponent({companionId, subject, topic, name, userName, userIm
 		} catch (error) {
 			console.error('Failed to start call:', error);
 			setCallStatus(CallStatus.INACTIVE);
-			close();
+			closeModal();
 		}
 	}
 
 	const handleDisconnect = async () => {
 		setCallStatus(CallStatus.FINISHED);
+		await stopTimer();
 		vapi.stop();
 
 		setTimeout(() => showSuccess('Lesson Completed!', 'Great job! Your learning session has been saved to your progress'), 500);
@@ -68,16 +116,19 @@ function CompanionComponent({companionId, subject, topic, name, userName, userIm
 
 	useEffect(() => {
 		const onCallStart = () => {
+			console.log('onCallStart');
 			setCallStatus(CallStatus.ACTIVE);
-			close(); // Close loading animation
+			startTimer();
+			closeModal();
 			if (isMuted) {
 				vapi.setMuted(true);
 			}
 		}
 
 		const onCallEnd = async () => {
+			console.log('onCallEnd');
 			setCallStatus(CallStatus.FINISHED);
-			await addToSessionHistory(companionId);
+			await stopTimer();
 		}
 
 		const onMessage = (message: Message) => {
@@ -111,7 +162,7 @@ function CompanionComponent({companionId, subject, topic, name, userName, userIm
 			vapi.off('speech-start', onSpeechStart);
 			vapi.off('speech-end', onSpeechEnd);
 		}
-	}, [close, companionId, isMuted]);
+	}, [closeModal, companionId, isMuted]);
 
 	/** lottie */
 	useEffect(() => {
@@ -147,6 +198,14 @@ function CompanionComponent({companionId, subject, topic, name, userName, userIm
 					<div className={'user-avatar'}>
 						<Image src={userImage} alt={userName} width={130} height={130} className={'rounded-lg'}/>
 						<p className={'font-bold text-2xl'}>{userName}</p>
+					</div>
+
+					{/* Session Timer */}
+					<div className={'w-full bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg p-4 flex flex-col items-center gap-2'}>
+						<p className={'text-sm font-medium text-gray-700'}>Session Duration</p>
+						<p className={'text-2xl font-bold text-primary font-mono'}>{formatTime(sessionDuration)}</p>
+						<div className={cn('w-2 h-2 rounded-full transition-colors duration-300',
+							callStatus === CallStatus.ACTIVE ? 'bg-green-500 animate-pulse' : 'bg-gray-300')}></div>
 					</div>
 					<button className={'btn-mic'} disabled={callStatus !== CallStatus.ACTIVE} onClick={toggleMicrophone}>
 						<Image src={isMuted ? micOff : micOn} alt={'mic'} width={36} height={36}/>
@@ -184,7 +243,7 @@ function CompanionComponent({companionId, subject, topic, name, userName, userIm
 				type={modalState.type}
 				title={modalState.title}
 				message={modalState.message}
-				onClose={close}
+				onClose={closeModal}
 			/>
 		</section>
 	);

@@ -312,6 +312,116 @@ body {
 	}
 }
 
+.react-calendar-heatmap {
+	@apply w-full;
+}
+
+.react-calendar-heatmap .color-empty {
+	fill: #ebedf0;
+}
+
+.react-calendar-heatmap .color-scale-1 {
+	fill: #9be9a8;
+}
+
+.react-calendar-heatmap .color-scale-2 {
+	fill: #40c463;
+}
+
+.react-calendar-heatmap .color-scale-3 {
+	fill: #30a14e;
+}
+
+.react-calendar-heatmap .color-scale-4 {
+	fill: #216e39;
+}
+
+.react-calendar-heatmap text {
+	@apply text-xs fill-gray-600;
+}
+
+.react-calendar-heatmap .react-calendar-heatmap-weekday-label {
+	@apply text-xs;
+}
+
+.react-calendar-heatmap .react-calendar-heatmap-month-label {
+	@apply text-xs font-medium;
+}
+
+.react-calendar-heatmap rect:hover {
+	stroke: #333;
+	stroke-width: 1;
+	@apply cursor-pointer;
+}
+
+.activity-heatmap-container {
+	@apply w-full space-y-2;
+}
+
+.heatmap-wrapper {
+	@apply overflow-x-auto;
+}
+
+@media (max-width: 768px) {
+	.react-calendar-heatmap {
+		@apply text-xs;
+	}
+
+	.react-calendar-heatmap rect {
+		@apply w-2 h-2;
+	}
+}
+
+.weekly-bar-chart {
+	@apply w-full;
+}
+
+.weekly-bar-chart .bar {
+	@apply transition-all duration-200 hover:opacity-80 cursor-pointer;
+}
+
+.monthly-calendar-grid {
+	@apply w-full;
+}
+
+.monthly-calendar-grid .month-card {
+	@apply transition-all duration-200 hover:scale-105 cursor-pointer;
+}
+
+.monthly-calendar-grid .daily-cell {
+	@apply transition-colors duration-150;
+}
+
+.monthly-calendar-grid .daily-cell:hover {
+	@apply scale-110 border-gray-400;
+}
+
+.view-toggle button {
+	@apply transition-all duration-200;
+}
+
+.view-toggle button:hover {
+	@apply bg-gray-50;
+}
+
+.view-toggle button.active {
+	@apply shadow-sm;
+}
+
+@media (max-width: 768px) {
+	.monthly-calendar-grid {
+		@apply grid-cols-2 gap-2;
+	}
+
+	.weekly-bar-chart {
+		@apply text-xs;
+	}
+
+	.activity-heatmap-container .flex {
+		@apply flex-col items-start gap-2;
+	}
+}
+
 @layer utilities {
 	.no-scrollbar::-webkit-scrollbar {
 		display: none;
