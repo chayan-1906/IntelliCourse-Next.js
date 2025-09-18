@@ -112,3 +112,20 @@ interface StreakData {
 	lastActivityDate: string | null;
 	isActiveToday: boolean;
 }
+
+interface HeatmapExportOptions {
+	format: 'png' | 'svg';
+	filename?: string;
+	width?: number;
+	height?: number;
+	quality?: number;
+}
+
+interface HeatmapExportConfig {
+	title: string;
+	subtitle: string;
+	showLegend: boolean;
+	showStats?: boolean;
+	backgroundColor: string;
+	textColor: string;
+}

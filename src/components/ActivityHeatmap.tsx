@@ -1,16 +1,19 @@
 'use client';
 
 import {Tooltip} from 'react-tooltip';
-import {useEffect, useState} from 'react';
+import {DownloadIcon} from 'lucide-react';
+import {useEffect, useRef, useState} from 'react';
 import CalendarHeatmap from 'react-calendar-heatmap';
 import 'react-calendar-heatmap/dist/styles.css';
-import {cn} from '@/lib/utils';
 import {getHeatmapData} from '@/lib/actions/companion.actions';
+import {cn, exportHeatmapAsPNG, generateHeatmapSVG} from '@/lib/utils';
 
 function ActivityHeatmap({userId, className}: ActivityHeatmapProps) {
 	const [heatmapData, setHeatmapData] = useState<HeatmapValue[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
+	const [isExporting, setIsExporting] = useState(false);
+	const heatmapRef = useRef<HTMLDivElement>(null);
 
 	const getTooltipDataAttrs = (value: ReactCalendarHeatmapValue | undefined): Record<string, string> => {
 		if (!value || !value.date) {
@@ -109,13 +112,74 @@ function ActivityHeatmap({userId, className}: ActivityHeatmapProps) {
 	const totalMinutes = heatmapData.reduce((sum, day) => sum + day.count, 0);
 	const totalHours = Math.floor(totalMinutes / 60);
 
+	const handleExportPNG = async () => {
+		try {
+			setIsExporting(true);
+			await exportHeatmapAsPNG(heatmapData, {
+				title: 'Learning Activity Heatmap',
+				subtitle: `${totalHours > 0 ? `${totalHours} hours` : `${totalMinutes} minutes`} of learning across ${totalSessions} active days`,
+				showLegend: true,
+				backgroundColor: '#ffffff',
+				textColor: '#374151',
+			});
+		} catch (error) {
+			console.error('PNG export failed:', error);
+			alert('Failed to export heatmap as PNG. Please try again.');
+		} finally {
+			setIsExporting(false);
+		}
+	}
+
+	const handleExportSVG = async () => {
+		try {
+			setIsExporting(true);
+			const svgContent = generateHeatmapSVG(heatmapData, {
+				title: 'Learning Activity Heatmap',
+				subtitle: `${totalHours > 0 ? `${totalHours} hours` : `${totalMinutes} minutes`} of learning across ${totalSessions} active days`,
+				showLegend: true,
+				showStats: true,
+				backgroundColor: '#ffffff',
+				textColor: '#374151',
+			});
+
+			const blob = new Blob([svgContent], {type: 'image/svg+xml'});
+			const url = URL.createObjectURL(blob);
+			const link = document.createElement('a');
+			link.href = url;
+			link.download = `learning-activity-${new Date().toISOString().split('T')[0]}.svg`;
+			document.body.appendChild(link);
+			link.click();
+			document.body.removeChild(link);
+			URL.revokeObjectURL(url);
+		} catch (error) {
+			console.error('SVG export failed:', error);
+			alert('Failed to export heatmap as SVG. Please try again.');
+		} finally {
+			setIsExporting(false);
+		}
+	}
+
 	return (
-		<div className={cn('activity-heatmap-container', className)}>
-			<div className={'mb-4'}>
-				<h3 className={'text-lg font-semibold text-gray-900'}>Learning Activity</h3>
-				<p className={'text-sm text-gray-600'}>
-					{totalHours > 0 ? `${totalHours} hours` : `${totalMinutes} minutes`} of learning across {totalSessions} active days
-				</p>
+		<div className={cn('activity-heatmap-container', className)} ref={heatmapRef}>
+			<div className={'mb-4 flex items-start justify-between'}>
+				<div>
+					<h3 className={'text-lg font-semibold text-gray-900'}>Learning Activity</h3>
+					<p className={'text-sm text-gray-600'}>
+						{totalHours > 0 ? `${totalHours} hours` : `${totalMinutes} minutes`} of learning across {totalSessions} active days
+					</p>
+				</div>
+				<div className={'flex items-center gap-2'}>
+					<button title={'Export as PNG'} disabled={isExporting} onClick={handleExportPNG}
+					        className={'inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed text-gray-700 rounded-md transition-colors'}>
+						<DownloadIcon className={'size-3'}/>
+						{isExporting ? 'Exporting...' : 'PNG'}
+					</button>
+					<button title={'Export as SVG'} disabled={isExporting} onClick={handleExportSVG}
+					        className={'inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed text-gray-700 rounded-md transition-colors'}>
+						<DownloadIcon className={'size-3'}/>
+						{isExporting ? 'Exporting...' : 'SVG'}
+					</button>
+				</div>
 			</div>
 
 			<div className={'heatmap-wrapper bg-white p-4 rounded-lg border border-gray-200'}>
