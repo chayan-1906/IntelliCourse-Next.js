@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import {SignInButton, SignedIn, SignedOut, UserButton} from "@clerk/nextjs";
+import {SignedIn, SignedOut, SignInButton, UserButton} from "@clerk/nextjs";
 import {NavItems} from "@/components/NavItems";
 import logoImg from "../../public/images/logo.svg";
 
@@ -16,7 +16,7 @@ const Navbar = () => {
 				<NavItems/>
 				<SignedOut>
 					<SignInButton>
-						<button className="btn-signin">Sign In</button>
+						<button className={'btn-signin'}>Sign In</button>
 					</SignInButton>
 				</SignedOut>
 				<SignedIn>

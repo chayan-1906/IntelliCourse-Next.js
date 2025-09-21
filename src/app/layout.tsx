@@ -1,9 +1,10 @@
 import React from "react";
 import type {Metadata} from "next";
+import {ClerkProvider} from "@clerk/nextjs";
 import {Bricolage_Grotesque, Inter, Source_Sans_3} from "next/font/google";
 import "./globals.css";
 import {Navbar} from "@/components/Navbar";
-import {ClerkProvider} from "@clerk/nextjs";
+import {BreadcrumbWrapper} from "@/components/BreadcrumbWrapper";
 
 const bricolage = Bricolage_Grotesque({
 	variable: '--font-bricolage',
@@ -33,7 +34,9 @@ function RootLayout({children}: Readonly<{ children: React.ReactNode; }>) {
 			<html lang={'en'} suppressHydrationWarning>
 			<body className={`${bricolage.variable} ${inter.variable} ${sourceSans.variable} antialiased`}>
 			<Navbar/>
-			{children}
+			<BreadcrumbWrapper>
+				{children}
+			</BreadcrumbWrapper>
 			</body>
 			</html>
 		</ClerkProvider>

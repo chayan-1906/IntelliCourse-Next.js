@@ -422,6 +422,25 @@ body {
 	}
 }
 
+.breadcrumb-nav {
+	background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(248, 249, 250, 0.9) 100%);
+	backdrop-filter: blur(12px);
+	border-bottom: 1px solid rgba(11, 47, 92, 0.1);
+	transition: all 0.3s ease;
+}
+
+.breadcrumb-nav:hover {
+	background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 249, 250, 0.95) 100%);
+	border-bottom-color: rgba(11, 47, 92, 0.15);
+}
+
+@media (max-width: 768px) {
+	.breadcrumb-nav {
+		padding: 0.5rem 1rem;
+		font-size: 0.875rem;
+	}
+}
+
 @layer utilities {
 	.no-scrollbar::-webkit-scrollbar {
 		display: none;

@@ -166,10 +166,12 @@ const heatmapData = await getHeatmapData(userId);
 - Simple bar charts for weekly activity ❌
 - Achievement badges for milestones ❌
 
-### Improved Navigation
-**Breadcrumb Navigation**
-- Show current page path
-- Easy navigation back to previous sections
+### Improved Navigation ✅
+
+**Breadcrumb Navigation** ✅
+
+- Show current page path ✅
+- Easy navigation back to previous sections ✅
 
 **Search Enhancement** ❌
 
@@ -213,6 +215,7 @@ const heatmapData = await getHeatmapData(userId);
 - Group sessions by date
 - Show session duration and rating
 - Quick restart previous sessions
+- Show transcripts properly and store them
 - Export session summaries
 
 ---
