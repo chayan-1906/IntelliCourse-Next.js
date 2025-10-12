@@ -4,7 +4,7 @@ import React from "react";
 import Image from "next/image";
 import {useRouter} from "next/navigation";
 import {routes} from "@/lib/routes";
-import {cn, getSubjectColor} from "@/lib/utils";
+import {cn, formatDuration, getSubjectColor} from "@/lib/utils";
 import {CompanionListProps} from "@/types/companion";
 import {icons, subjectIcons} from "@/constants/icons";
 import {EmptyStateAnimation} from "@/components/EmptyStateAnimation";
@@ -57,7 +57,7 @@ function CompanionList({title, companions, className}: CompanionListProps) {
 					<TableBody>
 						{companions?.map(({id, name, subject, duration, topic}: Companion, index: number) => (
 							<TableRow
-								key={index} className={'bg-yellow-200hover:bg-gray-100 cursor-pointer flex-1'}
+								key={index} className={'cursor-pointer flex-1'}
 								onClick={(e) => handleRowClick(id, e)}
 								onAuxClick={(e) => {
 									if (e.button === 1) {
@@ -91,10 +91,8 @@ function CompanionList({title, companions, className}: CompanionListProps) {
 
 								<TableCell>
 									<div className={'flex justify-end gap-2 w-full'}>
-										<p className={'text-2xl'}>
-											{duration}
-											<span className={'max-md:hidden'}> minutes</span>
-										</p>
+										{/*<p className={'text-2xl'}>{formatDuration(duration)}</p>*/}
+										<span className={'text-lg flex-shrink-0 ml-2'}>{formatDuration(duration || 0)}</span>
 										<Image src={icons.clock} alt={'clock'} width={14} height={14} className={'md:hidden'}/>
 									</div>
 								</TableCell>

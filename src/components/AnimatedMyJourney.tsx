@@ -6,6 +6,7 @@ import {cn} from "@/lib/utils";
 import {icons} from "@/constants/icons";
 import {StreakCounter} from "@/components/StreakCounter";
 import {CompanionList} from "@/components/CompanionList";
+import {SessionHistory} from "@/components/SessionHistory";
 import {ActivityHeatmap} from "@/components/ActivityHeatmap";
 import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "@/components/ui/accordion";
 
@@ -47,7 +48,7 @@ function AnimatedMyJourney({user, sessionHistory, companions, bookmarkedCompanio
 
 	return (
 		<motion.main className={'min-lg:w-3/4'} variants={containerVariants} initial={'hidden'} animate={'visible'}>
-			{/* Profile Section */}
+			{/** Profile Section */}
 			<motion.section className={'flex sm:flex- items-center justify-between gap-4'} variants={itemVariants}>
 				<div className={'flex gap-4 items-center flex-wrap'}>
 					<motion.div initial={{opacity: 0, scale: 0}} animate={{opacity: 1, scale: 1}} transition={{duration: 0.5, delay: 0.2, type: 'spring', stiffness: 100}}>
@@ -85,17 +86,17 @@ function AnimatedMyJourney({user, sessionHistory, companions, bookmarkedCompanio
 				</motion.div>
 			</motion.section>
 
-			{/* Streak Counter Section */}
+			{/** Streak Counter Section */}
 			<motion.section variants={itemVariants} className={'mx-6 mb-8'} initial={{opacity: 0, y: 30}} animate={{opacity: 1, y: 0}} transition={{duration: 0.6, delay: 0.5}}>
 				<StreakCounter userId={user.id}/>
 			</motion.section>
 
-			{/* Activity Heatmap Section */}
+			{/** Activity Heatmap Section */}
 			<motion.section variants={itemVariants} className={'mx-6'} initial={{opacity: 0, y: 30}} animate={{opacity: 1, y: 0}} transition={{duration: 0.6, delay: 0.6}}>
 				<ActivityHeatmap userId={user.id}/>
 			</motion.section>
 
-			{/* Accordion Section */}
+			{/** Accordion Section */}
 			<motion.div variants={accordionVariants} transition={{delay: 0.6}}>
 				<Accordion type={'multiple'}>
 					<motion.div initial={{opacity: 0, y: 30}} animate={{opacity: 1, y: 0}} transition={{duration: 0.5, delay: 0.6}}>
@@ -115,12 +116,10 @@ function AnimatedMyJourney({user, sessionHistory, companions, bookmarkedCompanio
 
 					<motion.div initial={{opacity: 0, y: 30}} animate={{opacity: 1, y: 0}} transition={{duration: 0.5, delay: 0.8}}>
 						<AccordionItem value={'recent'} className={'border-0'}>
-							<AccordionTrigger className={cn('text-2xl font-bold mx-6 px-4 border-border border', 'data-[state=open]:border-b-0')}>
-								Recent Sessions
-							</AccordionTrigger>
+							<AccordionTrigger className={cn('text-2xl font-bold mx-6 px-4 border-border border', 'data-[state=open]:border-b-0')}>Recent Sessions</AccordionTrigger>
 							<AccordionContent className={cn('pb-4')}>
 								<motion.div initial={{opacity: 0}} animate={{opacity: 1}} transition={{duration: 0.4, delay: 0.1}}>
-									<CompanionList title={'Recent Sessions'} companions={sessionHistory} className={'border-border border mx-6'}/>
+									<SessionHistory title={'Recent Sessions'} sessions={sessionHistory} showExport={true} className={'companion-list border-border border mx-6'}/>
 								</motion.div>
 							</AccordionContent>
 						</AccordionItem>

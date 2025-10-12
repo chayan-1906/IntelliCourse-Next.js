@@ -74,18 +74,20 @@ const getCompanion = async (id: string): Promise<Companion> => {
 	return data[0];
 }
 
-const addToSessionHistory = async (companionId: string): Promise<Companion> => {
+const addToSessionHistory = async (companionId: string): Promise<string> => {
 	console.log('addToSessionHistory:', companionId);
 	const {userId} = await auth();
-	if (!userId) return;
+	if (!userId) throw new Error('User not authenticated');
 	const supabase = createSupabaseClient();
 	const {data, error} = await supabase
 		.from('session_history')
-		.insert({companion_id: companionId, user_id: userId});
+		.insert({companion_id: companionId, user_id: userId})
+		.select('id')
+		.single();
 
 	if (error) throw new Error(error.message);
 
-	return data;
+	return data.id;
 }
 
 const getRecentSessions = async (limit = 10): Promise<Companion[]> => {
@@ -457,6 +459,38 @@ const getUserStreakData = async (userId: string): Promise<StreakData> => {
 	return {currentStreak, longestStreak, lastActivityDate, isActiveToday};
 }
 
+const saveSessionTranscript = async (sessionId: string, transcript: string): Promise<void> => {
+	const {userId} = await auth();
+	if (!userId) return;
+
+	const supabase = createSupabaseClient();
+
+	const {error} = await supabase
+		.from('session_history')
+		.update({transcript: transcript})
+		.eq('id', sessionId)
+		.eq('user_id', userId);
+
+	if (error) throw new Error(error.message);
+}
+
+const getSessionTranscript = async (sessionId: string): Promise<string | null> => {
+	const {userId} = await auth();
+	if (!userId) return null;
+
+	const supabase = createSupabaseClient();
+
+	const {data, error} = await supabase
+		.from('session_history')
+		.select('transcript')
+		.eq('id', sessionId)
+		.eq('user_id', userId)
+		.single();
+
+	if (error || !data) return null;
+	return data.transcript;
+}
+
 export {
 	createCompanion,
 	getAllCompanions,
@@ -473,4 +507,6 @@ export {
 	getMonthlyData,
 	updateSessionDuration,
 	getUserStreakData,
+	saveSessionTranscript,
+	getSessionTranscript,
 };

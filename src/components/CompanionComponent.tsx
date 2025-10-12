@@ -11,7 +11,7 @@ import {AnimationModal} from "@/components/AnimationModal";
 import {useAnimationModal} from "@/hooks/useAnimationModal";
 import {SubjectIconName, subjectIcons} from "@/constants/icons";
 import {cn, configureAssistant, getSubjectColor} from "@/lib/utils";
-import {addToSessionHistory, updateSessionDuration} from "@/lib/actions/companion.actions";
+import {addToSessionHistory, saveSessionTranscript, updateSessionDuration} from "@/lib/actions/companion.actions";
 
 enum CallStatus {
 	INACTIVE = 'INACTIVE',
@@ -65,8 +65,16 @@ function CompanionComponent({companionId, subject, topic, name, userName, userIm
 			console.log('durationMinutes:', durationMinutes);
 
 			try {
-				await addToSessionHistory(companionId);
+				const newSessionId = await addToSessionHistory(companionId);
 				await updateSessionDuration(companionId, durationMinutes);
+
+				if (messages.length > 0) {
+					const transcriptText = messages
+						.reverse()
+						.map(msg => `${msg.role === 'assistant' ? name.split(' ')[0] : userName}: ${msg.content}`)
+						.join('\n');
+					await saveSessionTranscript(newSessionId, transcriptText);
+				}
 			} catch (error) {
 				console.error('Failed to update session duration:', error);
 			}

@@ -24,6 +24,8 @@ enum Subject {
 
 type Companion = Models.DocumentList<Models.Document> & {
 	id: string;
+	sessionId: string;
+	sessionDate: string;
 	name: string;
 	subject: Subject;
 	topic: string;
@@ -151,5 +153,17 @@ interface WeeklyBarChartProps {
 
 interface MonthlyCalendarGridProps {
 	data: MonthlyData[];
+	className?: string;
+}
+
+interface SessionHistoryProps {
+	title: string;
+	sessions?: Companion[];
+	className?: string;
+	showExport?: boolean;
+}
+
+interface TranscriptViewerProps {
+	sessionId: string;
 	className?: string;
 }

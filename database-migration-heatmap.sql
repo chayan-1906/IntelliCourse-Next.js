@@ -13,6 +13,10 @@ ALTER TABLE session_history
 ALTER TABLE session_history
     ADD COLUMN IF NOT EXISTS completed_at TIMESTAMP;
 
+-- Add transcript column to store session conversation
+ALTER TABLE session_history
+    ADD COLUMN IF NOT EXISTS transcript TEXT;
+
 -- Add comment to document the purpose of new columns
 COMMENT
 ON COLUMN session_history.duration_minutes IS 'Duration of the learning session in minutes';

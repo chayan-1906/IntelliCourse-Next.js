@@ -211,12 +211,13 @@ const heatmapData = await getHeatmapData(userId);
 - Pause/resume functionality ❌
 - Session rating system ❌
 
-**Session History Enhancement**
-- Group sessions by date
-- Show session duration and rating
-- Quick restart previous sessions
-- Show transcripts properly and store them
-- Export session summaries
+**Session History Enhancement** ✅
+
+- Group sessions by date ❌
+- Show session duration and rating ❌
+- Quick restart previous sessions ❌
+- Show transcripts properly and store them ✅
+- Export session summaries ✅
 
 ---
 
