@@ -7,6 +7,7 @@ import {CompanionSessionPageProps} from "@/types/companion";
 import {getCompanion} from "@/lib/actions/companion.actions";
 import {SubjectIconName, subjectIcons} from "@/constants/icons";
 import {CompanionComponent} from "@/components/CompanionComponent";
+import {CompanionPageBreadcrumbs} from "@/components/CompanionPageBreadcrumbs";
 
 async function CompanionSessionPage({params}: CompanionSessionPageProps) {
 	const {id} = await params || {};
@@ -21,10 +22,11 @@ async function CompanionSessionPage({params}: CompanionSessionPageProps) {
 	}
 
 	console.log('companion:', companion);
-	const {name, subject, topic, duration, bookmarked} = companion;
+	const {name, subject, topic, duration} = companion;
 
 	return (
 		<main>
+			<CompanionPageBreadcrumbs companionName={name} companionId={id}/>
 			<article className={'flex max-md:flex-col justify-between rounded-border p-6'}>
 				<div className={'flex items-center gap-4'}>
 					<div className={'flex max-md:hidden items-center justify-center rounded-lg size-[72px]'} style={{backgroundColor: getSubjectColor(subject)}}>
