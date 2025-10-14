@@ -1,10 +1,15 @@
 'use client';
 
+import dynamic from "next/dynamic";
 import React, {useState} from "react";
-import {motion} from "framer-motion";
 import {cn} from "@/lib/utils";
 import {Button} from "@/components/ui/button";
 import {getSessionTranscript} from "@/lib/actions/companion.actions";
+
+const MotionDiv = dynamic(() => import("framer-motion").then(mod => ({default: mod.motion.div})), {
+	loading: () => <div className={'mt-2 p-3 bg-gray-50 rounded-lg border border-border animate-pulse'}>Loading transcript...</div>,
+	ssr: false,
+});
 
 function TranscriptViewer({sessionId, className}: TranscriptViewerProps) {
 	const [transcript, setTranscript] = useState<string | null>(null);
@@ -50,14 +55,14 @@ function TranscriptViewer({sessionId, className}: TranscriptViewerProps) {
 			</Button>
 
 			{isExpanded && transcript && (
-				<motion.div initial={{opacity: 0, height: 0}} animate={{opacity: 1, height: 'auto'}} exit={{opacity: 0, height: 0}} transition={{duration: 0.3}}
+				<MotionDiv initial={{opacity: 0, height: 0}} animate={{opacity: 1, height: 'auto'}} exit={{opacity: 0, height: 0}} transition={{duration: 0.3}}
 				            className={'mt-2 p-3 bg-gray-50 rounded-lg border border-border'}>
 					<div className={'max-h-40 overflow-y-auto text-xs space-y-1'}>
 						{formatTranscriptLines(transcript).map((line: string, index: number) => (
 							<p key={index} className={'leading-relaxed text-start'}>{line}</p>
 						))}
 					</div>
-				</motion.div>
+				</MotionDiv>
 			)}
 		</div>
 	);
