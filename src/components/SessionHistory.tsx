@@ -2,13 +2,22 @@
 
 import React from "react";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import {useRouter} from "next/navigation";
 import {routes} from "@/lib/routes";
 import {Button} from "@/components/ui/button";
 import {icons, subjectIcons} from "@/constants/icons";
-import {TranscriptViewer} from "@/components/TranscriptViewer";
 import {cn, formatDuration, getSubjectColor} from "@/lib/utils";
-import {EmptyStateAnimation} from "@/components/EmptyStateAnimation";
+
+const TranscriptViewer = dynamic(() => import('@/components/TranscriptViewer').then(mod => ({default: mod.TranscriptViewer})), {
+	loading: () => <span className={'text-xs text-muted-foreground'}>Loading...</span>,
+	ssr: false,
+});
+
+const EmptyStateAnimation = dynamic(() => import('@/components/EmptyStateAnimation').then(mod => ({default: mod.EmptyStateAnimation})), {
+	loading: () => <div className={'flex items-center justify-center py-16'}>Loading...</div>,
+	ssr: false,
+});
 
 function SessionHistory({title, sessions, className, showExport = false}: SessionHistoryProps) {
 	const router = useRouter();
