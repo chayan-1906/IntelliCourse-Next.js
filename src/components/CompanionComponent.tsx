@@ -1,17 +1,27 @@
 'use client';
 
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import {vapi} from "@/lib/vapi.sdk";
 import {useEffect, useRef, useState} from "react";
-import Lottie, {LottieRefCurrentProps} from "lottie-react";
+import {LottieRefCurrentProps} from "lottie-react";
 import micOn from '../../public/icons/mic-on.svg';
 import micOff from '../../public/icons/mic-off.svg';
 import soundWaves from '@/constants/soundwaves.json';
-import {AnimationModal} from "@/components/AnimationModal";
 import {useAnimationModal} from "@/hooks/useAnimationModal";
 import {SubjectIconName, subjectIcons} from "@/constants/icons";
 import {cn, configureAssistant, getSubjectColor} from "@/lib/utils";
 import {addToSessionHistory, saveSessionTranscript, updateSessionDuration} from "@/lib/actions/companion.actions";
+
+const Lottie = dynamic(() => import('lottie-react'), {
+	loading: () => <div className={'companion-lottie animate-pulse'}/>,
+	ssr: false,
+});
+
+const AnimationModal = dynamic(() => import('@/components/AnimationModal').then(mod => ({default: mod.AnimationModal})), {
+	loading: () => null,
+	ssr: false,
+});
 
 enum CallStatus {
 	INACTIVE = 'INACTIVE',
