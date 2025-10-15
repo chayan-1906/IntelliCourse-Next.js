@@ -1,17 +1,30 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import {Tooltip} from 'react-tooltip';
 import {DownloadIcon} from 'lucide-react';
-import {useEffect, useRef, useState} from 'react';
-import CalendarHeatmap from 'react-calendar-heatmap';
+import {memo, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import 'react-calendar-heatmap/dist/styles.css';
 import {ViewToggle} from '@/components/ViewToggle';
-import {WeeklyBarChart} from '@/components/WeeklyBarChart';
-import {MonthlyCalendarGrid} from '@/components/MonthlyCalendarGrid';
 import {cn, exportHeatmapAsPNG, generateHeatmapSVG} from '@/lib/utils';
 import {getHeatmapData, getMonthlyData, getWeeklyData} from '@/lib/actions/companion.actions';
 
-function ActivityHeatmap({userId, className}: ActivityHeatmapProps) {
+const CalendarHeatmap = dynamic(() => import('react-calendar-heatmap'), {
+	loading: () => <div className={'flex items-center justify-center h-32 bg-gray-50 rounded-lg'}>Loading calendar...</div>,
+	ssr: false,
+});
+
+const WeeklyBarChart = dynamic(() => import('@/components/WeeklyBarChart').then(mod => ({default: mod.WeeklyBarChart})), {
+	loading: () => <div className={'flex items-center justify-center h-32 bg-gray-50 rounded-lg'}>Loading chart...</div>,
+	ssr: false,
+});
+
+const MonthlyCalendarGrid = dynamic(() => import('@/components/MonthlyCalendarGrid').then(mod => ({default: mod.MonthlyCalendarGrid})), {
+	loading: () => <div className={'flex items-center justify-center h-32 bg-gray-50 rounded-lg'}>Loading calendar...</div>,
+	ssr: false,
+});
+
+const ActivityHeatmapComponent = ({userId, className}: ActivityHeatmapProps) => {
 	const [currentView, setCurrentView] = useState<ViewMode>('yearly');
 	const [heatmapData, setHeatmapData] = useState<HeatmapValue[]>([]);
 	const [weeklyData, setWeeklyData] = useState<WeeklyData[]>([]);
@@ -21,7 +34,7 @@ function ActivityHeatmap({userId, className}: ActivityHeatmapProps) {
 	const [isExporting, setIsExporting] = useState(false);
 	const heatmapRef = useRef<HTMLDivElement>(null);
 
-	const getTooltipDataAttrs = (value: ReactCalendarHeatmapValue | undefined): Record<string, string> => {
+	const getTooltipDataAttrs = useCallback((value: ReactCalendarHeatmapValue | undefined): Record<string, string> => {
 		if (!value || !value.date) {
 			return {'data-tooltip-id': 'heatmap-tooltip', 'data-tooltip-content': 'No activity'};
 		}
@@ -49,9 +62,9 @@ function ActivityHeatmap({userId, className}: ActivityHeatmapProps) {
 		const title = `${formattedDate}: ${durationText}`;
 		console.log('tooltip title', title);
 		return {'data-tooltip-id': 'heatmap-tooltip', 'data-tooltip-content': title};
-	}
+	}, []);
 
-	const getClassForValue = (value: ReactCalendarHeatmapValue | undefined) => {
+	const getClassForValue = useCallback((value: ReactCalendarHeatmapValue | undefined) => {
 		if (!value || !value.count) {
 			return 'color-empty';
 		}
@@ -61,7 +74,117 @@ function ActivityHeatmap({userId, className}: ActivityHeatmapProps) {
 		if (minutes < 60) return 'color-scale-2';
 		if (minutes < 120) return 'color-scale-3';
 		return 'color-scale-4';
+	}, []);
+
+	const {startDate, endDate} = useMemo(() => {
+		const start = new Date();
+		start.setFullYear(start.getFullYear() - 1);
+		const end = new Date();
+		return {startDate: start, endDate: end};
+	}, []);
+
+	const getCurrentData = useMemo(() => {
+		switch (currentView) {
+			case 'weekly':
+				return {
+					totalMinutes: weeklyData.reduce((sum: number, week: WeeklyData) => sum + week.totalMinutes, 0),
+					totalSessions: weeklyData.reduce((sum: number, week: WeeklyData) => sum + week.dayCount, 0),
+				};
+			case 'monthly':
+				return {
+					totalMinutes: monthlyData.reduce((sum: number, month: MonthlyData) => sum + month.totalMinutes, 0),
+					totalSessions: monthlyData.reduce((sum: number, month: MonthlyData) => sum + month.dayCount, 0),
+				};
+			default:
+				return {
+					totalMinutes: heatmapData.reduce((sum: number, day: HeatmapValue) => sum + day.count, 0),
+					totalSessions: heatmapData.length,
+				};
+		}
+	}, [currentView, heatmapData, weeklyData, monthlyData]);
+
+	const totalHours = useMemo(() => Math.floor(getCurrentData.totalMinutes / 60), [getCurrentData.totalMinutes]);
+
+	const getViewTitle = useMemo(() => {
+		switch (currentView) {
+			case 'weekly':
+				return 'Weekly Activity (Last 12 Weeks)';
+			case 'monthly':
+				return 'Monthly Activity (Last 12 Months)';
+			default:
+				return 'Learning Activity';
+		}
+	}, [currentView]);
+
+	const renderCurrentView = () => {
+		switch (currentView) {
+			case 'weekly':
+				return <WeeklyBarChart data={weeklyData}/>;
+			case 'monthly':
+				return <MonthlyCalendarGrid data={monthlyData}/>;
+			default:
+				return (
+					<div className={'heatmap-wrapper bg-white p-4 rounded-lg border border-gray-200'}>
+						<CalendarHeatmap
+							startDate={startDate}
+							endDate={endDate}
+							values={heatmapData}
+							classForValue={getClassForValue as never}
+							tooltipDataAttrs={getTooltipDataAttrs as never}
+							showWeekdayLabels={true}
+							showMonthLabels={true}
+						/>
+					</div>
+				);
+		}
 	}
+
+	const handleExportPNG = useCallback(async () => {
+		try {
+			setIsExporting(true);
+			await exportHeatmapAsPNG(heatmapData, {
+				title: 'Learning Activity Heatmap',
+				subtitle: `${totalHours > 0 ? `${totalHours} hours` : `${getCurrentData.totalMinutes} minutes`} of learning across ${getCurrentData.totalSessions} active days`,
+				showLegend: true,
+				backgroundColor: '#ffffff',
+				textColor: '#374151',
+			});
+		} catch (error) {
+			console.error('PNG export failed:', error);
+			alert('Failed to export heatmap as PNG. Please try again.');
+		} finally {
+			setIsExporting(false);
+		}
+	}, [heatmapData, totalHours, getCurrentData.totalMinutes, getCurrentData.totalSessions]);
+
+	const handleExportSVG = useCallback(async () => {
+		try {
+			setIsExporting(true);
+			const svgContent = generateHeatmapSVG(heatmapData, {
+				title: 'Learning Activity Heatmap',
+				subtitle: `${totalHours > 0 ? `${totalHours} hours` : `${getCurrentData.totalMinutes} minutes`} of learning across ${getCurrentData.totalSessions} active days`,
+				showLegend: true,
+				showStats: true,
+				backgroundColor: '#ffffff',
+				textColor: '#374151',
+			});
+
+			const blob = new Blob([svgContent], {type: 'image/svg+xml'});
+			const url = URL.createObjectURL(blob);
+			const link = document.createElement('a');
+			link.href = url;
+			link.download = `learning-activity-${new Date().toISOString().split('T')[0]}.svg`;
+			document.body.appendChild(link);
+			link.click();
+			document.body.removeChild(link);
+			URL.revokeObjectURL(url);
+		} catch (error) {
+			console.error('SVG export failed:', error);
+			alert('Failed to export heatmap as SVG. Please try again.');
+		} finally {
+			setIsExporting(false);
+		}
+	}, [heatmapData, totalHours, getCurrentData.totalMinutes, getCurrentData.totalSessions]);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -86,11 +209,6 @@ function ActivityHeatmap({userId, className}: ActivityHeatmapProps) {
 			fetchData();
 		}
 	}, [userId]);
-
-	const startDate = new Date();
-	startDate.setFullYear(startDate.getFullYear() - 1);
-
-	const endDate = new Date();
 
 	if (loading) {
 		return (
@@ -120,118 +238,14 @@ function ActivityHeatmap({userId, className}: ActivityHeatmapProps) {
 		);
 	}
 
-	const getCurrentData = () => {
-		switch (currentView) {
-			case 'weekly':
-				return {
-					totalMinutes: weeklyData.reduce((sum: number, week: WeeklyData) => sum + week.totalMinutes, 0),
-					totalSessions: weeklyData.reduce((sum: number, week: WeeklyData) => sum + week.dayCount, 0),
-				};
-			case 'monthly':
-				return {
-					totalMinutes: monthlyData.reduce((sum: number, month: MonthlyData) => sum + month.totalMinutes, 0),
-					totalSessions: monthlyData.reduce((sum: number, month: MonthlyData) => sum + month.dayCount, 0),
-				};
-			default:
-				return {
-					totalMinutes: heatmapData.reduce((sum: number, day: HeatmapValue) => sum + day.count, 0),
-					totalSessions: heatmapData.length,
-				};
-		}
-	}
-
-	const {totalMinutes, totalSessions} = getCurrentData();
-	const totalHours = Math.floor(totalMinutes / 60);
-
-	const getViewTitle = () => {
-		switch (currentView) {
-			case 'weekly':
-				return 'Weekly Activity (Last 12 Weeks)';
-			case 'monthly':
-				return 'Monthly Activity (Last 12 Months)';
-			default:
-				return 'Learning Activity';
-		}
-	}
-
-	const renderCurrentView = () => {
-		switch (currentView) {
-			case 'weekly':
-				return <WeeklyBarChart data={weeklyData}/>;
-			case 'monthly':
-				return <MonthlyCalendarGrid data={monthlyData}/>;
-			default:
-				return (
-					<div className={'heatmap-wrapper bg-white p-4 rounded-lg border border-gray-200'}>
-						<CalendarHeatmap
-							startDate={startDate}
-							endDate={endDate}
-							values={heatmapData}
-							classForValue={getClassForValue}
-							tooltipDataAttrs={getTooltipDataAttrs}
-							showWeekdayLabels={true}
-							showMonthLabels={true}
-						/>
-					</div>
-				);
-		}
-	}
-
-	const handleExportPNG = async () => {
-		try {
-			setIsExporting(true);
-			await exportHeatmapAsPNG(heatmapData, {
-				title: 'Learning Activity Heatmap',
-				subtitle: `${totalHours > 0 ? `${totalHours} hours` : `${totalMinutes} minutes`} of learning across ${totalSessions} active days`,
-				showLegend: true,
-				backgroundColor: '#ffffff',
-				textColor: '#374151',
-			});
-		} catch (error) {
-			console.error('PNG export failed:', error);
-			alert('Failed to export heatmap as PNG. Please try again.');
-		} finally {
-			setIsExporting(false);
-		}
-	}
-
-	const handleExportSVG = async () => {
-		try {
-			setIsExporting(true);
-			const svgContent = generateHeatmapSVG(heatmapData, {
-				title: 'Learning Activity Heatmap',
-				subtitle: `${totalHours > 0 ? `${totalHours} hours` : `${totalMinutes} minutes`} of learning across ${totalSessions} active days`,
-				showLegend: true,
-				showStats: true,
-				backgroundColor: '#ffffff',
-				textColor: '#374151',
-			});
-
-			const blob = new Blob([svgContent], {type: 'image/svg+xml'});
-			const url = URL.createObjectURL(blob);
-			const link = document.createElement('a');
-			link.href = url;
-			link.download = `learning-activity-${new Date().toISOString().split('T')[0]}.svg`;
-			document.body.appendChild(link);
-			link.click();
-			document.body.removeChild(link);
-			URL.revokeObjectURL(url);
-		} catch (error) {
-			console.error('SVG export failed:', error);
-			alert('Failed to export heatmap as SVG. Please try again.');
-		} finally {
-			setIsExporting(false);
-		}
-	}
-
 	return (
 		<div ref={heatmapRef} className={cn('activity-heatmap-container', className)}>
 			<div className={'mb-4'}>
 				<div className={'flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between'}>
 					<div className={'flex flex-col w-full'}>
-						<h3 className={'text-lg font-semibold text-gray-900'}>{getViewTitle()}</h3>
+						<h3 className={'text-lg font-semibold text-gray-900'}>{getViewTitle}</h3>
 						<p className={'text-sm text-gray-600'}>
-							{totalHours > 0 ? `${totalHours} hours` : `${totalMinutes} minutes`} of learning across {totalSessions} active days
+							{totalHours > 0 ? `${totalHours} hours` : `${getCurrentData.totalMinutes} minutes`} of learning across {getCurrentData.totalSessions} active days
 						</p>
 					</div>
 					<div className={'inline-flex gap-3 w-full justify-between sm:justify-end sm:items-center'}>
@@ -273,4 +287,4 @@ function ActivityHeatmap({userId, className}: ActivityHeatmapProps) {
 	);
 }
 
-export {ActivityHeatmap};
+export const ActivityHeatmap = memo(ActivityHeatmapComponent);

@@ -1,8 +1,14 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import {useEffect, useRef, useState} from 'react';
-import Lottie, {LottieRefCurrentProps} from 'lottie-react';
+import {LottieRefCurrentProps} from 'lottie-react';
 import {LottieAnimationProps} from '@/types/companion';
+
+const Lottie = dynamic(() => import('lottie-react'), {
+	loading: () => <div className={'animate-pulse bg-gray-200 rounded-lg'}/>,
+	ssr: false,
+});
 
 function LottieAnimation({animationPath, loop = true, autoplay = true, className, width, height, onComplete, style}: LottieAnimationProps) {
 	const lottieRef = useRef<LottieRefCurrentProps | null>(null);

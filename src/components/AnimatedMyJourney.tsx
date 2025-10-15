@@ -1,14 +1,29 @@
 'use client';
 
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import {motion, Variants} from "framer-motion";
 import {cn} from "@/lib/utils";
 import {icons} from "@/constants/icons";
 import {StreakCounter} from "@/components/StreakCounter";
 import {CompanionList} from "@/components/CompanionList";
 import {SessionHistory} from "@/components/SessionHistory";
-import {ActivityHeatmap} from "@/components/ActivityHeatmap";
 import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "@/components/ui/accordion";
+
+const ActivityHeatmap = dynamic(() => import('@/components/ActivityHeatmap').then(mod => ({default: mod.ActivityHeatmap})), {
+	loading: () => (
+		<div className={'activity-heatmap-container'}>
+			<div className={'mb-4'}>
+				<h3 className={'text-lg font-semibold text-gray-900'}>Learning Activity</h3>
+				<p className={'text-sm text-gray-600'}>Your learning activity visualization</p>
+			</div>
+			<div className={'flex items-center justify-center h-32 bg-gray-50 rounded-lg animate-pulse'}>
+				<div className={'text-gray-500'}>Loading activity data...</div>
+			</div>
+		</div>
+	),
+	ssr: false,
+});
 
 function AnimatedMyJourney({user, sessionHistory, companions, bookmarkedCompanions}: AnimatedMyJourneyPageProps) {
 	const containerVariants: Variants = {
