@@ -4,6 +4,8 @@ import {routes} from "@/lib/routes";
 import {AnimatedMyJourney} from "@/components/AnimatedMyJourney";
 import {getBookmarkedCompanions, getUserCompanions, getUserSessions} from "@/lib/actions/companion.actions";
 
+export const revalidate = 300;  // 300s => 5m
+
 async function MyJourneyPage() {
 	const user = await currentUser();
 

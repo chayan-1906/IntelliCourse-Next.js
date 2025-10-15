@@ -47,7 +47,6 @@ const getAllCompanions = async ({limit = 10, page = 1, subject, topic, userId}: 
 	query = query.range((page - 1) * limit, page * limit - 1);
 
 	const {data: companions, error} = await query;
-	// const {data: companions, error} = await query.eq('bookmarks.user_id', userId);
 
 	if (error) {
 		throw new Error(error.message);
@@ -56,7 +55,6 @@ const getAllCompanions = async ({limit = 10, page = 1, subject, topic, userId}: 
 	return companions.map((companion: Companion) => ({
 		...companion,
 		isBookmarked: companion.bookmarks?.some((bookmark: Companion) => bookmark.user_id === userId) || false,
-		// isBookmarked: companion.bookmarks && companion.bookmarks.length > 0,
 	}));
 }
 

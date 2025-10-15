@@ -9,6 +9,8 @@ import {SubjectIconName, subjectIcons} from "@/constants/icons";
 import {CompanionComponent} from "@/components/CompanionComponent";
 import {CompanionPageBreadcrumbs} from "@/components/CompanionPageBreadcrumbs";
 
+export const revalidate = 180;  // 180s => 3m
+
 async function CompanionSessionPage({params}: CompanionSessionPageProps) {
 	const {id} = await params || {};
 	const companion: Companion = await getCompanion(id);

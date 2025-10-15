@@ -6,6 +6,8 @@ import {SubjectFilter} from "@/components/SubjectFilter";
 import {getAllCompanions} from "@/lib/actions/companion.actions";
 import {EmptyStateAnimation} from "@/components/EmptyStateAnimation";
 
+export const revalidate = 60;  // 60s => 1m
+
 async function CompanionsLibraryPage({searchParams}: SearchParams) {
 	const filters = await searchParams || {};
 	const subject = filters.subject ? filters.subject : '';
