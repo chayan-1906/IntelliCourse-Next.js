@@ -4,13 +4,14 @@ import React from "react";
 import Image from "next/image";
 import {useRouter} from "next/navigation";
 import {routes} from "@/lib/routes";
-import {cn, formatDuration, getSubjectColor} from "@/lib/utils";
 import {CompanionListProps} from "@/types/companion";
 import {icons, subjectIcons} from "@/constants/icons";
+import {cn, formatDuration, getSubjectColor} from "@/lib/utils";
 import {EmptyStateAnimation} from "@/components/EmptyStateAnimation";
+import {CompanionListSkeleton} from "@/components/skeletons/CompanionListSkeleton";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 
-function CompanionList({title, companions, className}: CompanionListProps) {
+function CompanionList({title, companions, className, isLoading}: CompanionListProps) {
 	const router = useRouter();
 
 	const handleRowClick = (id: string, event: React.MouseEvent) => {
@@ -21,6 +22,10 @@ function CompanionList({title, companions, className}: CompanionListProps) {
 		} else {
 			router.push(href);
 		}
+	}
+
+	if (isLoading) {
+		return <CompanionListSkeleton className={className}/>;
 	}
 
 	if (!companions || companions.length === 0) {
