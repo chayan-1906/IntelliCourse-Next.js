@@ -1,5 +1,6 @@
 'use server';
 
+import {cache} from "react";
 import {auth} from "@clerk/nextjs/server";
 import {revalidatePath} from "next/cache";
 import {createSupabaseClient} from "@/lib/supabase";
@@ -242,7 +243,7 @@ const getBookmarkedCompanions = async (userId: string): Promise<Companion[]> => 
 	}));
 }
 
-const getHeatmapData = async (userId: string): Promise<HeatmapValue[]> => {
+const getHeatmapData = cache(async (userId: string): Promise<HeatmapValue[]> => {
 	const supabase = createSupabaseClient();
 
 	const oneYearAgo: Date = new Date();
@@ -268,9 +269,9 @@ const getHeatmapData = async (userId: string): Promise<HeatmapValue[]> => {
 		date,
 		count,
 	}));
-}
+});
 
-const getWeeklyData = async (userId: string): Promise<WeeklyData[]> => {
+const getWeeklyData = cache(async (userId: string): Promise<WeeklyData[]> => {
 	const supabase = createSupabaseClient();
 
 	const twelveWeeksAgo: Date = new Date();
@@ -316,9 +317,9 @@ const getWeeklyData = async (userId: string): Promise<WeeklyData[]> => {
 		const [weekStart, weekEnd] = weekKey.split('_');
 		return {weekStart, weekEnd, totalMinutes: data.totalMinutes, dayCount: data.dayCount.size};
 	}).slice(-12);
-}
+});
 
-const getMonthlyData = async (userId: string): Promise<MonthlyData[]> => {
+const getMonthlyData = cache(async (userId: string): Promise<MonthlyData[]> => {
 	const supabase = createSupabaseClient();
 
 	const twelveMonthsAgo: Date = new Date();
@@ -370,7 +371,7 @@ const getMonthlyData = async (userId: string): Promise<MonthlyData[]> => {
 			})),
 		};
 	}).slice(-12);
-}
+});
 
 const updateSessionDuration = async (companionId: string, durationMinutes: number): Promise<void> => {
 	console.log('updateSessionDuration:', {companionId, durationMinutes});
@@ -392,7 +393,7 @@ const updateSessionDuration = async (companionId: string, durationMinutes: numbe
 	if (error) throw new Error(error.message);
 }
 
-const getUserStreakData = async (userId: string): Promise<StreakData> => {
+const getUserStreakData = cache(async (userId: string): Promise<StreakData> => {
 	const supabase = createSupabaseClient();
 
 	const {data, error} = await supabase
@@ -455,7 +456,7 @@ const getUserStreakData = async (userId: string): Promise<StreakData> => {
 	longestStreak = Math.max(longestStreak, tempStreak);
 
 	return {currentStreak, longestStreak, lastActivityDate, isActiveToday};
-}
+});
 
 const saveSessionTranscript = async (sessionId: string, transcript: string): Promise<void> => {
 	const {userId} = await auth();
