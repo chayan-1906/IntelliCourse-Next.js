@@ -3,6 +3,7 @@
 import {useEffect, useState} from 'react';
 import {motion, Variants} from 'framer-motion';
 import {getUserStreakData} from '@/lib/actions/companion.actions';
+import {StreakCounterSkeleton} from '@/components/skeletons/StreakCounterSkeleton';
 
 function StreakCounter({userId, className}: StreakCounterProps) {
 	const containerVariants: Variants = {
@@ -63,15 +64,7 @@ function StreakCounter({userId, className}: StreakCounterProps) {
 	}, [userId]);
 
 	if (loading) {
-		return (
-			<div className={`w-full bg-white/10 backdrop-blur-lg border border-white/20 rounded-lg p-6 ${className || ''}`}>
-				<div className={'animate-pulse'}>
-					<div className={'h-4 bg-gray-300 rounded w-1/3 mb-4'}/>
-					<div className={'h-8 bg-gray-300 rounded w-1/2 mb-2'}/>
-					<div className={'h-4 bg-gray-300 rounded w-2/3'}/>
-				</div>
-			</div>
-		);
+		return <StreakCounterSkeleton className={className}/>;
 	}
 
 	if (error || !streakData) {

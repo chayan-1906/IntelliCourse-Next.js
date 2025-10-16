@@ -1,4 +1,5 @@
 import React from 'react';
+import {StreakCounterSkeleton} from "@/components/skeletons/StreakCounterSkeleton";
 import {CompanionListSkeleton} from "@/components/skeletons/CompanionListSkeleton";
 import {SessionHistorySkeleton} from "@/components/skeletons/SessionHistorySkeleton";
 import {ActivityHeatmapSkeleton} from "@/components/skeletons/ActivityHeatmapSkeleton";
@@ -30,7 +31,7 @@ function Loading() {
 
 			{/** Streak Counter Skeleton */}
 			<section className={'mx-6 mb-8'}>
-				<div className={'h-24 bg-muted animate-pulse rounded-lg'}/>
+				<StreakCounterSkeleton/>
 			</section>
 
 			{/** Activity Heatmap Skeleton */}

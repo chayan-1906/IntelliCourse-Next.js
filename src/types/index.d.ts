@@ -173,7 +173,10 @@ interface SessionHistorySkeletonProps {
 	showExport?: boolean;
 }
 
-
 interface ActivityHeatmapSkeletonProps {
+	className?: string;
+}
+
+interface StreakCounterSkeletonProps {
 	className?: string;
 }
