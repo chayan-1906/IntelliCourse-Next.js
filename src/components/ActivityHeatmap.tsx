@@ -7,6 +7,7 @@ import {memo, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import 'react-calendar-heatmap/dist/styles.css';
 import {ViewToggle} from '@/components/ViewToggle';
 import {cn, exportHeatmapAsPNG, generateHeatmapSVG} from '@/lib/utils';
+import {ActivityHeatmapSkeleton} from '@/components/skeletons/ActivityHeatmapSkeleton';
 import {getHeatmapData, getMonthlyData, getWeeklyData} from '@/lib/actions/companion.actions';
 
 const CalendarHeatmap = dynamic(() => import('react-calendar-heatmap'), {
@@ -211,17 +212,7 @@ const ActivityHeatmapComponent = ({userId, className}: ActivityHeatmapProps) => 
 	}, [userId]);
 
 	if (loading) {
-		return (
-			<div className={cn('activity-heatmap-container', className)}>
-				<div className={'mb-4'}>
-					<h3 className={'text-lg font-semibold text-gray-900'}>Learning Activity</h3>
-					<p className={'text-sm text-gray-600'}>Your learning activity visualization</p>
-				</div>
-				<div className={'flex items-center justify-center h-32 bg-gray-50 rounded-lg animate-pulse'}>
-					<div className={'text-gray-500'}>Loading activity data...</div>
-				</div>
-			</div>
-		);
+		return <ActivityHeatmapSkeleton className={className}/>;
 	}
 
 	if (error) {

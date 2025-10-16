@@ -1,6 +1,7 @@
 import React from 'react';
 import {CompanionListSkeleton} from "@/components/skeletons/CompanionListSkeleton";
 import {SessionHistorySkeleton} from "@/components/skeletons/SessionHistorySkeleton";
+import {ActivityHeatmapSkeleton} from "@/components/skeletons/ActivityHeatmapSkeleton";
 
 function Loading() {
 	return (
@@ -34,7 +35,7 @@ function Loading() {
 
 			{/** Activity Heatmap Skeleton */}
 			<section className={'mx-6 mb-8'}>
-				<div className={'h-48 bg-muted animate-pulse rounded-lg'}/>
+				<ActivityHeatmapSkeleton/>
 			</section>
 
 			{/** Accordion Section Skeleton */}

@@ -172,3 +172,8 @@ interface SessionHistorySkeletonProps {
 	rows?: number;
 	showExport?: boolean;
 }
+
+
+interface ActivityHeatmapSkeletonProps {
+	className?: string;
+}
