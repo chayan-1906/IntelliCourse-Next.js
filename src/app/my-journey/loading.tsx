@@ -1,5 +1,6 @@
 import React from 'react';
 import {CompanionListSkeleton} from "@/components/skeletons/CompanionListSkeleton";
+import {SessionHistorySkeleton} from "@/components/skeletons/SessionHistorySkeleton";
 
 function Loading() {
 	return (
@@ -47,7 +48,7 @@ function Loading() {
 
 				<div className={'mx-6'}>
 					<div className={'h-14 bg-muted animate-pulse rounded-lg mb-4'}/>
-					<div className={'h-32 bg-muted animate-pulse rounded-lg mx-6'}/>
+					<SessionHistorySkeleton className={'border-border border mx-6'} rows={2} showExport={true}/>
 				</div>
 
 				<div className={'h-[1px] bg-border mx-6 my-4'}/>

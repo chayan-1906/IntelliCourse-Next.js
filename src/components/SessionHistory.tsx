@@ -105,9 +105,9 @@ function SessionHistory({title, sessions, className, showExport = false}: Sessio
 									)}
 									{/** Transcript Viewer */}
 									{id && (
-										<button onClick={(e) => e.stopPropagation()}>
+										<div onClick={(e) => e.stopPropagation()}>
 											<TranscriptViewer sessionId={sessionId} className={'text-xs'}/>
-										</button>
+										</div>
 									)}
 								</div>
 							</div>

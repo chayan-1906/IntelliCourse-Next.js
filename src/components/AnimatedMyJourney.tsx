@@ -114,6 +114,7 @@ function AnimatedMyJourney({user, sessionHistory, companions, bookmarkedCompanio
 			{/** Accordion Section */}
 			<motion.div variants={accordionVariants} transition={{delay: 0.6}}>
 				<Accordion type={'multiple'}>
+					{/** Bookmarked Companions */}
 					<motion.div initial={{opacity: 0, y: 30}} animate={{opacity: 1, y: 0}} transition={{duration: 0.5, delay: 0.6}}>
 						<AccordionItem value={'bookmarks'} className={'border-0'}>
 							<AccordionTrigger className={cn('text-2xl font-bold mx-6 px-4 border-border border', 'data-[state=open]:border-b-0')}>
@@ -129,6 +130,7 @@ function AnimatedMyJourney({user, sessionHistory, companions, bookmarkedCompanio
 
 					<motion.div className={cn('h-[1px] bg-border mx-6 my-4')} initial={{scaleX: 0}} animate={{scaleX: 1}} transition={{duration: 0.6, delay: 0.7}} style={{originX: 0}}/>
 
+					{/** Recent Sessions */}
 					<motion.div initial={{opacity: 0, y: 30}} animate={{opacity: 1, y: 0}} transition={{duration: 0.5, delay: 0.8}}>
 						<AccordionItem value={'recent'} className={'border-0'}>
 							<AccordionTrigger className={cn('text-2xl font-bold mx-6 px-4 border-border border', 'data-[state=open]:border-b-0')}>Recent Sessions</AccordionTrigger>
@@ -142,6 +144,7 @@ function AnimatedMyJourney({user, sessionHistory, companions, bookmarkedCompanio
 
 					<motion.div className={cn('h-[1px] bg-border mx-6 my-4')} initial={{scaleX: 0}} animate={{scaleX: 1}} transition={{duration: 0.6, delay: 0.9}} style={{originX: 0}}/>
 
+					{/** My Companions */}
 					<motion.div initial={{opacity: 0, y: 30}} animate={{opacity: 1, y: 0}} transition={{duration: 0.5, delay: 1.0}}>
 						<AccordionItem value={'companions'} className={'border-0'}>
 							<AccordionTrigger className={cn('text-2xl font-bold mx-6 px-4 border-border border', 'data-[state=open]:border-b-0')}>

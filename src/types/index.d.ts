@@ -162,8 +162,13 @@ interface SessionHistoryProps {
 	className?: string;
 	showExport?: boolean;
 }
-
 interface TranscriptViewerProps {
 	sessionId: string;
 	className?: string;
+}
+
+interface SessionHistorySkeletonProps {
+	className?: string;
+	rows?: number;
+	showExport?: boolean;
 }
