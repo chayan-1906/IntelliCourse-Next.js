@@ -74,3 +74,7 @@ export interface CompanionListSkeletonProps {
 	className?: string;
 	rows?: number;
 }
+
+export interface CompanionCardSkeletonProps {
+	className?: string;
+}

@@ -6,7 +6,7 @@ import CompanionCard from "@/components/CompanionCard";
 import {CompanionList} from "@/components/CompanionList";
 import {getAllCompanions, getRecentSessions} from "@/lib/actions/companion.actions";
 
-const Page = async () => {
+async function HomePage() {
 	const user = await currentUser();
 
 	const companions = await getAllCompanions({limit: 3, userId: user?.id});
@@ -29,4 +29,4 @@ const Page = async () => {
 	);
 }
 
-export default Page;
+export default HomePage;
