@@ -282,7 +282,7 @@ const heatmapData = await getHeatmapData(userId);
 
 - Public companion library (user-created companions) ❌
 - Basic rating system ❌
-- Share companion with friends
+- Share companion with friends ✅
 - Featured companions of the week ❌
 
 ---

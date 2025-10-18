@@ -3,6 +3,7 @@ import {redirect} from "next/navigation";
 import {currentUser} from "@clerk/nextjs/server";
 import {routes} from "@/lib/routes";
 import {getSubjectColor} from "@/lib/utils";
+import {CopyButton} from "@/components/CopyButton";
 import {CompanionSessionPageProps} from "@/types/companion";
 import {getCompanion} from "@/lib/actions/companion.actions";
 import {SubjectIconName, subjectIcons} from "@/constants/icons";
@@ -42,7 +43,10 @@ async function CompanionSessionPage({params}: CompanionSessionPageProps) {
 						<p className={'text-lg'}>{topic}</p>
 					</div>
 				</div>
-				<div className={'max-md:hidden text-2xl'}>{duration} minute(s)</div>
+				<div className={'flex max-md:flex-col items-center gap-4'}>
+					<div className={'max-md:hidden text-2xl'}>{duration} minute(s)</div>
+					<CopyButton companionId={id}/>
+				</div>
 			</article>
 			<CompanionComponent {...companion} companionId={id} userName={user.firstName} userImage={user.imageUrl}/>
 		</main>

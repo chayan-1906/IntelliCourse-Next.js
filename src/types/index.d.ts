@@ -1,10 +1,3 @@
-// type User = {
-//   name: string;
-//   email: string;
-//   image?: string;
-//   accountId: string;
-// };
-
 declare module '*.svg' {
 	const content: string;
 	export default content;
@@ -162,6 +155,7 @@ interface SessionHistoryProps {
 	className?: string;
 	showExport?: boolean;
 }
+
 interface TranscriptViewerProps {
 	sessionId: string;
 	className?: string;
@@ -182,5 +176,15 @@ interface StreakCounterSkeletonProps {
 }
 
 interface CompanionFormSkeletonProps {
+	className?: string;
+}
+
+interface ShareResult {
+	success: boolean;
+	message: string;
+}
+
+interface CopyButtonProps {
+	companionId: string;
 	className?: string;
 }
