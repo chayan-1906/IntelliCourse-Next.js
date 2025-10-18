@@ -14,6 +14,7 @@ export interface CompanionListProps {
 	title: string;
 	companions?: Companion[];
 	className?: string;
+	isLoading?: boolean;
 }
 
 export interface CompanionSessionPageProps {
@@ -67,4 +68,13 @@ export interface AnimationModalState {
 	type: 'loading' | 'success' | 'error';
 	title?: string;
 	message?: string;
+}
+
+export interface CompanionListSkeletonProps {
+	className?: string;
+	rows?: number;
+}
+
+export interface CompanionCardSkeletonProps {
+	className?: string;
 }

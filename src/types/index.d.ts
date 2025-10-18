@@ -162,8 +162,25 @@ interface SessionHistoryProps {
 	className?: string;
 	showExport?: boolean;
 }
-
 interface TranscriptViewerProps {
 	sessionId: string;
+	className?: string;
+}
+
+interface SessionHistorySkeletonProps {
+	className?: string;
+	rows?: number;
+	showExport?: boolean;
+}
+
+interface ActivityHeatmapSkeletonProps {
+	className?: string;
+}
+
+interface StreakCounterSkeletonProps {
+	className?: string;
+}
+
+interface CompanionFormSkeletonProps {
 	className?: string;
 }
