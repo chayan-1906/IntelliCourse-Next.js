@@ -180,3 +180,7 @@ interface ActivityHeatmapSkeletonProps {
 interface StreakCounterSkeletonProps {
 	className?: string;
 }
+
+interface CompanionFormSkeletonProps {
+	className?: string;
+}

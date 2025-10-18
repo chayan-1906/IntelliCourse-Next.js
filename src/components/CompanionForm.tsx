@@ -2,6 +2,7 @@
 
 import {z} from "zod";
 import {useForm} from "react-hook-form";
+import {useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {routes} from "@/lib/routes";
@@ -12,6 +13,7 @@ import {Textarea} from "@/components/ui/textarea";
 import {AnimationModal} from "@/components/AnimationModal";
 import {useAnimationModal} from "@/hooks/useAnimationModal";
 import {createCompanion} from "@/lib/actions/companion.actions";
+import {CompanionFormSkeleton} from "@/components/skeletons/CompanionFormSkeleton";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 
@@ -26,6 +28,7 @@ const formSchema = z.object({
 
 function CompanionForm() {
 	const router = useRouter();
+	const [loading, setLoading] = useState(true);
 	const {modalState, showLoading, showSuccess, close} = useAnimationModal();
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -38,6 +41,10 @@ function CompanionForm() {
 			duration: 15,
 		},
 	});
+
+	useEffect(() => {
+		setLoading(false);
+	}, []);
 
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
 		console.log(values);
@@ -52,6 +59,10 @@ function CompanionForm() {
 			close();
 			router.push(routes.homePath);
 		}
+	}
+
+	if (loading) {
+		return <CompanionFormSkeleton/>;
 	}
 
 	return (
