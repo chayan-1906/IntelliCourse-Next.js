@@ -1,7 +1,10 @@
 {
   "name": "intellicourse",
   "version": "0.1.0",
+  "description": "AI-powered voice learning platform built with Next.js 15, React 19, VAPI voice AI, Supabase, and Clerk authentication. Create personalized AI tutors, track learning progress with activity heatmaps, and engage in real-time voice conversations for interactive education.",
   "private": true,
+  "author": "Padmanabha Das",
+  "license": "ISC",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
@@ -10,6 +13,7 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^6.31.4",
+    "@emotion/is-prop-valid": "^1.4.0",
     "@hookform/resolvers": "^5.2.1",
     "@jsmastery/utils": "^1.0.2",
     "@radix-ui/react-accordion": "^1.2.12",

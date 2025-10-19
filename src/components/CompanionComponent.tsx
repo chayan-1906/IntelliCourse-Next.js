@@ -3,7 +3,7 @@
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import {vapi} from "@/lib/vapi.sdk";
-import {useEffect, useRef, useState} from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 import {LottieRefCurrentProps} from "lottie-react";
 import micOn from '../../public/icons/mic-on.svg';
 import micOff from '../../public/icons/mic-off.svg';
@@ -49,7 +49,7 @@ function CompanionComponent({companionId, subject, topic, name, userName, userIm
 		return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
 	}
 
-	const startTimer = () => {
+	const startTimer = useCallback(() => {
 		const startTime = new Date();
 		setSessionStartTime(startTime);
 		setSessionDuration(0);
@@ -57,9 +57,9 @@ function CompanionComponent({companionId, subject, topic, name, userName, userIm
 		const interval = setInterval(() => setSessionDuration((prevDuration) => prevDuration + 1), 1000);
 
 		setTimerInterval(interval);
-	}
+	}, []);
 
-	const stopTimer = async () => {
+	const stopTimer = useCallback(async () => {
 		console.log('stopTimer');
 		if (timerInterval) {
 			clearInterval(timerInterval);
@@ -92,7 +92,7 @@ function CompanionComponent({companionId, subject, topic, name, userName, userIm
 
 		setSessionStartTime(null);
 		setSessionDuration(0);
-	}
+	}, [companionId, messages, name, sessionStartTime, timerInterval, userName]);
 
 	const toggleMicrophone = () => {
 		if (callStatus === CallStatus.ACTIVE) {
@@ -180,7 +180,7 @@ function CompanionComponent({companionId, subject, topic, name, userName, userIm
 			vapi.off('speech-start', onSpeechStart);
 			vapi.off('speech-end', onSpeechEnd);
 		}
-	}, [closeModal, companionId, isMuted]);
+	}, [closeModal, companionId, isMuted, startTimer, stopTimer]);
 
 	/** lottie */
 	useEffect(() => {
