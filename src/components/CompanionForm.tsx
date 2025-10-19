@@ -174,7 +174,7 @@ function CompanionForm() {
 					name={'duration'}
 					render={({field}) => (
 						<FormItem>
-							<FormLabel>Estimated session duration</FormLabel>
+							<FormLabel>Estimated session duration (in minutes)</FormLabel>
 							<FormControl>
 								<Input type={'number'} placeholder={'15'} className={'input'} {...field}/>
 							</FormControl>

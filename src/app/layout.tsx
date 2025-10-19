@@ -24,8 +24,8 @@ const sourceSans = Source_Sans_3({
 });
 
 export const metadata: Metadata = {
-	title: 'IntelliCourse',
-	description: 'Real-time AI Teaching Platform',
+	title: 'IntelliCourse - Learn Smarter, Not Harder',
+	description: 'AI-powered voice learning platform that helps you master any subject with personalized AI companions',
 };
 
 function RootLayout({children}: Readonly<{ children: React.ReactNode; }>) {

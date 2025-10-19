@@ -34,7 +34,7 @@ const getAllCompanions = async ({limit = 10, page = 1, subject, topic, userId}: 
 					user_id
 				)
 			`
-		);
+		).order('created_at');
 
 	if (subject && topic) {
 		query = query.ilike('subject', `${subject}%`)

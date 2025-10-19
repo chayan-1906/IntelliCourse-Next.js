@@ -24,7 +24,7 @@ function CopyButton({companionId, className}: CopyButtonProps) {
 	return (
 		<div className={`relative ${className || ''}`}>
 			<button onClick={handleCopy} disabled={isCopying}
-			        className={'px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium cursor-pointer'}
+			        className={'px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium cursor-pointer whitespace-nowrap'}
 			        aria-label={'Copy companion link'}>
 				{isCopying ? 'Copying...' : 'Copy Link'}
 			</button>
