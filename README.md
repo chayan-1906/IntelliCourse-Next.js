@@ -1,4 +1,4 @@
-# 🎓 IntelliCourse - AI-Powered Voice Learning Platform
+# 🎓 IntelliCourse - Voice AI Learning Platform
 
 [![Next.js](https://img.shields.io/badge/Next.js-15.4.7-000000.svg?logo=next.js)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19.1.0-61DAFB.svg?logo=react)](https://reactjs.org/)
@@ -6,247 +6,183 @@
 [![Supabase](https://img.shields.io/badge/Supabase-2.56.0-3ECF8E.svg?logo=supabase)](https://supabase.com/)
 [![VAPI](https://img.shields.io/badge/VAPI-2.3.0-FF6B6B.svg)](https://vapi.ai/)
 [![Clerk](https://img.shields.io/badge/Clerk-6.31.4-6C47FF.svg?logo=clerk)](https://clerk.com/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.0-38B2AC.svg?logo=tailwind-css)](https://tailwindcss.com/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-> **Revolutionize your learning with AI voice companions.** Real-time voice conversations, personalized tutors, and gamified learning—all powered by cutting-edge AI. 🚀 **Voice AI** • 📊 **Analytics** •
-> 🎨 **Glassmorphism UI** • 🔥 **Streak Tracking**
+> **Real-time voice AI conversations for education** 🎙️ Built with VAPI SDK, Next.js 15, and WebRTC. Learn through natural speech with AI tutors, track progress via GitHub-style heatmaps, and maintain learning streaks.
 
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/chayan-1906/IntelliCourse-Next.js/master/public/images/logo.svg" alt="logo" width="150"/>
-<br/>
-<h3>Interactive voice learning session with AI companion</h3>
+### 🌐 [**Live Demo**](https://intelli-course.vercel.app) • 📖 [**VAPI Integration Guide**](./TECHNICAL.md) • 🐛 [Report Bug](https://github.com/chayan-1906/IntelliCourse-Next.js/issues)
 
-### 🌐 [Live Demo](https://intelli-course.vercel.app) • 📖 [Documentation](#-getting-started) • 🐛 [Report Bug](https://github.com/chayan-1906/IntelliCourse-Next.js/issues) • ✨ [Request Feature](https://github.com/chayan-1906/IntelliCourse-Next.js/issues)
+<img src="https://raw.githubusercontent.com/chayan-1906/IntelliCourse-Next.js/master/public/images/logo.svg" alt="IntelliCourse Logo" width="120"/>
 
 </div>
 
 ---
 
-## ✨ Key Features
+## 🎯 Why IntelliCourse?
 
-### 🎙️ **Voice-First Learning Experience**
+Traditional learning platforms rely on text and video. **IntelliCourse** enables **conversational learning** through real-time voice AI—just like talking to a tutor. Built for developers interested in **voice AI integration**, **real-time audio streaming**, and **educational technology**.
 
-- 🗣️ **Real-Time Voice Conversations** - Natural, AI-powered tutoring sessions via VAPI SDK
-- 🎯 **Subject-Specific Companions** - Create custom AI tutors for Math, Science, Coding, Languages, History, Economics
-- 🎭 **Personality Customization** - Choose voice gender (Male/Female) and teaching style (Formal/Casual)
-- 📝 **Live Transcription** - Real-time conversation capture with full session transcripts
+### Technical Highlights
 
-### 📊 **Advanced Progress Analytics**
+- 🎙️ **VAPI SDK Integration** - Real-time voice streaming with WebRTC, sub-200ms latency
+- 🔄 **Live Transcription** - Speech-to-text conversion with conversation persistence
+- 📊 **Analytics Engine** - GitHub-style activity heatmaps with streak gamification
+- ⚡ **Next.js 15 + React 19** - Server Components, Turbopack, concurrent rendering
+- 🎨 **Glassmorphism UI** - Modern design system with Tailwind CSS 4.0 + Framer Motion
 
-- 📅 **Activity Heatmap** - GitHub-style learning visualization with weekly, monthly, and yearly views
-- 🔥 **Streak Counter** - Track daily learning consistency and longest streaks
-- 📉 **Bar Charts & Calendars** - Multi-view data visualization for insights
-- 🏆 **Gamification** - Achievement badges and progress milestones
-
-### 🤖 **AI Companion Management**
-
-- ➕ **Create Custom Companions** - Multi-step form with topic, subject, voice, and duration selection
-- 📚 **Companion Library** - Browse popular companions and recently completed sessions
-- 💾 **Bookmarking System** - Save favorite companions for quick access
-- 🔄 **Reusable Templates** - Share companion configurations via shareable links
-- 🎨 **Subject-Themed UI** - Color-coded companions by subject (Math: Yellow, Science: Purple, etc.)
-
-### 💻 **Modern Tech Stack**
-
-- ⚡ **Next.js 15** - React 19, Server Components, Turbopack for blazing-fast performance
-- 🎨 **Glassmorphism UI** - Frosted glass effects with Tailwind CSS 4.0
-- 🌊 **Framer Motion** - Smooth animations and micro-interactions
-- 🎞️ **Lottie Animations** - Loading states, success animations, and empty states
-
-### 🔐 **Secure & Scalable**
-
-- 🔒 **Clerk Authentication** - Google OAuth, social login, and session management
-- 🗄️ **Supabase Backend** - PostgreSQL database with real-time subscriptions
-- 🚀 **Edge-Optimized** - Sentry error tracking and performance monitoring
-- 🔄 **Server-Side Caching** - React Cache API for optimized data fetching
-- 🛡️ **Type-Safe** - Full TypeScript coverage with Zod validation
+**Best for:** Developers learning voice AI implementation, building EdTech products, or exploring conversational interfaces.
 
 ---
 
-## 📱 Screenshots & Demo
+## 🚀 Quick Start
 
-<div align="center">
+```bash
+# Clone and install
+git clone https://github.com/chayan-1906/IntelliCourse-Next.js.git
+cd IntelliCourse-Next.js
+npm install
 
-### 🎓 Dashboard Overview
+# Configure environment (see .env.example)
+cp .env.example .env
 
-<img src="https://github.com/user-attachments/assets/2e3982d8-9ec5-459a-9dfb-db4691fab799" alt="IntelliCourse Dashboard showing popular companions and recent sessions" width="800"/>
+# Run development server
+npm run dev
+```
 
-*Dashboard showcasing popular companions across subjects and recent learning sessions*
+**Prerequisites:** Node.js 18+, accounts for [Supabase](https://supabase.com/), [Clerk](https://clerk.com/), and [VAPI](https://vapi.ai/)
 
-</div>
+📖 **[Complete Setup Guide](#-getting-started)** | 🔧 **[VAPI Integration Docs](./TECHNICAL.md)**
 
 ---
 
-### 📸 Feature Highlights
+## ✨ Core Features
 
 <table>
   <tr>
     <td width="50%" align="center">
-      <img src="https://github.com/user-attachments/assets/987b6da1-952a-42ef-b7b1-aa0eab929bdd" alt="Companion Creation Form" width="100%"/>
+      <img src="https://github.com/user-attachments/assets/93abea27-436d-4fde-bf95-31d918e4bbe9" alt="Voice Session" width="100%"/>
       <br/>
-      <strong>🎨 Companion Creation</strong>
+      <strong>🎙️ Real-Time Voice Sessions</strong>
       <br/>
-      <em>Multi-step form for creating AI tutors with custom voice and style</em>
+      <em>Natural AI conversations with live transcription</em>
     </td>
     <td width="50%" align="center">
-      <img src="https://github.com/user-attachments/assets/93abea27-436d-4fde-bf95-31d918e4bbe9" alt="Voice Session with Soundwave" width="100%"/>
+      <img src="https://github.com/user-attachments/assets/ea0c83be-6aa4-43ec-8f44-eaae68011562" alt="Heatmap" width="100%"/>
       <br/>
-      <strong>🎙️ Live Voice Session</strong>
+      <strong>📊 Activity Analytics</strong>
       <br/>
-      <em>Real-time conversation with soundwave visualization and transcription</em>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" align="center">
-      <img src="https://github.com/user-attachments/assets/bbb0d678-abd4-419e-bd05-cacff92475c0" alt="Pre-Session Loading Animation" width="100%"/>
-      <br/>
-      <strong>⏳ Connecting Animation</strong>
-      <br/>
-      <em>Smooth loading state while establishing voice connection</em>
-    </td>
-    <td width="50%" align="center">
-      <img src="https://github.com/user-attachments/assets/5bb5bb69-222d-44b2-ab32-83f1bd101e86" alt="Session Completion Success Animation" width="100%"/>
-      <br/>
-      <strong>✅ Completion Animation</strong>
-      <br/>
-      <em>Success feedback with lesson saved confirmation</em>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" align="center">
-      <img src="https://github.com/user-attachments/assets/ea0c83be-6aa4-43ec-8f44-eaae68011562" alt="Activity Heatmap Visualization - Yearly" width="100%"/>
-      <br/>
-      <img src="https://github.com/user-attachments/assets/e8ba4817-53de-4ab0-94d2-1978d77d06e4" alt="Activity Heatmap Visualization - Monthly" width="100%"/>
-      <br/>
-      <img src="https://github.com/user-attachments/assets/d689e7df-8b0e-48d2-b4c6-46b9a35f1ede" alt="Activity Heatmap Visualization - Weekly" width="100%"/>
-      <br/>
-      <strong>📊 Activity Heatmap</strong>
-      <br/>
-      <em>GitHub-style learning tracker with yearly/monthly/weekly views</em>
-    </td>
-    <td width="50%" align="center">
-      <img src="https://github.com/user-attachments/assets/723d382e-bd90-4ff1-b449-279eb1936dee" alt="My Journey Dashboard" width="100%"/>
-      <br/>
-      <strong>🔥 My Journey Dashboard</strong>
-      <br/>
-      <em>Progress analytics, streak counter, and session history</em>
+      <em>GitHub-style heatmaps & streak tracking</em>
     </td>
   </tr>
 </table>
 
----
+### 🎤 Voice AI Integration
 
-## 🏗️ Tech Stack & Architecture
+- **VAPI SDK** - Real-time audio streaming via WebRTC with automatic reconnection
+- **Custom AI Tutors** - Subject-specific companions (Math, Science, Coding, Languages, etc.)
+- **Voice Customization** - Male/Female voices with Formal/Casual teaching styles
+- **Live Transcription** - Full conversation capture with searchable history
+- **Session Management** - Auto-save with duration tracking and analytics
 
-### 🖥️ **Frontend**
+📖 **[Read the VAPI Integration Guide](./TECHNICAL.md)** - Learn how voice streaming, state management, and WebRTC connections work under the hood.
 
-| Technology        | Version    | Purpose                                                           |
-|-------------------|------------|-------------------------------------------------------------------|
-| **Next.js**       | `15.4.7`   | React framework with App Router, Server Components, and Turbopack |
-| **React**         | `19.1.0`   | UI library with latest concurrent features                        |
-| **TypeScript**    | `5.x`      | Type-safe development with strict mode                            |
-| **Tailwind CSS**  | `4.0`      | Utility-first CSS with custom glassmorphism design system         |
-| **Framer Motion** | `12.23.12` | Animation library for smooth transitions and micro-interactions   |
-| **Lottie React**  | `2.4.1`    | JSON-based animations for loading and success states              |
+### 📈 Learning Analytics & Gamification
 
-### 🔊 **Voice AI & Integration**
+- **Activity Heatmap** - GitHub-style visualization (daily/weekly/monthly/yearly views)
+- **Streak Counter** - Track learning consistency and longest streaks
+- **Progress Dashboard** - Session history with export to CSV
+- **Data Visualization** - Bar charts, calendar grids, and interactive tooltips
 
-| Technology          | Version   | Purpose                                     |
-|---------------------|-----------|---------------------------------------------|
-| **VAPI SDK**        | `2.3.0`   | Real-time voice conversation AI with WebRTC |
-| **React Hook Form** | `7.62.0`  | Form state management with Zod validation   |
-| **Zod**             | `3.25.76` | Runtime type validation and schema parsing  |
+### 🎨 Modern UI/UX
 
-### 🗄️ **Backend & Database**
-
-| Technology             | Version  | Purpose                                                  |
-|------------------------|----------|----------------------------------------------------------|
-| **Supabase**           | `2.56.0` | PostgreSQL database with real-time subscriptions and RLS |
-| **Clerk**              | `6.31.4` | Authentication and user management with OAuth providers  |
-| **Prisma** *(implied)* | Latest   | Type-safe database ORM (if used)                         |
-
-### 🎨 **UI Components & Libraries**
-
-| Technology                 | Purpose                                                    |
-|----------------------------|------------------------------------------------------------|
-| **Radix UI**               | Accessible component primitives (Accordion, Select, Label) |
-| **Lucide React**           | Modern icon library with 1000+ icons                       |
-| **React Calendar Heatmap** | GitHub-style activity visualization                        |
-| **React Tooltip**          | Interactive tooltips for data points                       |
-| **Shadcn UI**              | Customizable component system                              |
-
-### 🛠️ **Developer Tools**
-
-| Technology                   | Purpose                                   |
-|------------------------------|-------------------------------------------|
-| **Sentry**                   | Error tracking and performance monitoring |
-| **ESLint**                   | Code linting with Next.js config          |
-| **class-variance-authority** | Type-safe variant styling                 |
-| **clsx + tailwind-merge**    | Conditional className utilities           |
-
-### 🏛️ **Architecture Overview**
-
-```
-┌─────────────────────────────────────────────────────────┐
-│                     Client Layer                         │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  │
-│  │  Next.js 15  │  │  React 19    │  │ Tailwind CSS │  │
-│  │  App Router  │  │  Components  │  │  Styling     │  │
-│  └──────────────┘  └──────────────┘  └──────────────┘  │
-└─────────────────────────────────────────────────────────┘
-                            │
-                            ▼
-┌─────────────────────────────────────────────────────────┐
-│                  Authentication Layer                    │
-│                  ┌──────────────┐                        │
-│                  │  Clerk Auth  │                        │
-│                  │  OAuth 2.0   │                        │
-│                  └──────────────┘                        │
-└─────────────────────────────────────────────────────────┘
-                            │
-              ┌─────────────┴─────────────┐
-              ▼                           ▼
-┌──────────────────────────┐  ┌──────────────────────────┐
-│    Voice AI Layer        │  │    Database Layer        │
-│  ┌────────────────────┐  │  │  ┌────────────────────┐  │
-│  │  VAPI SDK          │  │  │  │  Supabase          │  │
-│  │  - Voice Recognition│  │  │  │  - PostgreSQL DB   │  │
-│  │  - Text-to-Speech  │  │  │  │  - Real-time APIs  │  │
-│  │  - Conversation AI │  │  │  │  - Storage Buckets │  │
-│  └────────────────────┘  │  │  └────────────────────┘  │
-└──────────────────────────┘  └──────────────────────────┘
-              │                           │
-              └─────────────┬─────────────┘
-                            ▼
-┌─────────────────────────────────────────────────────────┐
-│                  Monitoring Layer                        │
-│                  ┌──────────────┐                        │
-│                  │    Sentry    │                        │
-│                  │  Error/Perf  │                        │
-│                  └──────────────┘                        │
-└─────────────────────────────────────────────────────────┘
-```
+- **Glassmorphism Design** - Frosted glass effects with backdrop blur
+- **Subject Color Coding** - Visual distinction (Math: Yellow, Science: Purple, etc.)
+- **Smooth Animations** - Framer Motion transitions + Lottie animations
+- **Responsive Layout** - Mobile-first design with adaptive breakpoints
 
 ---
 
-## 🚀 Getting Started
+## 🏗️ Tech Stack
 
-### 📋 Prerequisites
+### Frontend
 
-Ensure you have the following installed:
+| Technology        | Version    | Purpose                                     |
+|-------------------|------------|---------------------------------------------|
+| **Next.js**       | `15.4.7`   | React framework with App Router, Turbopack  |
+| **React**         | `19.1.0`   | UI with concurrent rendering                |
+| **TypeScript**    | `5.x`      | Type-safe development                       |
+| **Tailwind CSS**  | `4.0`      | Utility-first styling with custom system    |
+| **Framer Motion** | `12.23.12` | Animation library for micro-interactions    |
 
-- **Node.js** `18.0+` ([Download](https://nodejs.org/)) 🟢
-- **npm** package manager 📦
-- **Git** for version control 🔧
-- **Supabase** account ([Sign up](https://supabase.com/)) 🗄️
-- **Clerk** account ([Sign up](https://clerk.com/)) 🔐
-- **VAPI** account ([Sign up](https://vapi.ai/)) 🎙️
+### Voice AI & Backend
 
-### 📥 Installation Steps
+| Technology     | Version  | Purpose                                      |
+|----------------|----------|----------------------------------------------|
+| **VAPI SDK**   | `2.3.0`  | Real-time voice conversations via WebRTC     |
+| **Supabase**   | `2.56.0` | PostgreSQL + real-time APIs + authentication |
+| **Clerk**      | `6.31.4` | OAuth authentication & user management       |
+| **Zod**        | `3.25.x` | Runtime validation for forms and APIs        |
 
-1. **Clone the repository**
+### Developer Tools
+
+- **Sentry** - Error tracking and performance monitoring
+- **ESLint** - Code quality with Next.js config
+- **Shadcn UI** - Accessible component system with Radix UI
+
+---
+
+## 📸 Screenshots
+
+<div align="center">
+
+### Dashboard Overview
+<img src="https://github.com/user-attachments/assets/2e3982d8-9ec5-459a-9dfb-db4691fab799" alt="Dashboard" width="800"/>
+
+<details>
+<summary>📷 View More Screenshots</summary>
+
+<table>
+  <tr>
+    <td width="50%" align="center">
+      <img src="https://github.com/user-attachments/assets/987b6da1-952a-42ef-b7b1-aa0eab929bdd" alt="Companion Creation"/>
+      <br/><strong>Companion Creation Form</strong>
+    </td>
+    <td width="50%" align="center">
+      <img src="https://github.com/user-attachments/assets/bbb0d678-abd4-419e-bd05-cacff92475c0" alt="Loading"/>
+      <br/><strong>Connecting Animation</strong>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" align="center">
+      <img src="https://github.com/user-attachments/assets/5bb5bb69-222d-44b2-ab32-83f1bd101e86" alt="Success"/>
+      <br/><strong>Session Complete</strong>
+    </td>
+    <td width="50%" align="center">
+      <img src="https://github.com/user-attachments/assets/723d382e-bd90-4ff1-b449-279eb1936dee" alt="Journey"/>
+      <br/><strong>My Journey Dashboard</strong>
+    </td>
+  </tr>
+</table>
+
+</details>
+
+</div>
+
+---
+
+## 🎓 Getting Started
+
+### Prerequisites
+
+- **Node.js** 18.0+ ([Download](https://nodejs.org/))
+- **npm** package manager
+- **Accounts:** [Supabase](https://supabase.com/), [Clerk](https://clerk.com/), [VAPI](https://vapi.ai/)
+
+### Installation
+
+1. **Clone repository**
    ```bash
    git clone https://github.com/chayan-1906/IntelliCourse-Next.js.git
    cd IntelliCourse-Next.js
@@ -259,36 +195,34 @@ Ensure you have the following installed:
 
 3. **Configure environment variables**
 
-   Create a `.env` file in the root directory:
+   Create `.env` file:
    ```bash
    cp .env.example .env
    ```
 
-   Add the following variables:
+   Add your credentials:
    ```env
    # Clerk Authentication
    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_xxxxx
    CLERK_SECRET_KEY=sk_test_xxxxx
-
-   # Clerk - Custom Auth
    NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
    NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=/
    NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL=/
    
-   # Supabase Configuration
+   # Supabase
    NEXT_PUBLIC_SUPABASE_URL=https://xxxxx.supabase.co
    NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
    
-   # VAPI Configuration
+   # VAPI
    NEXT_PUBLIC_VAPI_WEB_TOKEN=xxxxx-xxxxx-xxxxx-xxxxx
    
-   # Sentry (Optional - for production monitoring)
+   # Sentry (Optional)
    SENTRY_AUTH_TOKEN=xxxxx
    ```
 
 4. **Set up Supabase database**
 
-   Run the following SQL in your Supabase SQL Editor:
+   Run in Supabase SQL Editor:
    ```sql
    -- Create companions table
    CREATE TABLE companions (
@@ -329,30 +263,91 @@ Ensure you have the following installed:
    ALTER TABLE session_history ENABLE ROW LEVEL SECURITY;
    ALTER TABLE bookmarks ENABLE ROW LEVEL SECURITY;
    
-   -- Create policies (adjust based on your auth setup)
+   -- Create policies
    CREATE POLICY "Enable read for all users" ON companions FOR SELECT USING (true);
    CREATE POLICY "Enable insert for authenticated users" ON companions FOR INSERT WITH CHECK (true);
-   CREATE POLICY "Enable update for owner" ON companions FOR UPDATE USING (auth.uid() = author);
-   CREATE POLICY "Enable delete for owner" ON companions FOR DELETE USING (auth.uid() = author);
    ```
 
-5. **Configure VAPI Assistant**
+5. **Configure VAPI**
 
    In your VAPI dashboard:
-    - Create a new assistant
-    - Configure voice settings (male/female options)
-    - Set up system prompts for educational tutoring
-    - Enable conversation transcription
-    - Copy the Assistant ID to your `.env`
+   - Create a new assistant
+   - Set voice preferences (male/female)
+   - Configure system prompts for tutoring
+   - Enable transcription
+   - Copy Web Token to `.env`
 
-6. **Run development server**
+6. **Start development server**
    ```bash
    npm run dev
    ```
 
-7. **Open browser**
+7. **Open browser** → [http://localhost:3000](http://localhost:3000)
 
-   Navigate to [http://localhost:3000](http://localhost:3000) 🎉
+---
+
+## 🔧 How It Works - Voice Session Flow
+
+```
+User Creates Companion
+        ↓
+Session Starts → VAPI SDK Initializes → WebRTC Connection
+        ↓
+Real-Time Audio Streaming ↔ Speech-to-Text Transcription
+        ↓
+Live Conversation State → Transcript Updates
+        ↓
+Session Ends → Save to Supabase → Update Analytics
+        ↓
+Heatmap + Streak Counter + History Updated
+```
+
+**Want to learn more?** Read the **[VAPI Integration Guide](./TECHNICAL.md)** for implementation details, code examples, and architecture diagrams.
+
+---
+
+## 🏛️ **Architecture Overview**
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                     Client Layer                        │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐   │
+│  │  Next.js 15  │  │  React 19    │  │ Tailwind CSS │   │
+│  │  App Router  │  │  Components  │  │  Styling     │   │
+│  └──────────────┘  └──────────────┘  └──────────────┘   │
+└─────────────────────────────────────────────────────────┘
+                            │
+                            ▼
+┌─────────────────────────────────────────────────────────┐
+│                  Authentication Layer                   │
+│                  ┌──────────────┐                       │
+│                  │  Clerk Auth  │                       │
+│                  │  OAuth 2.0   │                       │
+│                  └──────────────┘                       │
+└─────────────────────────────────────────────────────────┘
+                            │
+              ┌─────────────┴─────────────┐
+              ▼                           ▼
+┌──────────────────────────┐  ┌──────────────────────────┐
+│    Voice AI Layer        │  │    Database Layer        │
+│  ┌────────────────────┐  │  │  ┌────────────────────┐  │
+│  │  VAPI SDK          │  │  │  │  Supabase          │  │
+│  │  - Voice Recognition│  │  │  │  - PostgreSQL DB  │  │
+│  │  - Text-to-Speech  │  │  │  │  - Real-time APIs  │  │
+│  │  - Conversation AI │  │  │  │  - Storage Buckets │  │
+│  └────────────────────┘  │  │  └────────────────────┘  │
+└──────────────────────────┘  └──────────────────────────┘
+              │                           │
+              └─────────────┬─────────────┘
+                            ▼
+┌─────────────────────────────────────────────────────────┐
+│                  Monitoring Layer                       │
+│                  ┌──────────────┐                       │
+│                  │    Sentry    │                       │
+│                  │  Error/Perf  │                       │
+│                  └──────────────┘                       │
+└─────────────────────────────────────────────────────────┘
+```
 
 ---
 
@@ -361,268 +356,39 @@ Ensure you have the following installed:
 ```
 IntelliCourse-Next.js/
 ├── src/
-│   ├── app/                        # Next.js App Router
-│   │   ├── api/                    # API routes
-│   │   │   └── sentry-example-api/ # Sentry integration
-│   │   ├── companions/             # Companion pages
-│   │   │   ├── [id]/              # Dynamic companion detail
-│   │   │   │   ├── page.tsx       # Session page
-│   │   │   │   └── loading.tsx    # Loading skeleton
-│   │   │   ├── new/               # Create companion
-│   │   │   └── page.tsx           # Companions list
-│   │   ├── my-journey/            # User analytics dashboard
-│   │   ├── subscription/          # Subscription management
-│   │   ├── sign-in/               # Authentication pages
-│   │   ├── layout.tsx             # Root layout with providers
-│   │   ├── page.tsx               # Home page
-│   │   └── globals.css            # Global styles
-│   │
-│   ├── components/                 # Reusable components
-│   │   ├── ui/                    # Shadcn UI components
-│   │   │   ├── button.tsx
-│   │   │   ├── form.tsx
-│   │   │   ├── input.tsx
-│   │   │   ├── select.tsx
-│   │   │   ├── skeleton.tsx
-│   │   │   └── ...
-│   │   ├── skeletons/             # Loading skeletons
-│   │   │   ├── ActivityHeatmapSkeleton.tsx
-│   │   │   ├── CompanionCardSkeleton.tsx
-│   │   │   ├── SessionHistorySkeleton.tsx
-│   │   │   └── ...
-│   │   ├── ActivityHeatmap.tsx    # Heatmap visualization
-│   │   ├── AnimatedMyJourney.tsx  # Animated dashboard
-│   │   ├── AnimationModal.tsx     # Loading/success modals
-│   │   ├── CompanionCard.tsx      # Companion display card
-│   │   ├── CompanionComponent.tsx # Voice session handler
-│   │   ├── CompanionForm.tsx      # Multi-step creation form
-│   │   ├── CompanionList.tsx      # List with filtering
-│   │   ├── MonthlyCalendarGrid.tsx # Calendar view
-│   │   ├── Navbar.tsx             # Navigation bar
-│   │   ├── SessionHistory.tsx     # Session log with export
-│   │   ├── StreakCounter.tsx      # Gamification component
-│   │   ├── TranscriptViewer.tsx   # Session transcript display
-│   │   ├── WeeklyBarChart.tsx     # Bar chart visualization
+│   ├── app/                    # Next.js App Router
+│   │   ├── companions/         # Companion CRUD pages
+│   │   ├── my-journey/         # Analytics dashboard
+│   │   └── api/                # API routes
+│   ├── components/             # React components
+│   │   ├── ui/                 # Shadcn UI components
+│   │   ├── CompanionComponent.tsx  # Voice session handler
+│   │   ├── ActivityHeatmap.tsx     # Analytics visualization
 │   │   └── ...
-│   │
-│   ├── lib/                       # Utility libraries
-│   │   ├── actions/               # Server actions
-│   │   │   └── companion.actions.ts # CRUD operations
-│   │   ├── routes.ts              # Route constants
-│   │   ├── share.ts               # Share functionality
-│   │   ├── supabase.ts            # Supabase client
-│   │   ├── utils.ts               # Utility functions
-│   │   └── vapi.sdk.ts            # VAPI SDK wrapper
-│   │
-│   ├── types/                     # TypeScript definitions
-│   │   ├── companion.ts           # Companion types
-│   │   ├── index.d.ts             # Global types
-│   │   ├── navigation.ts          # Navigation types
-│   │   └── vapi.d.ts              # VAPI types
-│   │
-│   ├── hooks/                     # Custom React hooks
-│   │   ├── useAnimationModal.ts   # Modal state management
-│   │   └── useBreadcrumbs.ts      # Navigation breadcrumbs
-│   │
-│   ├── config/                    # Configuration files
-│   │   ├── config.ts              # App configuration
-│   │   └── navigation.ts          # Navigation config
-│   │
-│   ├── constants/                 # App constants
-│   │   ├── animations.ts          # Lottie animation paths
-│   │   ├── icons.ts               # Icon mappings
-│   │   ├── index.ts               # General constants
-│   │   └── soundwaves.json        # Soundwave animation
-│   │
-│   ├── middleware.ts              # Auth & route middleware
-│   └── instrumentation.ts         # Sentry instrumentation
-│
-├── public/                        # Static assets
-│   ├── animations/                # Lottie JSON files
-│   │   ├── neural-network.json
-│   │   └── no-data.json
-│   ├── icons/                     # SVG icons
-│   │   ├── bookmark.svg
-│   │   ├── mic-on.svg
-│   │   ├── mic-off.svg
-│   │   └── ...
-│   └── images/                    # Static images
-│       ├── logo.svg
-│       ├── cta.svg
-│       └── limit.svg
-│
-├── .env                           # Environment variables (gitignored)
-├── components.json                # Shadcn UI config
-├── next.config.ts                 # Next.js configuration
-├── package.json                   # Dependencies
-├── postcss.config.mjs             # PostCSS config
-├── tailwind.config.ts             # Tailwind configuration
-├── tsconfig.json                  # TypeScript config
-├── sentry.server.config.ts        # Sentry server config
-├── sentry.edge.config.ts          # Sentry edge config
-└── README.md                      # The repository README
-```
-
----
-
-## 🎯 Core Features Deep Dive
-
-### 🎙️ Voice Session Management
-
-**How it Works:**
-
-1. User creates a companion with subject, topic, voice, and style
-2. Session starts via `CompanionComponent.tsx` using VAPI SDK
-3. Real-time transcription captures conversation
-4. Timer tracks session duration (auto-saved)
-5. Transcript saved to Supabase on session end
-6. Activity data updates the heatmap and streak counter
-
-**Key Components:**
-
-- `CompanionComponent.tsx` - Handles VAPI lifecycle, mic control, and state
-- `vapi.sdk.ts` - VAPI client initialization and event handlers
-- `companion.actions.ts` - Server actions for session CRUD operations
-
-**Voice Features:**
-
-- Microphone mute/unmute toggle
-- Live speech-to-text transcription
-- Soundwave visualization during speech
-- Session duration tracking with live timer
-- Automatic session history saving
-
-### 📊 Analytics & Gamification
-
-**Activity Heatmap:**
-
-- **Weekly View** - Bar chart with session counts
-- **Monthly View** - Calendar grid with daily minutes
-- **Yearly View** - GitHub-style contribution graph
-- **Export Functionality** - Download as PNG/SVG
-
-**Streak Counter:**
-
-- Current streak tracking (consecutive days)
-- Longest streak record
-- "Active Today" indicator with fire emoji
-- Last activity date display
-- Real-time updates on session completion
-
-**Session History:**
-
-- Tabular view with companion name, subject, date, duration
-- Export to CSV functionality
-- Transcript viewer modal
-- Sorting and filtering options
-
-### 🤖 Companion Creation Flow
-
-**Multi-Step Form (`CompanionForm.tsx`):**
-
-1. **Name** - Companion display name
-2. **Subject** - Select from 6 categories (Math, Science, Coding, etc.)
-3. **Topic** - What should the companion teach? (Textarea)
-4. **Voice** - Male or Female voice selection
-5. **Style** - Formal or Casual teaching approach
-6. **Duration** - Estimated session length (minutes)
-
-**Validation:**
-
-- Zod schema validation
-- Real-time error messages
-- Form state management via React Hook Form
-- Loading animations during creation
-- Success modal with auto-redirect
-
-### 🗄️ Database Schema
-
-#### **Companions Table**
-
-```typescript
-{
-	id: UUID                // Primary key
-	name: string            // Companion name
-	subject: string         // Subject category (maths, science, etc.)
-	topic: string           // Learning topic description
-	voice: string           // Voice preference (male/female)
-	style: string           // Teaching style (formal/casual)
-	duration: number        // Estimated session duration (minutes)
-	author: string          // User ID (Clerk)
-	created_at: timestamp   // Creation date
-	updated_at: timestamp   // Last update date
-}
-```
-
-#### **Session History Table**
-
-```typescript
-{
-	id: UUID                // Primary key
-	companion_id: UUID      // Foreign key → companions.id
-	user_id: string         // User ID (Clerk)
-	duration_minutes: number // Actual session duration
-	transcript: text        // Full conversation transcript
-	created_at: timestamp   // Session start time
-	completed_at: timestamp // Session end time
-}
-```
-
-#### **Bookmarks Table**
-
-```typescript
-{
-	id: UUID                // Primary key
-	companion_id: UUID      // Foreign key → companions.id
-	user_id: string         // User ID (Clerk)
-	created_at: timestamp   // Bookmark date
-	UNIQUE(companion_id, user_id) // One bookmark per user/companion
-}
+│   ├── lib/
+│   │   ├── actions/            # Server actions
+│   │   ├── supabase.ts         # Database client
+│   │   └── vapi.sdk.ts         # VAPI integration
+│   └── types/                  # TypeScript definitions
+├── public/
+│   ├── animations/             # Lottie JSON files
+│   └── icons/                  # SVG assets
+└── README.md
 ```
 
 ---
 
 ## 🎨 Design System
 
-### Color Palette (Subject-Based)
+### Subject Color Palette
 
 ```css
-Science: #E5D0FF
-
-(
-Purple
-
-)
-Maths: #FFDA6E
-
-(
-Yellow
-
-)
-Language: #BDE7FF
-
-(
-Blue
-
-)
-Coding: #FFC8E4
-
-(
-Pink
-
-)
-History: #FFECC8
-
-(
-Beige
-
-)
-Economics: #C8FFDF
-
-(
-Green
-
-)
+Science:   #E5D0FF (Purple)
+Maths:     #FFDA6E (Yellow)
+Language:  #BDE7FF (Blue)
+Coding:    #FFC8E4 (Pink)
+History:   #FFECC8 (Beige)
+Economics: #C8FFDF (Green)
 ```
 
 ### Glassmorphism Theme
@@ -630,259 +396,80 @@ Green
 - **Backdrop Blur:** `backdrop-blur-lg`
 - **Border:** `border border-white/20`
 - **Background:** `bg-white/10`
-- **Shadow:** `shadow-[0_8px_32px_0_rgba(31,38,135,0.37)]`
-
-### Typography
-
-- **Font Family:** Geist
-- **Headings:** Bold, 2xl-4xl sizes
-- **Body Text:** Regular, sm-lg sizes
-- **Code:** Monospace for session timers
-
-### Animations
-
-- **Framer Motion:** Page transitions, accordions, hover effects
-- **Lottie:** Loading spinners, success checkmarks, empty states
-- **Custom Soundwaves:** Real-time visualization during voice sessions
+- **Shadow:** Layered shadows for depth
 
 ---
 
-## 🚀 Performance Optimizations
+## 🚀 Deployment (Vercel)
 
-### 🏎️ Speed & Efficiency
+1. Push to GitHub
+2. Import to [Vercel](https://vercel.com/new)
+3. Add environment variables
+4. Deploy!
 
-- **Server-Side Caching** - React Cache API for database queries
-- **Dynamic Imports** - Code splitting for Lottie and heavy components
-- **Skeleton Loading** - Perceived performance with loading states
-- **Image Optimization** - Next.js Image component with lazy loading
-- **Turbopack** - 700x faster than Webpack for local development
-
-### 🔄 Revalidation Strategy
-
-```typescript
-// Page revalidation times
-export const revalidate = 180;  // 3 minutes (companion detail pages)
-export const revalidate = 300;  // 5 minutes (my-journey page)
-```
-
----
-
-## 🔒 Security & Authentication
-
-### 🛡️ Security Measures
-
-- **Clerk Authentication** - OAuth 2.0 with Google, GitHub, email
-- **Row-Level Security (RLS)** - Supabase policies for data access
-- **Input Validation** - Zod schemas for all form inputs
-- **CSRF Protection** - Next.js built-in protection
-- **Environment Variables** - Secrets stored in `.env` (gitignored)
-- **Sentry Monitoring** - Real-time error tracking and alerting
-
-### 🔐 Authentication Flow
-
-```
-User Login → Clerk OAuth → JWT Token → Supabase Client → RLS Policies → Data Access
-```
-
-### 👥 User Roles & Permissions
-
-- **Free Users:** 3 companions limit, 10 sessions/month
-- **Pro Users:** Unlimited companions, unlimited sessions
-- **Admin:** (Future) Companion moderation and analytics
-
----
-
-## 📊 API Routes
-
-| Method | Endpoint                  | Description          | Auth Required |
-|--------|---------------------------|----------------------|---------------|
-| `GET`  | `/api/sentry-example-api` | Sentry test endpoint | ❌             |
-
-**Note:** Most data operations use Server Actions (`.actions.ts`) instead of API routes for type safety and better performance.
-
-### Server Actions (`companion.actions.ts`)
-
-```typescript
-// Companion CRUD
-createCompanion(formData
-:
-CreateCompanion
-):
-Promise<Companion>
-getAllCompanions(options
-:
-GetAllCompanions
-):
-Promise<Companion[]>
-getCompanion(id
-:
-string
-):
-Promise<Companion>
-
-// Session Management
-addToSessionHistory(companionId
-:
-string
-):
-Promise<string>
-updateSessionDuration(companionId
-:
-string, duration
-:
-number
-):
-Promise<void>
-saveSessionTranscript(sessionId
-:
-string, transcript
-:
-string
-):
-Promise<void>
-getRecentSessions(limit
-:
-number
-):
-Promise<Companion[]>
-getUserSessions(userId
-:
-string, limit
-:
-number
-):
-Promise<Companion[]>
-
-// Analytics
-getHeatmapData(userId
-:
-string
-):
-Promise<HeatmapValue[]>
-getWeeklyData(userId
-:
-string
-):
-Promise<WeeklyData[]>
-getMonthlyData(userId
-:
-string
-):
-Promise<MonthlyData[]>
-getUserStreakData(userId
-:
-string
-):
-Promise<StreakData>
-
-// Bookmarks
-toggleBookmark(companionId
-:
-string, isBookmarked
-:
-boolean, path
-:
-string
-)
-getBookmarkedCompanions(userId
-:
-string
-):
-Promise<Companion[]>
-```
-
----
-
-## 🌐 Deployment
-
-### 🚀 Deploy to Vercel (Recommended)
-
-1. **Push to GitHub**
-   ```bash
-   git add .
-   git commit -m "Initial commit"
-   git push origin master
-   ```
-
-2. **Connect to Vercel**
-    - Go to [Vercel Dashboard](https://vercel.com/new)
-    - Import `IntelliCourse-Next.js` repository
-    - Configure environment variables (copy from `.env`)
-    - Deploy! 🎉
-
-3. **Post-Deployment**
-    - Update Clerk redirect URLs with production domain
-    - Update VAPI webhook URLs (if applicable)
-    - Configure Sentry DSN for production monitoring
-
----
-
-## 🧪 Development Scripts
-
-```bash
-# Development server with Turbopack
-npm run dev
-
-# Production build
-npm run build
-
-# Start production server
-npm run start
-```
+**Post-deployment:**
+- Update Clerk redirect URLs with production domain
+- Configure Sentry DSN for monitoring
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please follow these guidelines:
+Contributions welcome! Follow [Conventional Commits](https://www.conventionalcommits.org/):
 
-1. **Fork** the repository 🍴
-2. **Create** a feature branch (`git checkout -b feature/amazing-feature`) 🌟
-3. **Commit** changes (`git commit -m 'feat: Add amazing feature'`) 💾
-4. **Push** to branch (`git push origin feature/amazing-feature`) 🚀
-5. **Open** a Pull Request 📝
+```bash
+git checkout -b feature/amazing-feature
+git commit -m 'feat: Add voice pause/resume'
+git push origin feature/amazing-feature
+```
 
-### 📝 Commit Convention
-
-Follow [Conventional Commits](https://www.conventionalcommits.org/):
-
-- `feat:` New feature
-- `fix:` Bug fix
-- `docs:` Documentation update
-- `style:` Code style change (formatting)
-- `refactor:` Code refactoring
-- `perf:` Performance improvement
-- `test:` Adding tests
-- `chore:` Maintenance tasks
+Open a Pull Request with:
+- Clear description of changes
+- Screenshots (if UI changes)
+- Test results
 
 ---
 
-## 🐛 Known Issues & Limitations
+## 📊 Server Actions API
 
-- **Voice Session Stability:** VAPI connection may drop on slow networks (~<1 Mbps)
-- **Safari Audio Issues:** Microphone permissions require HTTPS in production
-- **Mobile Transcript View:** Long transcripts may cause scroll performance issues
+Key server actions in `companion.actions.ts`:
+
+```typescript
+// Companion Management
+createCompanion(formData: CreateCompanion): Promise<Companion>
+getAllCompanions(options: GetAllCompanions): Promise<Companion[]>
+getCompanion(id: string): Promise<Companion>
+
+// Session Management
+addToSessionHistory(companionId: string): Promise<string>
+updateSessionDuration(companionId: string, duration: number): Promise<void>
+saveSessionTranscript(sessionId: string, transcript: string): Promise<void>
+
+// Analytics
+getHeatmapData(userId: string): Promise<HeatmapValue[]>
+getUserStreakData(userId: string): Promise<StreakData>
+```
 
 ---
 
-## 📄 License
+## 📝 License
 
 This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
 
+**Summary**: Free to use, modify, and distribute with attribution.
+
 ---
 
-## 👨‍💻 Author & Contact
+## 👨‍💻 Author
 
 <div align="center">
 
-### **Padmanabha Das**
+**Padmanabha Das** - Full-Stack Developer & AI Integration Specialist
 
 [![GitHub](https://img.shields.io/badge/GitHub-@chayan--1906-181717?logo=github)](https://github.com/chayan-1906)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Padmanabha%20Das-0A66C2?logo=linkedin)](https://www.linkedin.com/in/padmanabha-das-59bb2019b/)
 [![Email](https://img.shields.io/badge/Email-padmanabhadas9647@gmail.com-EA4335?logo=gmail)](mailto:padmanabhadas9647@gmail.com)
 [![Portfolio](https://img.shields.io/badge/Portfolio-padmanabha.dev-4285F4?logo=google-chrome)](https://padmanabha-portfolio.vercel.app)
-
-**Full-Stack Developer** | **AI Integration Specialist**
 
 </div>
 
@@ -890,34 +477,34 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ## 🙏 Acknowledgments
 
-- **Next.js Team** - For the incredible React framework 🚀
-- **Vercel** - For seamless hosting and deployment ☁️
-- **VAPI** - For cutting-edge voice AI technology 🎙️
-- **Supabase** - For the powerful open-source Firebase alternative 🗄️
-- **Clerk** - For hassle-free authentication 🔐
-- **Tailwind Labs** - For utility-first CSS framework 🎨
-- **Framer** - For smooth animation library 🌊
-- **Sentry** - For production monitoring and debugging 🐛
-- **Open Source Community** - For endless inspiration and support 💙
+Built with cutting-edge technologies:
+
+- [Next.js](https://nextjs.org/) - React framework
+- [VAPI](https://vapi.ai/) - Voice AI SDK
+- [Supabase](https://supabase.com/) - Backend platform
+- [Clerk](https://clerk.com/) - Authentication
+- [Vercel](https://vercel.com/) - Hosting
+- [Tailwind CSS](https://tailwindcss.com/) - Styling
+- [Framer Motion](https://www.framer.com/motion/) - Animations
 
 ---
 
-## ⭐ Show Your Support
+## ⭐ Support This Project
 
-If you found this project helpful or learned something new, please consider:
+If you found this helpful:
 
-- ⭐ **Starring** this repository
-- 🐛 **Reporting bugs** via [Issues](https://github.com/chayan-1906/IntelliCourse-Next.js/issues)
-- 💬 **Sharing feedback** and suggestions
-- 🤝 **Contributing** to the codebase
+- ⭐ **Star** this repository
+- 🐛 **Report bugs** via [Issues](https://github.com/chayan-1906/IntelliCourse-Next.js/issues)
+- 🤝 **Contribute** improvements
+- 💬 **Share** with developers interested in voice AI
 
 ---
 
 <div align="center">
 
-### 🎓 **Made with ❤️ and Next.js by Padmanabha Das**
+### 🎓 **Built with ❤️ by Padmanabha Das**
 
-**Revolutionizing education through AI-powered voice learning**
+**Exploring the future of voice-based education**
 
 [![Visitors](https://api.visitorbadge.io/api/visitors?path=chayan-1906%2FIntelliCourse-Next.js&label=Visitors&labelColor=%23697689&countColor=%232ccce4)](https://visitorbadge.io/status?path=chayan-1906%2FIntelliCourse-Next.js)
 [![Stars](https://img.shields.io/github/stars/chayan-1906/IntelliCourse-Next.js?style=social)](https://github.com/chayan-1906/IntelliCourse-Next.js/stargazers)
